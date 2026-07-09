@@ -1,4 +1,4 @@
-baseURL = "https://github.com/DongQuan04/DongQuan04.github.io.git"
+baseURL = "https://dongquan04.github.io/"
 relativeURLs = false
 canonifyURLs = false
 defaultContentLanguage = "en"
