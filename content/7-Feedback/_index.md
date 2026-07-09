@@ -1,47 +1,54 @@
 ---
-title: "Sharing and Feedback"
-date: 2024-01-01
+title: "Feedback & Suggestions"
+date: 2026-07-08
 weight: 7
 chapter: false
 pre: " <b> 7. </b> "
 ---
-
 {{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
+⚠️ **Note:** The information below is for reference purposes only, please **do not copy verbatim** for your report, including this warning.
 {{% /notice %}}
 
-> Here, you can freely share your personal opinions about your experience participating in the First Cloud AI Journey program. This will help the FCAJ team improve any shortcomings based on the following aspects:
+>Here you can freely share your personal feedback about your experience participating in the First Cloud AI Journey program, helping the FCAJ team improve on any shortcomings based on the following categories:
 
-### Overall Evaluation
+### General Assessment
 
 **1. Working Environment**  
-The working environment is very friendly and open. FCAJ members are always willing to help whenever I encounter difficulties, even outside working hours. The workspace is tidy and comfortable, helping me focus better. However, I think it would be nice to have more social gatherings or team bonding activities to strengthen relationships.
+After more than 12 weeks of internship, I found the working environment at FCAJ to be very dynamic and open. The mentors and fellow team members were always ready to discuss and support me whenever I ran into difficulties while working on labs or developing the Electronic Receipt project. The atmosphere was relaxed yet still maintained discipline, which helped me learn and practice effectively at the same time.
 
-**2. Support from Mentor / Team Admin**  
-The mentor provides very detailed guidance, explains clearly when I don’t understand, and always encourages me to ask questions. The admin team supports administrative tasks, provides necessary documents, and creates favorable conditions for me to work effectively. I especially appreciate that the mentor allows me to try and solve problems myself instead of just giving the answer.
+**2. Support from Mentors / Admin Team**  
+The mentors were very dedicated in their guidance, not only answering technical questions (AWS Lambda, DynamoDB, API Gateway, etc.) but also helping me develop the right problem-solving mindset when designing the Serverless architecture. The admin team quickly handled administrative procedures and learning materials, saving me time so I could focus on my core work.
 
-**3. Relevance of Work to Academic Major**  
-The tasks I was assigned align well with the knowledge I learned at university, while also introducing me to new areas I had never encountered before. This allowed me to both strengthen my foundational knowledge and gain practical skills.
+**3. Relevance Between the Work and My Field of Study**  
+The internship content closely aligned with my Information Technology major, while also giving me a deeper dive into cloud computing — an area my university curriculum hadn't covered in depth. Directly implementing a real-world project (Preview Bill) helped me better understand how to apply theoretical knowledge to an actual business problem.
 
-**4. Learning & Skill Development Opportunities**  
-During the internship, I learned many new skills such as using project management tools, teamwork skills, and professional communication in a corporate environment. The mentor also shared valuable real-world experiences that helped me better plan my career path.
+**4. Learning Opportunities & Skill Development**  
+This was the period in which I learned the most, from hard skills (AWS IAM, EC2, S3, VPC, Lambda, API Gateway, DynamoDB, CloudWatch) to soft skills such as writing technical blog posts, teamwork, and presenting project demos. Researching documentation on my own and writing blogs to share knowledge also helped me improve my ability to synthesize and present information more coherently.
 
-**5. Company Culture & Team Spirit**  
-The company culture is very positive: everyone respects each other, works seriously but still keeps things enjoyable. When there are urgent projects, everyone works together and supports one another regardless of their position. This made me feel like a real part of the team, even as an intern.
+**5. Culture & Team Spirit**  
+The team spirit was excellent, especially during the final push to complete the project in weeks 11-12. Everyone proactively helped each other with code review, bug fixing, and sharing documentation without hesitation, regardless of the time it took. I felt my opinions were respected even as an intern.
 
-**6. Internship Policies / Benefits**  
-The company provides an internship allowance and offers flexible working hours when needed. In addition, having the opportunity to join internal training sessions is a big plus.
+**6. Policies / Benefits for Interns**  
+The program had a clear week-by-week learning roadmap, making it easy for interns to track their own progress. Being able to attend the program's Workshops and Events was also a great opportunity to expand my network and stay updated on new technology trends.
 
----
 
-### Additional Questions
+### A Few Other Questions
 - What did you find **most satisfying** during your internship?  
-- What do you think the company **should improve** for future interns?  
-- If recommending to a friend, would you **suggest they intern here**? Why or why not?  
+  What I found most satisfying was getting to directly build a complete Serverless project from the design stage through to actual deployment, rather than just working on isolated labs.
 
----
+- What do you think the company **could improve** for future interns?  
+  I think it would help to add periodic architecture/code review sessions between teams so everyone can learn more from each other, instead of just working independently within small groups.
 
-### Suggestions & Expectations
+- If you were recommending this to a friend, **would you advise them to intern here**? Why?  
+  Yes. The program has a well-structured roadmap, hands-on practice with real AWS services, and mentors who provide close guidance — making it a great fit for students interested in pursuing Cloud/DevOps.
+
+
+### Suggestions & Aspirations
 - Do you have any suggestions to improve the internship experience?  
-- Would you like to continue this program in the future?  
-- Any other comments (free sharing):
+  I hope the program can organize more sessions where alumni who are now working can share their experiences, giving interns a more realistic perspective on career direction after graduation.
+
+- Would you like to continue with this program in the future?  
+  Yes, if given the opportunity, I would love to continue and further develop my skills in the Cloud/AWS field after completing this program.
+
+- Other feedback (feel free to share):  
+  I would like to thank the FCAJ team and the mentors for accompanying and supporting me so much throughout the internship. This has been a valuable experience that has made me more confident in pursuing a career in Cloud Computing.

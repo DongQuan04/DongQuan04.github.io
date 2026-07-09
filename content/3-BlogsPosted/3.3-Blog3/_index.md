@@ -1,31 +1,32 @@
 ---
 title: "Blog 3"
-date: 2024-01-01
-weight: 1
+date: 2026-06-28
+weight: 4
 chapter: false
-pre: " <b> 3.3. </b> "
+pre: " <b> 3.4. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
-{{% /notice %}}
+# AUTOMATING LANDING ZONE SETUP IN HOURS WITH AWS TRANSFORM (AI-POWERED)
 
-# SESSION POLICIES IN AMAZON EKS POD IDENTITY
+Designing and building a proper Landing Zone — achieving Multi-AZ, separating Public/Private Subnets, decomposing Security/Workload OUs, applying SCPs... in line with the AWS Well-Architected framework — typically takes **4 to 12 weeks**. With **AWS Transform**, this timeline is compressed down to just hours, thanks to the application of AI in the infrastructure design and deployment process.
 
-Amazon EKS Pod Identity has recently added the session policies feature, allowing you to narrow IAM permissions flexibly and precisely for each pod without needing to create many separate IAM roles. This is an important step forward that helps apply the principle of least privilege more effectively in large-scale Kubernetes environments.
+The tool's most notable highlights:
 
-Key points to know:
+* **Natural-language chat:** the AI Agent acts as a Mentor/Architect, using information about the migration project (Migration Waves) to recommend an appropriate account configuration. Users can chat, push back, and ask the AI to adjust the design before applying it.
+* **Human-In-The-Loop (HITL):** the AI does not change infrastructure on its own — it only provides recommendations and generates code (AWS CDK or LZA YAML); the authority to click Deploy and Approve still belongs to the Admin.
+* **Can scan existing (Brownfield) infrastructure:** for those who already have infrastructure in place, the AI can still scan it and point out gaps, such as a missing Sandbox OU or a missing SCP blocking the Root user, so they can be addressed promptly.
 
-* A session policy is an inline IAM policy specified when creating or updating a Pod Identity association.
-* Effective permissions = intersection between the IAM role permissions and the session policy → the session policy can only narrow permissions, not expand them.
-* Helps avoid over-permissioning when reusing a single IAM role for multiple workloads with different needs.
-* Supports both same-account and cross-account (via IAM role chaining).
-* Significantly reduces the number of IAM roles that need to be managed, helping avoid hitting IAM quota limits in large clusters.
-* Easily configured through the AWS Management Console, AWS CLI, or AWS SDK when creating an association between a Kubernetes ServiceAccount and an IAM role.
+Alongside these advantages, the article also notes a few points to consider when using the tool:
 
-This feature is especially useful when you have many applications running on the same IAM role but need different permission restrictions (for example: one pod only reads a specific S3 bucket, another pod only calls certain APIs).
+* **Free, but not entirely free:** AWS Transform itself is free, but the services it automatically activates alongside it, such as AWS Control Tower, Config, and CloudTrail, are still billed on the account — if you set up a test lab and forget to turn them off, this can incur significant costs.
+* **Decommissioning is fairly complex:** tearing down an AI-built Landing Zone is not straightforward, and careless handling can result in the loss of important enterprise log data.
 
-...Image...
+Personal assessment:
 
-...Link...
+The combination of AI and Infrastructure as Code (CDK/LZA) is gradually changing the way a DevOps/Cloud Engineer works — the infrastructure provisioning step becomes much easier, and the focus of the job shifts from "writing infrastructure code" to "supervising and approving architecture." This is a notable trend as AI becomes increasingly involved in cloud operations tasks, while still retaining an element of control (HITL) — which is important for enterprise-scale infrastructure systems.
 
-...Guide...
+...Image... ![img.png](img.png)
+![img_1.png](img_1.png)
+
+Original article link: <https://aws.amazon.com/vi/blogs/migration-and-modernization/automate-your-landing-zone-creation-with-aws-transform/>
+
+...Instructions...

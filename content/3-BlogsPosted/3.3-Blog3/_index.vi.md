@@ -1,31 +1,33 @@
 ---
 title: "Blog 3"
-date: 2024-01-01
-weight: 1
+date: 2026-06-28
+weight: 4
 chapter: false
-pre: " <b> 3.3. </b> "
+pre: " <b> 3.4. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
-# SESSION POLICIES TRONG AMAZON EKS POD IDENTITY
+#  TỰ ĐỘNG HÓA DỰNG LANDING ZONE TRONG VÀI GIỜ VỚI AWS TRANSFORM (AI-POWERED)
 
-Amazon EKS Pod Identity vừa bổ sung tính năng session policies, cho phép bạn thu hẹp quyền IAM một cách linh hoạt và chính xác cho từng pod mà không cần tạo thêm nhiều IAM roles riêng biệt. Đây là bước tiến quan trọng giúp áp dụng nguyên tắc least privilege hiệu quả hơn trong môi trường Kubernetes quy mô lớn.
+Thiết kế và dựng một Landing Zone chuẩn chỉnh — đạt Multi-AZ, tách biệt Public/Private Subnet, phân rã OU Security/Workload, áp dụng SCP... bám sát AWS Well-Architected — thông thường tốn từ **4 đến 12 tuần**. Với **AWS Transform**, timeline này được nén lại chỉ còn tính bằng giờ nhờ ứng dụng AI vào quá trình thiết kế và triển khai hạ tầng.
 
-Các điểm chính cần nắm:
+Các điểm nổi bật nhất của công cụ:
 
-* Session policy là một IAM policy inline được chỉ định khi tạo hoặc cập nhật Pod Identity association.
-* Quyền hiệu quả = intersection (giao) giữa permissions của IAM role và session policy → session policy chỉ có thể thu hẹp, không thể mở rộng quyền.
-* Giúp tránh tình trạng over-permissioning khi reuse chung một IAM role cho nhiều workloads có nhu cầu khác nhau.
-* Hỗ trợ cả same-account và cross-account (qua IAM role chaining).
-* Giảm đáng kể số lượng IAM roles cần quản lý, tránh chạm giới hạn quota IAM trong cluster lớn.
-* Cấu hình dễ dàng qua AWS Management Console, AWS CLI hoặc AWS SDK khi tạo association giữa Kubernetes ServiceAccount và IAM role.
+* **Chat bằng ngôn ngữ tự nhiên:** AI Agent đóng vai trò như một Mentor/Architect, dựa vào thông tin dự án dịch chuyển (Migration Waves) để đề xuất cấu hình tài khoản phù hợp. Người dùng có thể chat, phản biện và yêu cầu AI điều chỉnh thiết kế trước khi áp dụng.
+* **Human-In-The-Loop (HITL):** AI không tự ý thay đổi hạ tầng — nó chỉ đưa ra khuyến nghị và sinh code (AWS CDK hoặc LZA YAML); quyền bấm Deploy và Approve vẫn thuộc về Admin.
+* **Quét được cả hạ tầng cũ (Brownfield):** với những ai đã có sẵn hạ tầng, AI vẫn quét và chỉ ra các thiếu sót, ví dụ như thiếu Sandbox OU hay thiếu SCP chặn Root user, để bổ sung kịp thời.
 
-Tính năng này đặc biệt hữu ích khi bạn có nhiều ứng dụng chạy trên cùng một IAM role nhưng cần giới hạn quyền khác nhau (ví dụ: một pod chỉ đọc S3 bucket cụ thể, pod khác chỉ gọi một số API nhất định).
+Bên cạnh những ưu điểm trên, bài viết cũng lưu ý một số điểm cần cân nhắc khi sử dụng:
 
-...Hình ảnh...
+* **Free nhưng không hoàn toàn free:** bản thân AWS Transform miễn phí, nhưng các dịch vụ nó tự động kích hoạt kèm theo như AWS Control Tower, Config, CloudTrail vẫn tính phí trên tài khoản — nếu dựng lab thử mà quên tắt có thể phát sinh chi phí đáng kể.
+* **Việc gỡ bỏ (decommission) khá phức tạp:** hủy một Landing Zone do AI dựng lên không đơn giản, nếu thao tác không cẩn thận có thể mất dữ liệu log quan trọng của doanh nghiệp.
 
-...Link...
+Đánh giá cá nhân:
+
+Sự kết hợp giữa AI và Infrastructure as Code (CDK/LZA) đang dần thay đổi cách một DevOps/Cloud Engineer làm việc — công đoạn khởi tạo hạ tầng trở nên "nhàn" hơn nhiều, và trọng tâm công việc dịch chuyển từ "viết code hạ tầng" sang "giám sát và duyệt kiến trúc". Đây là một xu hướng đáng chú ý khi AI ngày càng tham gia sâu vào các tác vụ vận hành cloud, nhưng vẫn giữ được yếu tố kiểm soát (HITL) — điều quan trọng với các hệ thống hạ tầng quy mô doanh nghiệp.
+
+...Hình ảnh... ![img.png](img.png)
+                ![img_1.png](img_1.png)
+
+Link bài viết gốc: <https://aws.amazon.com/vi/blogs/migration-and-modernization/automate-your-landing-zone-creation-with-aws-transform/>
 
 ...Hướng dẫn...

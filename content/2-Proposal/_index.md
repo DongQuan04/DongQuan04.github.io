@@ -1,115 +1,101 @@
 ---
-title: "Proposal"
-date: 2024-01-01
+title: "The Proposal"
+date: 2026-06-25
 weight: 2
 chapter: false
 pre: " <b> 2. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
-{{% /notice %}}
 
-In this section, you need to summarize the contents of the workshop that you **plan** to conduct.
+In this section, you will outline the summary of the workshop content that you **intend** to deliver.
 
-# IoT Weather Platform for Lab Research
-## A Unified AWS Serverless Solution for Real-Time Weather Monitoring
+# Billo — QR Ordering & Payment Application
+## AWS Serverless Solution for Small-Scale Diners and Cafés
 
 ### 1. Executive Summary
-The IoT Weather Platform is designed for the ITea Lab team in Ho Chi Minh City to enhance weather data collection and analysis. It supports up to 5 weather stations, with potential scalability to 10-15, utilizing Raspberry Pi edge devices with ESP32 sensors to transmit data via MQTT. The platform leverages AWS Serverless services to deliver real-time monitoring, predictive analytics, and cost efficiency, with access restricted to 5 lab members via Amazon Cognito.
+
+Billo is a mobile application tailored for the tableside ordering and cashless payment model at small-scale diners and cafés via QR codes. Developed during an internship, it addresses the challenges of manual operations in small establishments. The application simultaneously serves two roles within a single app — **Merchant** (menu management, order receiving, invoice generation) and **Customer** (QR scanning, ordering, payment) — connecting to an AWS serverless backend. The platform leverages AWS Lambda, API Gateway, DynamoDB, and Cognito to ensure operational costs remain near zero when the shop has no orders, while maintaining the capability to scale seamlessly under a pay-per-request model as order volume grows.
 
 ### 2. Problem Statement
-### What’s the Problem?
-Current weather stations require manual data collection, becoming unmanageable with multiple units. There is no centralized system for real-time data or analytics, and third-party platforms are costly and overly complex.
 
-### The Solution
-The platform uses AWS IoT Core to ingest MQTT data, AWS Lambda and API Gateway for processing, Amazon S3 for storage (including a data lake), and AWS Glue Crawlers and ETL jobs to extract, transform, and load data from the S3 data lake to another S3 bucket for analysis. AWS Amplify with Next.js provides the web interface, and Amazon Cognito ensures secure access. Similar to Thingsboard and CoreIoT, users can register new devices and manage connections, though this platform operates on a smaller scale and is designed for private use. Key features include real-time dashboards, trend analysis, and low operational costs.
+*Current Problem*
+Small diners and cafés often handle ordering and payments completely manually: staff write orders on paper, which easily leads to mixed-up dishes or table numbers, and cash payments make end-of-day reconciliation difficult. Commercial POS platforms on the market usually incur high subscription fees and offer redundant features that exceed the actual needs of a small establishment.
 
-### Benefits and Return on Investment
-The solution establishes a foundational resource for lab members to develop a larger IoT platform, serving as a study resource, and provides a data foundation for AI enthusiasts for model training or analysis. It reduces manual reporting for each station via a centralized platform, simplifying management and maintenance, and improves data reliability. Monthly costs are $0.66 USD per the AWS Pricing Calculator, with a 12-month total of $7.92 USD. All IoT equipment costs are covered by the existing weather station setup, eliminating additional development expenses. The break-even period of 6-12 months is achieved through significant time savings from reduced manual work.
+*Solution*
+Billo utilizes Amazon Cognito for user authentication via phone numbers (OTP via SNS), and Amazon API Gateway to expose REST endpoints (`/auth`, `/menu`, `/orders`, `/invoices`, `/payments`, `/wallet`, `/shifts`). It employs 7 AWS Lambda functions (Python 3.11) to handle distinct business logics sharing a single Lambda Layer, along with 5 Amazon DynamoDB tables (`Merchants`, `Orders`, `Invoices`, `Wallets`, `Shifts`) configured under the PAY_PER_REQUEST model. The client-side is a multi-mode Flutter application using `provider` for state management, supporting table QR scanning for ordering and invoice QR scanning for payments. Unlike commercial POS platforms, Billo is designed to be lightweight and strictly serves a core operational flow: table scanning → ordering → invoice generation → payment.
+
+*Benefits and Return on Investment (ROI)*
+The solution completely eliminates paper ordering for the shop, reduces communication errors between the kitchen and waitstaff, and centralizes order data on DynamoDB to facilitate end-of-shift/end-of-day reconciliation via the `Shifts` table. Thanks to the PAY_PER_REQUEST serverless architecture, infrastructure costs are virtually zero when traffic is low, with no fixed server maintenance costs incurred. The only required devices are the existing smartphones of the shop owner and customers, eliminating the need to invest in dedicated POS hardware.
 
 ### 3. Solution Architecture
-The platform employs a serverless AWS architecture to manage data from 5 Raspberry Pi-based stations, scalable to 15. Data is ingested via AWS IoT Core, stored in an S3 data lake, and processed by AWS Glue Crawlers and ETL jobs to transform and load it into another S3 bucket for analysis. Lambda and API Gateway handle additional processing, while Amplify with Next.js hosts the dashboard, secured by Cognito. The architecture is detailed below:
 
-![IoT Weather Station Architecture](/images/2-Proposal/edge_architecture.jpeg)
+The platform adopts a fully serverless AWS architecture, defined as Infrastructure as Code using the AWS SAM. Customers and merchants interact through the same Flutter application, making REST API calls via Amazon API Gateway; Lambda functions handle the business logic and perform read/write operations on DynamoDB; Amazon Cognito manages user authentication via phone numbers.
 
-![IoT Weather Platform Architecture](/images/2-Proposal/platform_architecture.jpeg)
+![Kiến trúc tổng thể Billo](/images/2-Proposal/Diagram1.png)
+*AWS Services Used*
+- *Amazon Cognito*: User authentication via phone number, verifying OTPs sent through SNS.
+- *Amazon API Gateway*: Exposes REST endpoints for all business workflows (`/auth`, `/menu`, `/orders`, `/invoices`, `/payments`, `/wallet`, `/shifts`).
+- *AWS Lambda*: 7 functions handling distinct tasks (registration/login, menu management, order management, invoice generation, payment processing, wallet management, shift management), utilizing a single Lambda Layer for code reuse.
+- *Amazon DynamoDB*: 5 tables (`Merchants`, `Orders`, `Invoices`, `Wallets`, `Shifts`) operating under the PAY_PER_REQUEST model, eliminating the need for manual capacity management.
 
-### AWS Services Used
-- **AWS IoT Core**: Ingests MQTT data from 5 stations, scalable to 15.
-- **AWS Lambda**: Processes data and triggers Glue jobs (two functions).
-- **Amazon API Gateway**: Facilitates web app communication.
-- **Amazon S3**: Stores raw data in a data lake and processed outputs (two buckets).
-- **AWS Glue**: Crawlers catalog data, and ETL jobs transform and load it.
-- **AWS Amplify**: Hosts the Next.js web interface.
-- **Amazon Cognito**: Secures access for lab users.
-
-### Component Design
-- **Edge Devices**: Raspberry Pi collects and filters sensor data, sending it to IoT Core.
-- **Data Ingestion**: AWS IoT Core receives MQTT messages from the edge devices.
-- **Data Storage**: Raw data is stored in an S3 data lake; processed data is stored in another S3 bucket.
-- **Data Processing**: AWS Glue Crawlers catalog the data, and ETL jobs transform it for analysis.
-- **Web Interface**: AWS Amplify hosts a Next.js app for real-time dashboards and analytics.
-- **User Management**: Amazon Cognito manages user access, allowing up to 5 active accounts.
+*Component Design*
+- *Flutter Application*: Divided into 3 main code areas — `customer/` (Customer screens & logic), `merchant/` (Merchant screens & logic), and `shared/` (design system, models, and provider for mode management). Uses `mobile_scanner` to scan table and invoice QR codes.
+- *Merchant Workflow*: Register the shop (generating a `merchant_id` from the shop's name), manage the menu, confirm orders, and issue invoices embedded with payment QR codes.
+- *Customer Workflow*: Scan the table QR code (format: `BILLO_TABLE|merchant_id|merchant_name|table_number`) to place orders, and later scan the invoice QR code (format: `BILLO|invoice_id|merchant_id|total|table_number`) to confirm payment.
+- *Backend*: AWS SAM packages and deploys the entire infrastructure with just `sam build` and `sam deploy --guided`, ensuring environment reproducibility.
 
 ### 4. Technical Implementation
-**Implementation Phases**
-This project has two parts—setting up weather edge stations and building the weather platform—each following 4 phases:
-- Build Theory and Draw Architecture: Research Raspberry Pi setup with ESP32 sensors and design the AWS serverless architecture (1 month pre-internship)
-- Calculate Price and Check Practicality: Use AWS Pricing Calculator to estimate costs and adjust if needed (Month 1).
-- Fix Architecture for Cost or Solution Fit: Tweak the design (e.g., optimize Lambda with Next.js) to stay cost-effective and usable (Month 2).
-- Develop, Test, and Deploy: Code the Raspberry Pi setup, AWS services with CDK/SDK, and Next.js app, then test and release to production (Months 2-3).
 
-**Technical Requirements**
-- Weather Edge Station: Sensors (temperature, humidity, rainfall, wind speed), a microcontroller (ESP32), and a Raspberry Pi as the edge device. Raspberry Pi runs Raspbian, handles Docker for filtering, and sends 1 MB/day per station via MQTT over Wi-Fi.
-- Weather Platform: Practical knowledge of AWS Amplify (hosting Next.js), Lambda (minimal use due to Next.js), AWS Glue (ETL), S3 (two buckets), IoT Core (gateway and rules), and Cognito (5 users). Use AWS CDK/SDK to code interactions (e.g., IoT Core rules to S3). Next.js reduces Lambda workload for the fullstack web app.
+*Implementation Phases*
+1. *Preparation*: Install AWS CLI, AWS SAM CLI, Python 3.11, Flutter SDK, and Docker; configure IAM permissions for the AWS account used in the workshop.
+2. *Backend Deployment*: Write `template.yaml` to define the 5 DynamoDB tables, 1 Cognito User Pool, 7 Lambda functions, and 1 Lambda Layer; build and deploy using SAM; verify APIs using cURL/Postman and CloudWatch logs.
+3. *Flutter App Deployment*: Configure `ApiConfig.baseUrl` to point to the newly deployed API Gateway; test the Merchant workflow (create store, add menu, generate table QR) and Customer workflow (scan QR, order, pay); build the release APK/iOS version for testing on physical devices.
+4. *End-to-End Testing*: Execute the full scenario: merchant creates menu → customer scans QR to order → merchant generates invoice → customer pays via QR, confirming data is accurately synchronized on DynamoDB.
 
-### 5. Timeline & Milestones
-**Project Timeline**
-- Pre-Internship (Month 0): 1 month for planning and old station review.
-- Internship (Months 1-3): 3 months.
-    - Month 1: Study AWS and upgrade hardware.
-    - Month 2: Design and adjust architecture.
-    - Month 3: Implement, test, and launch.
-- Post-Launch: Up to 1 year for research.
+*Technical Requirements*
+- *Backend*: Knowledge of AWS Lambda (Python 3.11), API Gateway, DynamoDB (partition key/sort key design for 5 tables), Cognito User Pool for phone number authentication, and AWS SAM for Infrastructure as Code.
+- *Frontend*: Flutter with `provider` for multi-role state management (ModeProvider, MerchantProvider, CustomerProvider), `http` for REST API calls, `mobile_scanner` for QR scanning, `shared_preferences` for local storage, and `intl` for currency/datetime formatting adapted to `vi_VN`.
+
+### 5. Roadmap & Implementation Milestones
+
+- *Preparation Phase*: Install tools, research AWS SAM, and explore the structure of the multi-mode Flutter project.
+- *Backend Deployment Phase*: Build and deploy the entire serverless infrastructure, and verify APIs.
+- *Frontend Deployment Phase*: Connect the Flutter app to the backend, complete the Merchant and Customer workflows, and build the release version.
+- *Testing Phase*: Conduct end-to-end testing on real devices and fix emerging bugs.
+- *Wrap-up Phase*: Clean up AWS resources and finalize the internship report documentation.
 
 ### 6. Budget Estimation
-You can find the budget estimation on the [AWS Pricing Calculator](https://calculator.aws/#/estimate?id=621f38b12a1ef026842ba2ddfe46ff936ed4ab01).  
-Or you can download the [Budget Estimation File](../attachments/budget_estimation.pdf).
 
-### Infrastructure Costs
-- AWS Services:
-    - AWS Lambda: $0.00/month (1,000 requests, 512 MB storage).
-    - S3 Standard: $0.15/month (6 GB, 2,100 requests, 1 GB scanned).
-    - Data Transfer: $0.02/month (1 GB inbound, 1 GB outbound).
-    - AWS Amplify: $0.35/month (256 MB, 500 ms requests).
-    - Amazon API Gateway: $0.01/month (2,000 requests).
-    - AWS Glue ETL Jobs: $0.02/month (2 DPUs).
-    - AWS Glue Crawlers: $0.07/month (1 crawler).
-    - MQTT (IoT Core): $0.08/month (5 devices, 45,000 messages).
+Since all services utilize the PAY_PER_REQUEST / pay-as-you-go model, infrastructure costs during the workshop and demo phase are virtually negligible.
 
-Total: $0.7/month, $8.40/12 months
+*Estimated Infrastructure Costs (Based on low usage during the demo/workshop phase)*
+- AWS Lambda: ~$0 USD/month (well within the free tier of 1 million requests/month).
+- Amazon API Gateway: Charges based on the actual number of requests, extremely low at demo scale.
+- Amazon DynamoDB (PAY_PER_REQUEST): Charges based on actual read/write operations, incurring no costs when there is no traffic.
+- Amazon Cognito: Free within the free tier limits for Monthly Active Users (MAU) at a workshop scale.
+- Amazon SNS (OTP delivery): Cost based on the actual number of SMS messages sent.
 
-- Hardware: $265 one-time (Raspberry Pi 5 and sensors).
+*Total*: Estimated under $5 USD/month for the demo/workshop scale, which can be verified in detail using the [AWS Pricing Calculator](https://calculator.aws/).
 
 ### 7. Risk Assessment
-#### Risk Matrix
-- Network Outages: Medium impact, medium probability.
-- Sensor Failures: High impact, low probability.
-- Cost Overruns: Medium impact, low probability.
 
-#### Mitigation Strategies
-- Network: Local storage on Raspberry Pi with Docker.
-- Sensors: Regular checks and spares.
-- Cost: AWS budget alerts and optimization.
+*Risk Matrix*
+- Misconfiguration of `ApiConfig.baseUrl` preventing the app from calling the API: High impact, medium probability.
+- Cognito authentication failure (OTP fails to send via SNS): Medium impact, low probability.
+- Mis-scanning or format errors in table or invoice QR codes: Medium impact, low probability.
+- Exceeding IAM permission boundaries when deploying/cleaning up resources: Low impact, low probability.
 
-#### Contingency Plans
-- Revert to manual methods if AWS fails.
-- Use CloudFormation for cost-related rollbacks.
+*Mitigation Strategies*
+- Double-check the `ApiUrl` output from `sam deploy` before configuring it in the Flutter app.
+- Check CloudWatch logs for each Lambda function to detect errors early.
+- Standardize QR formats (`BILLO_TABLE|...` and `BILLO|...`) and test across various scanning devices.
+- Apply strict least-privilege IAM policies after completing the workshop, replacing the broader policies used during learning.
+
+*Contingency Plan*
+- Fall back to manual API calls via cURL/Postman to verify that the backend functions independently of Flutter-side bugs.
+- Use `sam delete` to tear down and redeploy the entire stack if an environment reset is required.
 
 ### 8. Expected Outcomes
-#### Technical Improvements: 
-Real-time data and analytics replace manual processes.  
-Scalable to 10-15 stations.
-#### Long-term Value
-1-year data foundation for AI research.  
-Reusable for future projects.
+
+*Technical Improvement*: Delivery of a fully operational cashless ordering and payment system running on AWS, completely replacing manual paper ordering and cash handling workflows at the venue.
+
+*Long-term Value*: The serverless architecture allows for seamless scalability to incorporate additional features (promotions, loyalty points, shift revenue reports) without altering the foundational infrastructure. It also serves as a reusable codebase and knowledge base for AWS SAM and multi-mode Flutter development in future projects.

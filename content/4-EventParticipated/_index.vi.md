@@ -1,46 +1,40 @@
 ---
 title: "Các events đã tham gia"
-date: 2024-01-01
+date: 2026-07-05
 weight: 4
 chapter: false
 pre: " <b> 4. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
+Trong suốt quá trình thực tập và tham gia chương trình AWS Cloud Bootcamp, em đã có cơ hội tham gia các sự kiện công nghệ chuyên sâu. Đây không chỉ là những trải nghiệm học tập đáng nhớ để tích lũy kiến thức thực chiến từ các chuyên gia, mà còn là cơ hội giúp em mở rộng tư duy thiết kế hệ thống và định hướng phát triển sự nghiệp tương lai.
 
-> Trong phần này, các bạn cần liệt kê và mô tả chi tiết các sự kiện (event) mà mình đã tham gia trong suốt quá trình thực tập hoặc làm việc. 
-> 
-> Mỗi sự kiện nên được trình bày theo định dạng Event 1, Event 2, Event 3…, kèm theo các thông tin:
-> * Tên sự kiện
-> * Thời gian tổ chức
-> * Địa điểm (nếu có)
-> * Vai trò của bạn trong sự kiện (người tham dự, hỗ trợ tổ chức, diễn giả, v.v.)
-> * Mô tả ngắn gọn nội dung và hoạt động chính trong sự kiện
-> * Kết quả hoặc giá trị đạt được (bài học, kỹ năng mới, đóng góp cho nhóm/dự án)
-> * Việc liệt kê này giúp thể hiện rõ sự tham gia thực tế của bạn, cũng như các kỹ năng mềm và kinh nghiệm bạn đã tích lũy qua từng sự kiện.
+---
 
+### 1. [Event 1: FCAJ Community Day - Day 1](4.1-Event1/)
 
-Trong quá trình thực tập, em đã tham gia 2 events, với mỗi event là một trải nghiệm đáng nhớ với những kiến thức mới, hay và bổ ích, cùng với đó là nhứng món quà và những khoảnh khắc rất tuyệt vời.
+* **Tên sự kiện:** FCAJ Community Day 2026 (Ngày 1)
+* **Thời gian:** 09:00 - 12:00, Ngày 23/05/2026
+* **Địa điểm:** Tầng 26, Văn phòng AWS Việt Nam (TP. Hồ Chí Minh)
+* **Vai trò trong sự kiện:** Người tham dự (Attendee)
+* **Mô tả ngắn gọn:** Buổi chia sẻ tập trung vào tư duy cốt lõi khi tương tác với mô hình ngôn ngữ lớn (LLM), tầm quan trọng của việc thiết kế hệ thống quản lý ngữ cảnh (Context), tối ưu hóa hạ tầng mạng toàn diện với Amazon CloudFront và các bài học thực chiến vượt áp lực từ dự án Hackathon (LotusHacks).
+* **Giá trị đạt được:**
+    * Hiểu được tư duy *Context-driven Design* và cách xây dựng bộ nhớ dài hạn cho AI thay vì chỉ tối ưu câu lệnh (Prompt).
+    * Tiếp cận kiến thức bảo mật, chịu tải và tối ưu chi phí biên thông qua CloudFront.
+    * Học hỏi được tinh thần làm việc nhóm và đóng gói sản phẩm nhanh dưới áp lực thời gian lớn.
 
-### [Event 1](4.1-Event1/)
-&emsp;**Tên sự kiện:** GenAI-powered App-DB Modernization workshop
+---
 
-&emsp;**Thời gian:** 09:00 ngày 13/08/2025
+### 2. [Event 2: FCAJ Community Day - Day 2](4.2-Event2/)
 
-&emsp;**Địa điểm:** Tầng 26, tòa nhà Bitexco, số 02 đường Hải Triều, phường Sài Gòn, thành phố Hồ Chí Minh
+* **Tên sự kiện:** FCAJ Community Day 2026 (Ngày 2) - Làn Sóng AI & Tự Động Hóa Hệ Thống
+* **Thời gian:** 09:00 - 11:30, Ngày 24/05/2026
+* **Địa điểm:** Tầng 26, Văn phòng AWS Việt Nam (TP. Hồ Chí Minh)
+* **Vai trò trong sự kiện:** Người tham dự (Attendee)
+* **Mô tả ngắn gọn:** Buổi hôm đó tôi có thể đi sâu và hiểu biết thêm vào các ứng dụng tự động hóa vận hành cấp doanh nghiệp bao gồm: Hệ thống tự chủ khắc phục sự cố (Deep Response Engine), Trợ lý ảo DevOps Agent vận hành 24/7, kiến trúc tổng đài thoại thông minh (AI Voice Agent) với Amazon Nova Sonic, phân tích nhân sự nâng cao bằng Amazon Quick và cách thiết lập kết nối an toàn qua giao thức mạng riêng tư MCP.
+* **Giá trị đạt được:**
+    * Chuyển đổi tư duy vận hành từ dựa trên cảnh báo (Alert-driven) sang chủ động hành động tự động (Action-driven).
+    * Nắm vững kiến trúc xử lý luồng âm thanh trực tiếp (Speech-to-Speech) tối ưu độ trễ cho tổng đài AI thế hệ mới.
+    * Ý thức sâu sắc về an toàn thông tin doanh nghiệp khi bắt buộc phải cấu hình mạng riêng tư VPC Endpoints khi nhúng AI vào dữ liệu nội bộ.
 
-&emsp;**Vai trò trong sự kiện:** Người tham dự 
-
-
-
-### [Event 2](4.2-Event2/)
-&emsp;**Tên sự kiện:** GenAI-powered App-DB Modernization workshop
-
-&emsp;**Thời gian:** 09:00 ngày 13/08/2025
-
-&emsp;**Địa điểm:** Tầng 26, tòa nhà Bitexco, số 02 đường Hải Triều, phường Sài Gòn, thành phố Hồ Chí Minh
-
-&emsp;**Vai trò trong sự kiện:** Người tham dự 
-
+---
+> **Tổng kết:** Chuỗi sự kiện mang lại cái nhìn toàn diện từ hạ tầng Cloud truyền thống đến các kiến trúc ứng dụng AI hiện đại, giúp em có sự chuẩn bị tốt hơn cho các đồ án môn học tại trường cũng như công việc thực tế tại doanh nghiệp sau này.

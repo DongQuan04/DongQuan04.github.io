@@ -1,59 +1,32 @@
 ---
 title: "Worklog Tuần 5"
-date: 2024-01-01
-weight: 1
+date: 2026-05-18
+weight: 5
 chapter: false
 pre: " <b> 1.5. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
-
 
 ### Mục tiêu tuần 5:
 
-* Kết nối, làm quen với các thành viên trong First Cloud AI Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Ôn tập và củng cố kiến thức đã học trong quá trình thực tập.
+* Hoàn thiện các bài lab và nội dung được giao còn tồn đọng.
 
 ### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCAJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-
+| Thứ | Công việc                                                                                                                                     | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
+| 2   | - Rà soát lại toàn bộ nội dung đã học từ tuần 1 đến tuần 4 <br> - Lập danh sách các bài lab/nội dung còn thiếu hoặc chưa hoàn thiện             | 18/05/2026   | 18/05/2026      |                                            |
+| 3   | - Ôn tập lại kiến thức về **IAM & bảo mật** trên AWS <br> - Hoàn thiện các bài lab còn dang dở liên quan đến IAM                                | 19/05/2026   | 19/05/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 4   | - Ôn tập lại kiến thức về **EC2 & S3** <br> - Hoàn thiện các bài lab còn dang dở liên quan đến EC2, S3                                          | 20/05/2026   | 20/05/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 5   | - Ôn tập lại kiến thức về **VPC, ELB, Auto Scaling** <br> - Hoàn thiện các bài lab còn dang dở liên quan đến mạng và scaling                    | 21/05/2026   | 21/05/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 6   | - Tổng hợp lại toàn bộ nội dung, bài lab đã hoàn thiện trong tuần <br> - Chuẩn bị nội dung báo cáo tiến độ giữa kỳ                              | 22/05/2026   | 22/05/2026      |                                            |
 
 ### Kết quả đạt được tuần 5:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Đã tạo và cấu hình AWS Free Tier account thành công.
-
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
+* Củng cố vững chắc kiến thức đã học từ tuần 1 đến tuần 4 về AWS.
+* Hoàn thiện toàn bộ các bài lab còn tồn đọng liên quan đến:
+  * IAM & bảo mật
+  * EC2 & S3
+  * VPC, ELB, Auto Scaling
+* Có cái nhìn tổng quan, hệ thống hóa lại kiến thức đã tích lũy trong 5 tuần đầu thực tập.
+* Chuẩn bị sẵn sàng nội dung cho báo cáo tiến độ giữa kỳ.
 * ...
-
-

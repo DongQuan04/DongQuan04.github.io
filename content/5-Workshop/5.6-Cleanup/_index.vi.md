@@ -1,6 +1,6 @@
 ---
 title : "Dọn dẹp tài nguyên"
-date : 2024-01-01
+date : 2026-06-08
 weight : 6
 chapter : false
 pre : " <b> 5.6. </b> "
@@ -8,30 +8,50 @@ pre : " <b> 5.6. </b> "
 
 #### Dọn dẹp tài nguyên
 
-Xin chúc mừng bạn đã hoàn thành xong lab này!
-Trong lab này, bạn đã học về các mô hình kiến trúc để truy cập Amazon S3 mà không sử dụng Public Internet.
+Xin chúc mừng bạn đã hoàn thành xong workshop này! Trong workshop này, bạn đã triển khai toàn bộ backend serverless (Lambda, API Gateway, DynamoDB, Cognito) bằng AWS SAM và kết nối thành công với ứng dụng Flutter đa vai trò Billo.
 
-+ Bằng cách tạo Gateway endpoint, bạn đã cho phép giao tiếp trực tiếp giữa các tài nguyên EC2 và Amazon S3, mà không đi qua Internet Gateway.
-Bằng cách tạo Interface endpoint, bạn đã mở rộng kết nối S3 đến các tài nguyên chạy trên trung tâm dữ liệu trên chỗ của bạn thông qua AWS Site-to-Site VPN hoặc Direct Connect.
++ Vì toàn bộ hạ tầng được định nghĩa bằng SAM/CloudFormation, việc dọn dẹp có thể thực hiện gọn bằng một lệnh duy nhất, xóa sạch stack cùng mọi resource liên quan (Lambda, API Gateway, DynamoDB, Cognito, IAM Role).
 
-#### Dọn dẹp
-1. Điều hướng đến Hosted Zones trên phía trái của bảng điều khiển Route 53. Nhấp vào tên của  s3.us-east-1.amazonaws.com zone. Nhấp vào Delete và xác nhận việc xóa bằng cách nhập từ khóa "delete".
+#### Xóa stack backend
 
-![hosted zone](/images/5-Workshop/5.6-Cleanup/delete-zone.png)
+1. Tại thư mục gốc chứa `template.yaml`, chạy lệnh:
 
-2. Disassociate Route 53 Resolver Rule - myS3Rule from "VPC Onprem" and Delete it. 
+```bash
+sam delete --stack-name billo-backend
+```
 
-![hosted zone](/images/5-Workshop/5.6-Cleanup/vpc.png)
+![sam delete](/images/5-Workshop/5.6-don-dep/sam-delete.png)
 
-4.Mở console của CloudFormation và xóa hai stack CloudFormation mà bạn đã tạo cho bài thực hành này:
-+ PLOnpremSetup
-+ PLCloudSetup
+2. Xác nhận xóa bằng cách gõ `y` khi được hỏi:
 
-![delete stack](/images/5-Workshop/5.6-Cleanup/delete-stack.png)
+```
+Are you sure you want to delete the stack billo-backend in the region ap-southeast-1 ? [y/N]:
+```
 
-5. Xóa các S3 bucket
+3. Đợi cho đến khi thấy thông báo `Deleted successfully`.
 
-+ Mở bảng điều khiển S3
-+ Chọn bucket chúng ta đã tạo cho lab, nhấp chuột và xác nhận là empty. Nhấp Delete và xác nhận delete.
-+ 
-![delete s3](/images/5-Workshop/5.6-Cleanup/delete-s3.png)
+![Xóa thành công](/images/5-Workshop/5.6-don-dep/delete-success.png)
+
+{{% notice warning %}}
+Thao tác `sam delete` sẽ xóa vĩnh viễn toàn bộ dữ liệu trong các bảng DynamoDB (`Merchants`, `Orders`, `Invoices`, `Wallets`, `Shifts`). Nếu cần giữ lại dữ liệu demo, hãy export dữ liệu trước khi xóa.
+{{% /notice %}}
+
+#### Kiểm tra lại trên Console
+
+1. Vào **CloudFormation console**, xác nhận stack `billo-backend` không còn xuất hiện trong danh sách.
+
+![CloudFormation trống](/images/5-Workshop/5.6-don-dep/cfn-empty.png)
+
+2. Vào **DynamoDB console**, **Lambda console**, **API Gateway console** để xác nhận không còn resource nào sót lại liên quan đến Billo.
+
+3. Vào **Cognito console**, xác nhận `billo-user-pool` đã bị xóa.
+
+![Kiểm tra tài nguyên còn sót](/images/5-Workshop/5.6-don-dep/final-check.png)
+
+#### Gỡ ứng dụng khỏi thiết bị (tùy chọn)
+
+Nếu bạn đã cài file APK/iOS lên thiết bị thật để demo, có thể gỡ cài đặt app Billo khỏi thiết bị sau khi hoàn tất workshop.
+
+---
+
+Đến đây, bạn đã hoàn thành toàn bộ workshop triển khai Billo — từ hạ tầng serverless trên AWS đến ứng dụng Flutter đa vai trò, và dọn dẹp sạch sẽ mọi tài nguyên đã tạo ra.
