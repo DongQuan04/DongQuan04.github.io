@@ -89,3 +89,4 @@ The second day of the event delivered a highly technical, hands-on atmosphere pa
 - The extended Q&A sessions featured sharp, practical inquiries from the audience regarding real-world use cases in banking and enterprise HR management. This exposure helped me absorb highly specialized industry terminology and understand how large organizations deploy tech to solve financial bottom-line issues.
 
 #### Event Gallery
+![img.png](img.png)

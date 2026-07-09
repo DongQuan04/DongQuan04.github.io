@@ -27,5 +27,3 @@ Qua bài viết này, có thể thấy ứng dụng thực tế đáng chú ý n
 ...Hình ảnh... ![img.png](img.png)
 
 Link bài viết gốc: <https://aws.amazon.com/vi/blogs/architecture/automate-medical-record-digitization-with-amazon-bedrock-data-automation-and-aws-healthlake/>
-
-...Hướng dẫn...

@@ -97,3 +97,4 @@ Attending the **FCAJ Community Day** technology event on the 26th floor was an i
 - Through real-world enterprise case studies (such as the credit scoring system presented by Ms. Vy Lam or the architecture discussed by Mr. Tinh Truong), I gained a clearer picture of the skills highly sought after by the market, allowing me to proactively incorporate them into my learning roadmap at university.
 
 #### Event Gallery
+![img_1.png](img_1.png)

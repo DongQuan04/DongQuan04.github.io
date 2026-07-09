@@ -28,8 +28,6 @@ In my view, the most notable aspect of the project is the use of **Digital Twin 
 
 Overall, this is not just an experimental idea but a real-world deployment on actual infrastructure, combining AWS, NVIDIA, and AI-SENSE to bring Physical AI into healthcare — extending the scope of care beyond hospital walls, in line with the project's message: the hospital of the future has no walls, only intelligence.
 
-...Image...![img_1.png](img_1.png)
+Image:![img_1.png](img_1.png)
 
 Original article link: <https://aws.amazon.com/blogs/physical-ai/physical-ai-in-healthcare-redefining-care-delivery-at-the-edge/>
-
-...Instructions...

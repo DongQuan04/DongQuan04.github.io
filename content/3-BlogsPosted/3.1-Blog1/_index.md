@@ -25,8 +25,5 @@ Alongside these advantages, the solution also has some limitations and challenge
 
 Through this article, we can see that the most notable practical application of GenAI today is not limited to chatbots, but also includes **Data Automation** — turning "messy," unstructured data into clean, structured data ready to be leveraged. At the same time, designing the architecture in an Event-Driven manner (using EventBridge as the trigger point) is also a valuable pattern worth learning and applying to other large-scale data processing systems.
 
-...Image...
 ![img_1.png](img_1.png)
 Original article link: <https://aws.amazon.com/vi/blogs/architecture/automate-medical-record-digitization-with-amazon-bedrock-data-automation-and-aws-healthlake/>
-
-...Instructions...

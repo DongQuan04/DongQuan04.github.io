@@ -24,9 +24,7 @@ Personal assessment:
 
 The combination of AI and Infrastructure as Code (CDK/LZA) is gradually changing the way a DevOps/Cloud Engineer works — the infrastructure provisioning step becomes much easier, and the focus of the job shifts from "writing infrastructure code" to "supervising and approving architecture." This is a notable trend as AI becomes increasingly involved in cloud operations tasks, while still retaining an element of control (HITL) — which is important for enterprise-scale infrastructure systems.
 
-...Image... ![img.png](img.png)
+Image: ![img.png](img.png)
 ![img_1.png](img_1.png)
 
 Original article link: <https://aws.amazon.com/vi/blogs/migration-and-modernization/automate-your-landing-zone-creation-with-aws-transform/>
-
-...Instructions...
