@@ -1,37 +1,125 @@
+﻿---
+title: "Tổng quan workshop"
+date: 2026-06-29
+weight: 1
+chapter: false
+pre: " <b> 5.1. </b> "
 ---
-title : "Giới thiệu"
-date : 2026-06-16
-weight : 1
-chapter : false
-pre : " <b> 5.1. </b> "
+
 ---
 
-#### Giới thiệu Workshop
+## Giới thiệu
 
-Trong chương này, bạn sẽ đi qua toàn bộ quá trình triển khai **Billo** — ứng dụng gọi món và thanh toán không tiền mặt tại quán ăn/quán cà phê, được xây dựng trong đợt thực tập, gồm 2 phần:
+Workshop này giới thiệu cách triển khai và kiểm thử dự án **AWS BILLO**, một hệ thống ví điện tử và quản lý cửa tiệm được xây dựng theo kiến trúc serverless trên AWS.
 
-+ **Backend**: kiến trúc serverless trên AWS (Lambda + API Gateway + DynamoDB + Cognito), triển khai bằng AWS SAM.
-+ **Frontend**: ứng dụng di động Flutter, phục vụ đồng thời 2 vai trò trên cùng một app — **Khách hàng** (quét QR, gọi món, thanh toán) và **Chủ quán** (quản lý menu, nhận đơn, xuất hóa đơn).
+AWS BILLO được thiết kế cho ba vai trò chính:
 
-![Kiến trúc tổng thể](/images/5-Workshop/5.1-gioi-thieu/kien-truc-tong-the.png)
+- **Customer**: sử dụng ứng dụng mobile/web để đăng ký, đăng nhập, xem ví, quét QR, gọi món tại bàn, thanh toán QR và xem lịch sử giao dịch.
+- **Merchant**: quản lý không gian kinh doanh, sản phẩm hoặc dịch vụ, bàn, order, bill và phiên thanh toán QR.
+- **Admin**: sử dụng Admin Web để xem xét hồ sơ đăng ký Merchant và duyệt hoặc từ chối yêu cầu đăng ký kinh doanh.
 
-#### Bạn sẽ học được gì
+Workshop tập trung vào việc deploy hạ tầng backend serverless và chạy demo ứng dụng ở local.
 
-+ Cách định nghĩa hạ tầng serverless bằng **AWS SAM** (Lambda, API Gateway, DynamoDB, Cognito) dưới dạng Infrastructure as Code.
-+ Cách tách nghiệp vụ backend thành các Lambda function độc lập theo nguyên tắc single-responsibility.
-+ Cách kết nối một ứng dụng Flutter đa vai trò (multi-mode) với REST API backend.
-+ Cách kiểm thử luồng nghiệp vụ end-to-end: từ quét QR bàn → gọi món → tạo hóa đơn → thanh toán.
+---
 
-{{% notice info %}}
-Workshop này giả định bạn đã có kiến thức cơ bản về AWS (Lambda, API Gateway, DynamoDB, IAM) và Flutter. Nếu chưa quen, bạn có thể tham khảo tài liệu chính thức của [AWS SAM](https://docs.aws.amazon.com/serverless-application-model/) và [Flutter](https://docs.flutter.dev/) trước khi bắt đầu.
-{{% /notice %}}
+## Mục tiêu workshop
 
-#### Kiến trúc chi tiết
+Sau khi hoàn thành workshop này, người thực hiện có thể:
 
-+ **Amazon Cognito User Pool**: xác thực người dùng qua số điện thoại, xác minh OTP gửi qua SNS.
-+ **Amazon API Gateway**: expose các endpoint REST (`/auth`, `/menu`, `/orders`, `/invoices`, `/payments`, `/wallet`, `/shifts`).
-+ **AWS Lambda (Python 3.11)**: 7 function xử lý từng nghiệp vụ riêng biệt, dùng chung 1 Lambda Layer để tái sử dụng code.
-+ **Amazon DynamoDB**: 5 bảng (Merchants, Orders, Invoices, Wallets, Shifts) theo mô hình PAY_PER_REQUEST.
-+ **Flutter App**: chia 3 vùng code chính — `customer/`, `merchant/`, `shared/` (design system, model, provider quản lý mode).
+- Hiểu kiến trúc hệ thống AWS BILLO.
+- Deploy backend bằng AWS SAM.
+- Tạo và quản lý tài nguyên AWS thông qua CloudFormation.
+- Sử dụng Amazon Cognito cho xác thực và xác nhận OTP.
+- Sử dụng API Gateway để cung cấp backend API được bảo vệ.
+- Sử dụng Lambda function để xử lý logic nghiệp vụ.
+- Sử dụng DynamoDB để lưu dữ liệu ứng dụng.
+- Sử dụng S3 để lưu hình ảnh và tài liệu đăng ký kinh doanh.
+- Chạy Flutter frontend ở local và kết nối với backend đã deploy.
+- Chạy Admin Web ở local để duyệt hồ sơ Merchant.
+- Xem log backend bằng CloudWatch Logs.
+- Kiểm thử các luồng chính của Customer, Merchant và Admin.
 
-Sau khi hoàn thành workshop, bạn sẽ có một backend chạy thật trên AWS và một app Flutter kết nối đầy đủ, có thể demo luồng gọi món – thanh toán hoàn chỉnh.
+---
+
+## Dịch vụ và công cụ AWS sử dụng
+
+Workshop này sử dụng các dịch vụ và công cụ AWS sau:
+
+| Dịch vụ / Công cụ          | Mục đích                                                                    |
+| -------------------------- | --------------------------------------------------------------------------- |
+| Amazon Cognito             | Đăng ký người dùng, xác nhận OTP, đăng nhập, JWT token và user group        |
+| Amazon API Gateway         | Cung cấp backend API và bảo vệ route bằng JWT authorization                 |
+| AWS Lambda                 | Chạy logic nghiệp vụ backend                                                |
+| Amazon DynamoDB            | Lưu users, wallets, stores, products, tables, orders, bills và transactions |
+| DynamoDB Idempotency Table | Ngăn xử lý trùng khi chuyển tiền hoặc thanh toán                            |
+| Amazon S3                  | Lưu hình ảnh upload và tài liệu đăng ký kinh doanh                          |
+| Amazon CloudWatch Logs     | Theo dõi log Lambda/API và hỗ trợ debug                                     |
+| AWS SAM                    | Build và deploy backend serverless                                          |
+| AWS CloudFormation         | Quản lý tài nguyên AWS thông qua stack                                      |
+
+---
+
+## Dịch vụ không nằm trong phạm vi workshop
+
+Các dịch vụ sau không nằm trong phạm vi workshop hiện tại:
+
+| Dịch vụ                                        | Trạng thái      |
+| ---------------------------------------------- | --------------- |
+| AWS Amplify Hosting                            | Chưa triển khai |
+| Amazon S3 + Amazon CloudFront hosting frontend | Chưa triển khai |
+| Amazon EC2                                     | Không sử dụng   |
+| Amazon VPC                                     | Không sử dụng   |
+| Amazon RDS                                     | Không sử dụng   |
+
+Flutter frontend và Admin Web hiện đang chạy local trong giai đoạn phát triển. Workshop này chưa host frontend lên AWS.
+
+---
+
+## Công nghệ và cấu trúc dự án hiện tại
+
+Source code dự án được chia thành ba phần chính:
+![img.png](img.png)
+
+---
+
+## Thông tin deploy
+
+Backend development hiện tại sử dụng cấu hình deploy như sau:
+
+| Nội dung             | Giá trị                                                           |
+| -------------------- | ----------------------------------------------------------------- |
+| AWS Region           | `ap-southeast-1`                                                  |
+| CloudFormation Stack | `wallet-app-backend-dev`                                          |
+| API Gateway Endpoint | `https://zsqkp5vpb9.execute-api.ap-southeast-1.amazonaws.com/dev` |
+| DynamoDB Main Table  | `wallet-app-main-dev`                                             |
+| Cognito User Pool ID | `ap-southeast-1_AKc39KB4L`                                        |
+
+---
+
+## Flow demo chính
+
+Workshop demo theo flow sau:
+
+1. Customer đăng ký hoặc đăng nhập bằng số điện thoại thông qua Cognito OTP.
+2. Customer vào app, xem ví và lịch sử giao dịch.
+3. Customer gửi yêu cầu đăng ký kinh doanh.
+4. Admin đăng nhập vào Admin Web và duyệt hồ sơ Merchant.
+5. Merchant đăng nhập lại và mở không gian kinh doanh.
+6. Merchant tạo danh mục sản phẩm hoặc dịch vụ.
+7. Merchant tạo sản phẩm hoặc dịch vụ với tên, giá, ảnh, giảm giá và trạng thái.
+8. Merchant tạo bàn và hệ thống sinh QR bàn.
+9. Customer quét QR bàn, xem menu, chọn món và gửi order.
+10. Merchant mở bill của bàn và kiểm tra order.
+11. Merchant tạo QR thanh toán cho bill.
+12. Customer quét QR thanh toán, xem hóa đơn và xác nhận thanh toán.
+13. Hệ thống ghi giao dịch, cập nhật số dư ví và lưu lịch sử.
+14. Merchant hoặc Admin xem order, trạng thái thanh toán và lịch sử giao dịch.
+
+---
+
+## Kết quả mong đợi
+
+Sau khi hoàn thành workshop, backend sẽ được deploy thành công lên AWS, đồng thời Flutter frontend và Admin Web chạy local có thể kết nối với backend đã deploy.
+
+Người thực hiện có thể kiểm thử các luồng chính của AWS BILLO, bao gồm xác thực, duyệt Merchant, quản lý sản phẩm, gọi món bằng QR bàn, thanh toán QR và xem lịch sử giao dịch.
+

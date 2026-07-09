@@ -1,0 +1,425 @@
+﻿---
+title: "Test Main Business Flows"
+date: 2026-06-29
+weight: 7
+chapter: false
+pre: " <b> 5.7. </b> "
+---
+
+---
+
+This section guides users through the main business flows of AWS BILLO after the backend has been deployed and the Flutter frontend and Admin Web are running locally.
+
+The goal of this section is to verify that the Customer, Merchant, and Admin workflows can work together with the deployed AWS backend.
+
+---
+
+## Flow Overview
+
+The main demo flow includes:
+
+1. Customer registration and login.
+2. Customer wallet and transaction history.
+3. Business registration submission.
+4. Admin merchant approval.
+5. Merchant access to business space.
+6. Merchant category creation.
+7. Merchant product or service creation.
+8. Table creation and table QR generation.
+9. Customer table QR scanning and ordering.
+10. Merchant bill review and payment QR generation.
+11. Customer payment QR scanning and payment confirmation.
+12. Transaction, wallet, order, and payment status update.
+
+---
+
+## Step 1: Register and Log in as Customer
+
+Open the Flutter frontend.
+
+Register a new Customer account using:
+
+```text
+Phone number
+Password
+OTP confirmation
+```
+
+After confirming OTP, log in with the new account.
+
+Expected result:
+
+- The user is created in Amazon Cognito.
+- The user profile is created in DynamoDB.
+- A demonstration wallet is created for the user.
+- The app opens the Customer interface.
+
+---
+
+## Step 2: Check Customer Wallet and History
+
+After logging in, open the wallet or home screen.
+
+Check the following information:
+
+- Wallet balance.
+- Profile information.
+- Transaction history.
+- QR scanning feature.
+
+Expected result:
+
+- The app can load Customer data from the deployed backend.
+- Wallet and transaction data are retrieved from DynamoDB.
+- The Customer can continue to the next flow.
+
+---
+
+## Step 3: Submit Business Registration
+
+From the Customer account, open the business registration feature.
+
+Enter the required business information, such as:
+
+```text
+Business name
+Business type
+Business description
+Owner information
+Business document or image
+```
+
+Upload the required business document or image.
+
+Expected result:
+
+- The app requests a pre-signed URL from the backend.
+- The file is uploaded to Amazon S3.
+- The business registration application is saved in DynamoDB.
+- The application status is set to `PENDING`.
+
+---
+
+## Step 4: Review Application as Admin
+
+Open the Admin Web locally.
+
+```powershell
+cd C:\Users\admin\source\repos\AWS_BILLO\admin-web
+npm run dev
+```
+
+Open the local Admin Web URL shown in the terminal, usually:
+
+```text
+http://127.0.0.1:5173
+```
+
+Log in using an Admin account.
+
+Expected result:
+
+- Admin can access the Admin Web.
+- Admin can view pending merchant applications.
+- The submitted business registration appears in the application list.
+
+---
+
+## Step 5: Approve Merchant Application
+
+In the Admin Web, select the pending merchant application and approve it.
+
+Expected result:
+
+- The application status is updated to `APPROVED`.
+- The user is added to the Merchant group in Cognito.
+- A store record is created for the merchant if supported by the backend workflow.
+- The approved user can access Merchant features after logging in again.
+
+After approval, go back to the Flutter app and log out, then log in again.
+
+---
+
+## Step 6: Open Merchant Business Space
+
+After logging in again, open the Merchant or business space section.
+
+Expected result:
+
+- Merchant features are visible.
+- The user can access store management features.
+- The user can manage categories, products, services, tables, and orders.
+
+If Merchant features do not appear, log out and log in again to reload Cognito group information.
+
+---
+
+## Step 7: Create Product or Service Categories
+
+In the Merchant interface, create a category.
+
+Example:
+
+```text
+Category name: Drinks
+Description: Coffee, tea, and other beverages
+```
+
+Expected result:
+
+- The category is saved in DynamoDB.
+- The category appears in the Merchant product management screen.
+- Products or services can be assigned to this category.
+
+---
+
+## Step 8: Create Products or Services
+
+Create a product or service with information such as:
+
+```text
+Name
+Price
+Image
+Description
+Discount
+Best seller or must try flag
+Selling status
+```
+
+Expected result:
+
+- The product or service is saved in DynamoDB.
+- Product images are uploaded to S3 through pre-signed URLs.
+- The product appears in the store menu.
+- The Merchant can update or hide the product if needed.
+
+---
+
+## Step 9: Create Table and Generate Table QR
+
+In the Merchant interface, open table management.
+
+Create a new table.
+
+Example:
+
+```text
+Table name: Table 01
+Status: Available
+```
+
+Expected result:
+
+- The table is saved in DynamoDB.
+- The system generates a table QR code.
+- The QR code can be used by Customers to open the store menu for that table.
+
+---
+
+## Step 10: Customer Scans Table QR and Orders
+
+Switch to the Customer interface.
+
+Scan the table QR code generated by the Merchant.
+
+Expected result:
+
+- The Customer joins the active table session.
+- The app opens the store menu.
+- The Customer can select products and submit an order.
+
+Submit an order.
+
+Expected result:
+
+- The order is saved in DynamoDB.
+- The order is linked to the table.
+- If the table already has an active bill, new items are merged into the current bill.
+- The Merchant can view the order from the business interface.
+
+---
+
+## Step 11: Merchant Reviews Bill
+
+Switch to the Merchant interface.
+
+Open the table bill.
+
+Expected result:
+
+- The Merchant can see the Customer order.
+- The bill displays ordered products, quantities, and total amount.
+- The Merchant can add, remove, or update items if the customer orders verbally.
+- The updated bill is saved before payment QR generation.
+
+---
+
+## Step 12: Generate Payment QR
+
+In the Merchant bill screen, select:
+
+```text
+Generate Payment QR
+```
+
+Expected result:
+
+- The backend creates a payment session.
+- A payment QR code is generated.
+- The QR code contains the payment session information.
+- The previous payment QR should be invalidated if the bill changes.
+
+---
+
+## Step 13: Customer Scans Payment QR and Pays
+
+Switch back to the Customer interface.
+
+Scan the payment QR code.
+
+Expected result:
+
+- The app shows the store name.
+- The app shows the bill details.
+- The app shows the total amount.
+- The Customer can confirm payment.
+
+Confirm the payment.
+
+Expected result:
+
+- The Customer wallet is deducted.
+- The Merchant wallet is credited.
+- Transaction records are created for both sides.
+- The order is marked as paid.
+- The payment session is marked as completed.
+- The active table is removed from the Customer account.
+
+---
+
+## Step 14: Check Transaction and Order History
+
+After payment, check the transaction history in the Customer app.
+
+Expected result:
+
+- The Customer can see the payment transaction.
+- The transaction includes amount, time, and related payment information.
+
+Then check the Merchant transaction or order history.
+
+Expected result:
+
+- The Merchant can see the received payment.
+- The order status is updated.
+- The bill is no longer pending payment.
+
+---
+
+## Step 15: Verify Data in AWS Console
+
+To confirm that the system works correctly, check the related AWS services.
+
+### DynamoDB
+
+Open:
+
+```text
+DynamoDB > Tables > wallet-app-main-dev
+```
+![img_1.png](img_1.png)
+
+
+Check records related to:
+
+- User profile.
+- Wallet.
+- Merchant application.
+- Store.
+- Product or service.
+- Table.
+- Order.
+- Payment session.
+- Transaction.
+
+### S3
+
+Open:
+
+```text
+Amazon S3 > Buckets
+```
+
+Check uploaded files such as:
+
+- Business document.
+- Store image.
+- Product image.
+
+### Cognito
+
+Open:
+
+```text
+Amazon Cognito > User pools > Users
+```
+
+Check that the approved user belongs to the Merchant group.
+
+---
+
+## Common Issues
+
+### Merchant features do not appear
+
+The user may need to log out and log in again after Admin approval.
+
+### Product image does not upload
+
+Check:
+
+- S3 bucket permissions.
+- Pre-signed URL generation.
+- Browser console errors.
+- Lambda logs in CloudWatch.
+
+### Table QR cannot be scanned
+
+Check:
+
+- Browser camera permission.
+- Whether the app is running on localhost.
+- Whether the QR code is valid.
+- Whether the QR session or table still exists.
+
+### Payment fails
+
+Check:
+
+- Customer wallet balance.
+- Payment session expiration.
+- Whether the QR code is outdated.
+- DynamoDB transaction errors.
+- CloudWatch Logs.
+
+---
+
+## Expected Result
+
+After completing this section, the main AWS BILLO business workflow should be successfully demonstrated from end to end:
+
+```text
+Customer registration
+→ Business registration
+→ Admin approval
+→ Merchant setup
+→ Product and table creation
+→ Customer table ordering
+→ Merchant bill review
+→ QR payment
+→ Transaction history
+```
+
+This confirms that the Flutter frontend, Admin Web, Cognito, API Gateway, Lambda, DynamoDB, S3, and CloudWatch Logs are working together in the AWS BILLO project.
+

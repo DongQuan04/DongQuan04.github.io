@@ -1,30 +1,138 @@
----
+﻿---
 title: "Blog 3"
-date: 2026-06-28
-weight: 4
+date: 2026-04-17
+weight: 3
 chapter: false
-pre: " <b> 3.4. </b> "
+pre: " <b> 3.3. </b> "
 ---
-# AUTOMATING LANDING ZONE SETUP IN HOURS WITH AWS TRANSFORM (AI-POWERED)
 
-Designing and building a proper Landing Zone — achieving Multi-AZ, separating Public/Private Subnets, decomposing Security/Workload OUs, applying SCPs... in line with the AWS Well-Architected framework — typically takes **4 to 12 weeks**. With **AWS Transform**, this timeline is compressed down to just hours, thanks to the application of AI in the infrastructure design and deployment process.
+---
 
-The tool's most notable highlights:
+# Automating Medical Record Digitization with Amazon Bedrock Data Automation and AWS HealthLake
 
-* **Natural-language chat:** the AI Agent acts as a Mentor/Architect, using information about the migration project (Migration Waves) to recommend an appropriate account configuration. Users can chat, push back, and ask the AI to adjust the design before applying it.
-* **Human-In-The-Loop (HITL):** the AI does not change infrastructure on its own — it only provides recommendations and generates code (AWS CDK or LZA YAML); the authority to click Deploy and Approve still belongs to the Admin.
-* **Can scan existing (Brownfield) infrastructure:** for those who already have infrastructure in place, the AI can still scan it and point out gaps, such as a missing Sandbox OU or a missing SCP blocking the Root user, so they can be addressed promptly.
+## Project Overview
 
-Alongside these advantages, the article also notes a few points to consider when using the tool:
+This blog introduces a serverless solution for automating the digitization of medical records using Amazon Bedrock Data Automation and AWS HealthLake. The project focuses on converting unstructured healthcare documents, such as scanned medical records, prescriptions, handwritten notes, and PDF files, into standardized healthcare data.
 
-* **Free, but not entirely free:** AWS Transform itself is free, but the services it automatically activates alongside it, such as AWS Control Tower, Config, and CloudTrail, are still billed on the account — if you set up a test lab and forget to turn them off, this can incur significant costs.
-* **Decommissioning is fairly complex:** tearing down an AI-built Landing Zone is not straightforward, and careless handling can result in the loss of important enterprise log data.
+In many healthcare organizations, medical records still exist in paper-based or scanned formats. These documents may contain important clinical information, but they are difficult to search, analyze, and integrate with modern healthcare systems. Manual data entry is slow, expensive, and error-prone, especially when organizations need to process a large number of historical records.
 
-Personal assessment:
+The solution combines Generative AI, serverless processing, and healthcare data standards. Amazon Bedrock Data Automation extracts meaningful clinical information from medical documents. AWS Lambda processes and maps the extracted data into FHIR format. AWS HealthLake stores the standardized data so it can be queried and used by healthcare applications.
 
-The combination of AI and Infrastructure as Code (CDK/LZA) is gradually changing the way a DevOps/Cloud Engineer works — the infrastructure provisioning step becomes much easier, and the focus of the job shifts from "writing infrastructure code" to "supervising and approving architecture." This is a notable trend as AI becomes increasingly involved in cloud operations tasks, while still retaining an element of control (HITL) — which is important for enterprise-scale infrastructure systems.
+The main goal of this solution is to turn unstructured medical documents into clean, structured, and interoperable healthcare data.
 
-Image: ![img.png](img.png)
+## Service Applications
+
+This solution can be applied in several healthcare scenarios.
+
+First, it helps hospitals and clinics digitize old medical records. Instead of manually reading and typing information from scanned documents, the system can automatically extract important fields such as patient information, diagnoses, medications, vital signs, and lab results.
+
+Second, it helps standardize medical data using FHIR, which stands for Fast Healthcare Interoperability Resources. FHIR is an important healthcare data standard that allows different healthcare systems to exchange and understand patient information more easily.
+
+Third, the solution supports better healthcare analytics. Once medical data is stored in AWS HealthLake, it becomes easier to query patient records, analyze conditions, review medication history, and support future AI or data analytics projects.
+
+Fourth, the system can reduce the gap between old paper-based medical records and modern digital healthcare systems. This is especially useful for healthcare organizations that want to modernize their data infrastructure without building custom machine learning models from the beginning.
+
+## System Structure and Operation
+
+The system follows an event-driven and serverless architecture.
+
+### Amazon S3 as the Document Storage Layer
+
+Amazon S3 is used to store input and output files. When a scanned medical record or PDF file is uploaded to the input S3 bucket, the system automatically starts the processing pipeline.
+
+S3 also stores the output generated by Amazon Bedrock Data Automation before it is processed further and converted into healthcare data format.
+
+### Amazon Bedrock Data Automation as the Intelligence Layer
+
+Amazon Bedrock Data Automation is used to extract structured clinical information from unstructured medical documents. Instead of relying only on traditional OCR, the system can understand document layout and medical context more effectively.
+
+The extracted information may include patient demographics, diagnoses, medications, vital signs, lab results, and other clinical fields. This makes the data more useful than simple raw text extraction.
+
+### AWS Lambda as the Processing Layer
+
+AWS Lambda is used to orchestrate and transform data in the pipeline.
+
+One Lambda function can be triggered when a new medical document is uploaded to S3. This function starts the Amazon Bedrock Data Automation processing job.
+
+Another Lambda function can read the extracted JSON output and convert it into FHIR R4 resources. This separation makes the system easier to maintain, test, and scale.
+
+### AWS HealthLake as the Healthcare Data Store
+
+AWS HealthLake stores the processed medical data in FHIR R4 format. After the data is imported, it can be validated, indexed, and queried through standard FHIR APIs.
+
+This allows healthcare applications, analytics tools, or future AI systems to access structured patient information more effectively.
+
+### Monitoring and Security
+
+Amazon CloudWatch can be used to monitor Lambda execution logs and pipeline errors. AWS CloudTrail can support auditing of service activities, while AWS KMS can help encrypt sensitive data at rest.
+
+Because healthcare data is highly sensitive, any real production deployment must include strict security controls, access management, encryption, audit logging, and compliance review.
+
+## Advantages
+
+This solution provides several important advantages.
+
+First, it addresses a difficult problem in the healthcare industry: unstructured medical records. Scanned records, prescriptions, and handwritten documents are often messy and difficult to process. Amazon Bedrock Data Automation can improve data extraction by understanding both document structure and medical context.
+
+Second, the solution supports automatic data standardization. Raw extracted data can be converted into FHIR format, making it easier for different healthcare systems to exchange and understand the same patient information.
+
+Third, the architecture is serverless. By using S3, Lambda, Amazon Bedrock Data Automation, and AWS HealthLake, the system can scale automatically based on workload. This also helps reduce operational overhead because there is no need to manage servers manually.
+
+Fourth, the solution supports future healthcare analytics and AI development. Once medical records are converted into structured data, they can become a valuable foundation for clinical search, reporting, patient history review, and machine learning use cases.
+
+## Limitations and Challenges
+
+Although the solution is powerful, it also has several limitations and challenges.
+
+The first challenge is data privacy and compliance. Medical data may include personally identifiable information and protected health information. In real-world deployments, healthcare organizations must carefully review legal, regulatory, and compliance requirements before uploading patient data to the cloud.
+
+The second challenge is cost. Generative AI processing can become expensive if the system processes millions of pages or large historical archives without cost controls. Organizations need a clear filtering strategy, data classification, and budget monitoring before running the system at scale.
+
+The third challenge is latency. Processing medical records through AI models is slower than reading structured data directly from a database. Therefore, this architecture is more suitable for asynchronous or batch processing instead of real-time clinical decision workflows.
+
+Another challenge is accuracy validation. Even though AI can extract structured information, healthcare data must be reviewed carefully because incorrect information can affect patient safety. Human review may still be needed for important clinical records.
+
+## Personal Review
+
+In my opinion, this solution shows one of the most practical applications of Generative AI. Instead of using GenAI only for chatbots, the project applies it to data automation, which is a real business and healthcare problem.
+
+The most impressive point is the transformation from unstructured documents into standardized FHIR data. This is valuable because healthcare systems often struggle with fragmented and inconsistent data. If medical information can be converted into a common standard, it becomes much easier to search, exchange, and analyze.
+
+I also think the event-driven architecture is suitable for this use case. When a file is uploaded to S3, the pipeline can start automatically without manual operation. Each component is separated, so the system is easier to scale and maintain.
+
+However, I think this solution must be used carefully in real healthcare environments. Data security, patient privacy, compliance, and cost control are critical. For countries such as Vietnam, storing and processing patient medical data on international cloud platforms may require careful legal review and strong governance.
+
+Overall, this blog helped me understand that Generative AI can provide real value when it is used to clean, structure, and standardize complex data.
+
+## Conclusion
+
+This solution demonstrates how Amazon Bedrock Data Automation and AWS HealthLake can be combined to automate medical record digitization. By using an event-driven serverless architecture, the system can process uploaded medical documents, extract clinical information, convert it into FHIR format, and store it in AWS HealthLake for future querying and analysis.
+
+The key lesson is that Generative AI is not only useful for conversation. One of its strongest real-world applications is data automation: transforming messy, unstructured documents into clean and structured data.
+
+The solution also shows the value of event-driven architecture. By using S3 events, Lambda functions, Amazon Bedrock Data Automation, and AWS HealthLake, the system can operate in a decoupled and scalable way.
+
+However, healthcare data requires strict security, privacy, and compliance controls. Before using this approach with real patient data, organizations must carefully evaluate legal requirements, security architecture, cost strategy, and human validation processes.
+
+## Image
+
 ![img_1.png](img_1.png)
 
-Original article link: <https://aws.amazon.com/vi/blogs/migration-and-modernization/automate-your-landing-zone-creation-with-aws-transform/>
+## Reference Link
+
+https://aws.amazon.com/vi/blogs/architecture/automate-medical-record-digitization-with-amazon-bedrock-data-automation-and-aws-healthlake/
+
+## Guide
+
+This blog is mainly a summary and review of the AWS article. I did not deploy the full solution because it involves healthcare data processing, Amazon Bedrock Data Automation, AWS HealthLake, FHIR data mapping, security controls, and cloud compliance requirements.
+
+Instead, I focused on:
+
+- Reading the original AWS blog post
+- Understanding the problem of unstructured medical records
+- Identifying how Amazon Bedrock Data Automation extracts clinical information
+- Understanding how AWS Lambda converts extracted data into FHIR R4 format
+- Reviewing the role of AWS HealthLake as a healthcare data store
+- Analyzing the advantages, limitations, security concerns, and cost challenges
+- Summarizing how Generative AI can be applied to real-world data automation
+

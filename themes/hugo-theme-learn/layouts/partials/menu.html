@@ -29,8 +29,8 @@
         {{ range sort . "Weight"}}
         <li>
           {{.Pre}}<a class="padding" href="{{.URL | absLangURL }}"
-            >{{safeHTML .Name}}</a
-          >{{.Post}}
+        >{{safeHTML .Name}}</a
+        >{{.Post}}
         </li>
         {{end}}
       </ul>
@@ -81,7 +81,7 @@
               >
                 <g>
                   <g id="arrow-drop-down">
-                    <polygon points="0,63.75 127.5,191.25 255,63.75 		" />
+                    <polygon points="0,63.75 127.5,191.25 255,63.75    " />
                   </g>
                 </g>
               </svg>
@@ -91,7 +91,7 @@
         {{end}} {{ if $showvisitedlinks}}
         <li>
           <a class="padding" href="#" data-clear-history-toggle=""
-            ><i class="fas fa-history fa-fw"></i> {{T "Clear-History"}}</a
+          ><i class="fas fa-history fa-fw"></i> {{T "Clear-History"}}</a
           >
         </li>
         {{ end }}
@@ -111,9 +111,9 @@ $currentNode.File }}{{ $currentFileUniqueID = .UniqueID }}{{ end }} {{with
 <li
   data-nav-id="{{.RelPermalink}}"
   title="{{.Title}}"
-  class="dd-item 
+  class="dd-item
         {{if .IsAncestor $currentNode }}parent{{end}}
-        {{if eq .File.UniqueID $currentFileUniqueID}}active{{end}}
+        {{if .File}}{{if eq .File.UniqueID $currentFileUniqueID}}active{{end}}{{end}}
         {{if .Params.alwaysopen}}parent{{end}}
         "
 >
@@ -143,14 +143,14 @@ $currentNode.File }}{{ $currentFileUniqueID = .UniqueID }}{{ end }} {{with
 <li
   data-nav-id="{{.RelPermalink}}"
   title="{{.Title}}"
-  class="dd-item {{if eq .File.UniqueID $currentFileUniqueID}}active{{end}}"
+  class="dd-item {{if .File}}{{if eq .File.UniqueID $currentFileUniqueID}}active{{end}}{{end}}"
 >
   <a href="{{ .RelPermalink}}">
     {{safeHTML .Params.Pre}}{{or .Params.menuTitle .LinkTitle .Title}}{{safeHTML
     .Params.Post}} {{ if $showvisitedlinks}}<i
-      class="fas fa-check read-icon"
-    ></i
-    >{{end}}
+    class="fas fa-check read-icon"
+  ></i
+  >{{end}}
   </a>
 </li>
 {{ end }} {{end}} {{ end }} {{ end }}

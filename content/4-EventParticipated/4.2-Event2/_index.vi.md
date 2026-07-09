@@ -80,13 +80,13 @@ pre: " <b> 4.2. </b> "
 Buổi thứ hai của sự kiện mang lại một bầu không khí đậm chất "thực chiến" với hàng loạt phiên Live Demo công nghệ cao:
 
 #### Mãn nhãn với các màn Demo tự động hóa
-- Trải nghiệm đáng nhớ nhất là được tận mắt xem Deep Response Engine và AWS DevOps Agent tự động cô lập sự cố và khắc phục trực tiếp trên môi trường ảo lập. Điều này giúp tôi thấy rõ sức mạnh thực sự của AI khi nhúng vào hạ tầng kỹ thuật thay vì chỉ dùng để chat hỏi đáp thông thường.
+- Trải nghiệm đáng nhớ nhất là được tận mắt xem Deep Response Engine và AWS DevOps Agent tự động cô lập sự cố và khắc phục trực tiếp trên môi trường ảo lập. Điều này giúp em thấy rõ sức mạnh thực sự của AI khi nhúng vào hạ tầng kỹ thuật thay vì chỉ dùng để chat hỏi đáp thông thường.
 
 #### Góc nhìn thực tế về an toàn thông tin
-- Session về bảo mật kết nối MCP giúp tôi bừng tỉnh. Nó giúp sinh viên chúng tôi nhận ra rằng việc làm cho ứng dụng AI "chạy được" mới chỉ là bước đầu, việc làm cho nó "chạy an toàn" trong mạng doanh nghiệp mới là bài toán khó và đáng giá nhất mà doanh nghiệp cần ở một kỹ sư.
+- Session về bảo mật kết nối MCP giúp em bừng tỉnh. Nó giúp sinh viên chúng em nhận ra rằng việc làm cho ứng dụng AI "chạy được" mới chỉ là bước đầu, việc làm cho nó "chạy an toàn" trong mạng doanh nghiệp mới là bài toán khó và đáng giá nhất mà doanh nghiệp cần ở một kỹ sư.
 
 #### Không khí trao đổi sôi nổi
-- Buổi chia sẻ kéo dài với nhiều câu hỏi hóc búa từ khán giả về các case study thực tế trong ngân hàng và quản trị nhân sự, giúp tôi tích lũy thêm được rất nhiều thuật ngữ chuyên ngành và hiểu được cách các doanh nghiệp lớn dùng công nghệ để giải quyết bài toán kinh tế.
+- Buổi chia sẻ kéo dài với nhiều câu hỏi hóc búa từ khán giả về các case study thực tế trong ngân hàng và quản trị nhân sự, giúp em tích lũy thêm được rất nhiều thuật ngữ chuyên ngành và hiểu được cách các doanh nghiệp lớn dùng công nghệ để giải quyết bài toán kinh tế.
 
 #### Một số hình ảnh khi tham gia sự kiện
 ![img_1.png](img_1.png)
