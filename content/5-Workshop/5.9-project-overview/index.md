@@ -155,7 +155,7 @@ Admin Web is currently hosted on AWS Amplify at: `https://dev.d3k8atm3w5sdj3.amp
 
 Sign in with an account belonging to the Cognito `Admin` group.
 
-![alt text](image-9.png)
+![alt text](image-29.png)
 
 Related services: Amazon Cognito (User Group `Admin`).
 
@@ -163,7 +163,7 @@ Related services: Amazon Cognito (User Group `Admin`).
 
 Admin sees at a glance the number of pending applications, stores, users, recent transactions, and pending refunds.
 
-![alt text](image-10.png)
+![alt text](image-28.png)
 
 Related services: DynamoDB Main Table.
 
@@ -171,7 +171,7 @@ Related services: DynamoDB Main Table.
 
 Admin reviews business registration details and decides to approve or reject.
 
-![alt text](image-11.png)
+![alt text](image-27.png)
 
 Upon approval, the system automatically adds the user to the `Merchant` group in Cognito and creates a Store record.
 
@@ -179,7 +179,7 @@ Upon approval, the system automatically adds the user to the `Merchant` group in
 
 Admin views the user list, locks/unlocks accounts, revokes Merchant permissions, and toggles a store's active status.
 
-![alt text](image-12.png)
+![alt text](image-26.png)
 
 Related services: Amazon Cognito (User Group), DynamoDB Main Table.
 
@@ -187,7 +187,7 @@ Related services: Amazon Cognito (User Group), DynamoDB Main Table.
 
 Admin views transaction details and approves or rejects refund requests.
 
-![alt text](image-13.png)
+![alt text](image-25.png)
 
 Related services: DynamoDB Main Table (transaction, refund).
 

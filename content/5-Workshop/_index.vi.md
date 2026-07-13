@@ -44,7 +44,7 @@ AWS BILLO sử dụng kiến trúc serverless được triển khai tại AWS Si
 
 Frontend giao tiếp với Amazon Cognito để xác thực và Amazon API Gateway để gọi các nghiệp vụ backend. API Gateway kiểm tra JWT token từ Cognito trước khi chuyển request đến AWS Lambda. Lambda xử lý logic nghiệp vụ chính và lưu dữ liệu vào DynamoDB. S3 được dùng để lưu tài liệu và hình ảnh upload, còn CloudWatch Logs được dùng để theo dõi và xử lý lỗi.
 
-![AWS BILLO System Architecture](/NTH-DUY-fcaj-workshop/images/5-Workshop/aws-billo-architecture.png)
+![AWS BILLO System Architecture]![alt text](image-1.png)
 
 ---
 

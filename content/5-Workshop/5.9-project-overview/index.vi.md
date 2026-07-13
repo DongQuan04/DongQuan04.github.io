@@ -155,7 +155,7 @@ Admin Web hiện được host trên AWS Amplify tại: `https://dev.d3k8atm3w5s
 
 Đăng nhập bằng tài khoản thuộc Cognito group `Admin`.
 
-![alt text](image-9.png)
+![alt text](image-29.png)
 
 Chức năng liên quan: Amazon Cognito (User Group `Admin`).
 
@@ -163,7 +163,7 @@ Chức năng liên quan: Amazon Cognito (User Group `Admin`).
 
 Admin xem nhanh số hồ sơ chờ duyệt, số cửa hàng, số user, giao dịch gần đây, hoàn tiền chờ xử lý.
 
-![alt text](image-10.png)
+![alt text](image-28.png)
 
 Chức năng liên quan: DynamoDB Main Table.
 
@@ -171,7 +171,7 @@ Chức năng liên quan: DynamoDB Main Table.
 
 Admin xem chi tiết hồ sơ đăng ký kinh doanh và quyết định duyệt hoặc từ chối.
 
-![alt text](image-11.png)
+![alt text](image-27.png)
 
 Khi duyệt, hệ thống tự động thêm user vào group `Merchant` trong Cognito và tạo Store record.
 
@@ -179,7 +179,7 @@ Khi duyệt, hệ thống tự động thêm user vào group `Merchant` trong Co
 
 Admin xem danh sách user, khóa/mở khóa tài khoản, thu hồi quyền Merchant, bật/tắt trạng thái hoạt động cửa hàng.
 
-![alt text](image-12.png)
+![alt text](image-26.png)
 
 Chức năng liên quan: Amazon Cognito (User Group), DynamoDB Main Table.
 
@@ -187,7 +187,7 @@ Chức năng liên quan: Amazon Cognito (User Group), DynamoDB Main Table.
 
 Admin xem chi tiết giao dịch, duyệt hoặc từ chối yêu cầu hoàn tiền.
 
-![alt text](image-13.png)
+![alt text](image-25.png)
 
 Chức năng liên quan: DynamoDB Main Table (transaction, refund).
 

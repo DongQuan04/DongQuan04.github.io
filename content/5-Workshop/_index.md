@@ -43,7 +43,7 @@ AWS BILLO uses a serverless architecture deployed in the AWS Singapore Region: `
 
 The frontend communicates with Amazon Cognito for authentication and Amazon API Gateway for backend operations. API Gateway verifies JWT tokens from Cognito before routing requests to AWS Lambda functions. Lambda functions process the main business logic and store data in DynamoDB. S3 is used for uploaded documents and images, while CloudWatch Logs is used for monitoring and troubleshooting.
 
-![AWS BILLO System Architecture](/NTH-DUY-fcaj-workshop/images/5-Workshop/aws-billo-architecture.png)
+![AWS BILLO System Architecture]![alt text](image.png)
 
 ---
 
