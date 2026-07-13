@@ -5,11 +5,6 @@ weight: 7
 chapter: false
 pre: " <b> 7. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only, please **do not copy verbatim** for your report, including this warning.
-{{% /notice %}}
-
->Here you can freely share your personal feedback about your experience participating in the First Cloud AI Journey program, helping the FCAJ team improve on any shortcomings based on the following categories:
 
 ### General Assessment
 
