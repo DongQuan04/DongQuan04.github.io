@@ -8,219 +8,261 @@ pre: " <b> 5.9.2. </b> "
 
 ---
 
-This section presents in detail each function available to the Merchant role in AWS BILLO, including actual operation steps, expected results, and illustrative images from the deployed demo at https://dev.d28z1hw6wfvjzy.amplifyapp.com.
+This section describes in detail each functionality designed for the Merchant role in AWS BILLO, complete with actual operational steps, expected results, and illustrative screenshots from the deployed demo at https://dev.d28z1hw6wfvjzy.amplifyapp.com.
 
-A Merchant is a Customer whose business profile has been approved by an Admin and who has been granted additional permissions to manage a store.
+A Merchant is a Customer whose business profile has been reviewed and approved by the Admin, thereby granting them store management privileges.
 
 ---
 
 ## 1. Business Registration
 
-From a Customer account, users submit a business registration application to become a Merchant.
+From a Customer account, the user submits a business registration profile to apply for the Merchant role.
 
-Steps:
+Operational steps:
 
-- Log in with a Customer account.
-- Go to the Personal tab, select Business Registration.
-- Enter the information:
-  - Business owner's full name.
+- Log in using a Customer account.
+- Go to the **Cá nhân** (Profile) tab and select **Đăng ký kinh doanh** (Business Registration).
+- Enter the required information:
+  - Full name of the business owner.
   - Store/business name.
   - Contact phone number.
-  - National ID (CCCD).
+  - Citizen ID (CCCD).
   - Business address.
-  - Business license photo.
+  - Business license image.
 - Upload the business license photo.
-- Submit the application for review.
+- Submit the profile for review.
 
 ![alt text](image.png)
 
 Expected results:
 
 - The app requests a pre-signed URL from the backend to upload the photo.
-- The photo is stored in Amazon S3.
-- The registration application is stored in DynamoDB with `PENDING` status.
-- The application appears in the Admin's pending-approval list.
-- The user waits for Admin review and does not yet have Merchant permissions at this stage.
+- The image is securely stored in Amazon S3.
+- The registration profile is saved in DynamoDB with a `PENDING` status.
+- The profile appears in the Admin's pending review list.
+- The user awaits Admin review and does not yet have Merchant privileges at this stage.
 
-Related components: Amazon S3 (document upload via pre-signed URL), DynamoDB Main Table.
+Related components: Amazon S3 (document upload via pre-signed URLs), DynamoDB Main Table.
 
 ---
 
 ## 2. Business Workspace
 
-After the Admin approves the application, the Merchant gains access to a dedicated store management area.
+Once the Admin approves the profile, the Merchant gains access to their dedicated store management area.
 
-Steps:
+Operational steps:
 
-- After approval, log out and log back in (so the app picks up the new Cognito group).
-- Go to the Merchant interface / Business Workspace.
-- Check the displayed tabs: Overview, Services, Tables, POS, Orders.
+- After approval, log out and log back in (allowing the app to pick up the updated Cognito group).
+- Access the Merchant interface / **Không gian kinh doanh** (Business Workspace).
+- Verify the displayed tabs: Overview, Services, Tables, POS, Orders.
 
 ![alt text](image-1.png)
 
 Expected results:
 
-- The user is added to the `Merchant` Cognito group.
-- A store record is created for the Merchant.
-- The Merchant interface displays all 5 management tabs.
-- If the Merchant interface is not yet visible, the user needs to log out/log back in for the app to reload the group information.
+- The user is successfully assigned to the Cognito group `Merchant`.
+- A store record is automatically provisioned for the Merchant.
+- The Merchant dashboard becomes fully visible with all 5 management tabs.
+- If the Merchant interface is not visible, logging out and logging back in will force the app to reload the group claims.
 
-Related components: `Merchant` Cognito User Group, DynamoDB Main Table (store).
+Related components: Cognito User Group `Merchant`, DynamoDB Main Table (store).
 
 ### 2.1. Update Store Information
 
-In the Overview tab, the Merchant can update:
+Within the Overview tab, the Merchant can update:
 
 - Store name.
 - Address.
-- Avatar/store photo.
-- Operating status (on/off).
+- Store avatar/cover photo.
+- Operational status (On/Off).
 
 ![alt text](image-2.png)
 
-
-Expected results: the store information is updated in DynamoDB and immediately reflected on the Customer-facing menu. If the Merchant turns off the operating status, Customers will no longer be able to place orders, even if they scan the correct table QR code.
+Expected results: Store updates are saved directly to DynamoDB and instantly reflected on the Customer-facing menu. If the Merchant turns off the operational status, Customers will be blocked from placing orders even if they scan the correct table QR code.
 
 ---
 
 ## 3. Category and Product/Service Management
 
-Merchants organize the menu by category, add products/services, and configure discounts.
+Merchants organize their menus by category, add new products/services, and configure special discounts.
 
-Steps — create a category:
+Operational steps — creating a category:
 
-- Go to the Services tab.
-- Create a new category, e.g.: Milk Tea, Drinks, Snacks.
+- Navigate to the **Dịch vụ** (Services) tab.
+- Create a new category, for example: Bubble Tea, Beverages, Snacks.
 
-Steps — add a product/service:
+Operational steps — adding products/services:
 
-- Add a new item/service with: name, price, photo, category.
-- Mark as Best Seller / Must Try if applicable.
-- Select status: on sale or temporarily hidden.
-- Save and verify the item displays correctly in the customer menu.
+- Add a new item/service with: name, price, photo, and category.
+- Mark as "Best seller" or "Must try" if applicable.
+- Select the availability status: active or hidden.
+- Save and verify that the item populates correctly on the customer menu.
 
-Steps — configure a discount:
+Operational steps — configuring discounts:
 
-- Go to edit the item/service to be discounted.
-- Enter the original price, discounted price, and displayed discount percentage.
-- Set a start/end time, or the applicable time window/days of the week.
-- Save.
+- Edit the specific item/service to apply a discount.
+- Enter the original price, discounted price, and the displayed discount percentage.
+- Set up the start/end time, or specific hours/days of the week for the discount to apply.
+- Save the changes.
+
+(Product/Service List)
 
 ![alt text](../image-17.png)
 
+(Discount Configuration)
+
+![alt text](image-10.png)
+
 Expected results:
 
-- Categories and products are stored in DynamoDB, and product photos are uploaded to S3 via a pre-signed URL.
-- Hidden products do not appear in the Customer menu.
-- During the discount period, Customers see the correct discounted price and percentage; outside that period, the price automatically reverts to the original price.
+- Categories and products are stored in DynamoDB, and product images are uploaded to S3 via pre-signed URLs.
+- Hidden products are omitted from the Customer menu.
+- During the discount window, Customers see the correct markdown price and discount percentage; once the window expires, the price automatically reverts to the original baseline.
 
-Related components: DynamoDB Main Table, Amazon S3 (product photos).
+Related components: DynamoDB Main Table, Amazon S3 (product images).
 
 ---
 
-## 4. Table and Table QR Management
+## 4. Table and Table-QR Management
 
-Merchants create tables for their store, and the system generates a unique QR code for each table.
+The Merchant creates virtual tables for the shop, and the system dynamically generates a unique QR code for each table.
 
-Steps:
+Operational steps:
 
-- Go to the Tables tab, tap Add Table.
-- Enter the table name/number, and area/floor if applicable.
-- The system automatically generates a QR code for the newly created table.
-- Tap a table to view details: the table's QR code, current order, items the customer has ordered.
-- Download the table QR code, print it, and place it on the physical table for Customers to scan.
+- Go to the **Bàn** (Tables) tab and click **Thêm bàn** (Add Table).
+- Input the table name/number and zone/floor if applicable.
+- The system automatically generates a dedicated QR code for the newly created table.
+- Click on a table to view its details: table QR code, live order, and items ordered by customers.
+- Download the table QR code, print it out, and place it on the physical table for Customers to scan.
 
-![alt text](image-5.png)
+![alt text](<Screenshot 2026-07-14 211505.png>)
 
 Expected results:
 
-- The table is stored in DynamoDB.
-- The generated QR code can be scanned by Customers to open the correct store menu for that exact table.
-- Deleting a table that has an open order needs to be handled carefully (a warning should be shown, or deletion should be blocked, if the table still has an open bill).
+- Table records are saved in DynamoDB.
+- The generated QR code can be scanned by Customers to instantly pull up the shop's menu tied specifically to that table.
+- Deleting a table with an ongoing order must be handled gracefully (the system should show a warning or block deletion if the table has an open bill).
 
 Related components: DynamoDB Main Table (table).
 
 ---
 
-## 5. Receiving Orders and Processing Bills
+## 5. Order Receiving and Bill Processing
 
-Merchants track each table's orders in real time and can edit the bill before payment.
+The Merchant monitors incoming orders for each table in real time and can modify the bill details prior to final settlement.
 
-Steps:
+Operational steps:
 
-- The Customer scans the table QR code and submits an order.
-- The Merchant goes to the Tables tab and taps the corresponding table.
-- View the pending order: items, quantities, current subtotal.
-- If needed, the Merchant can:
-  - Add an item if the customer ordered verbally.
-  - Remove an item if the customer changed their mind.
-  - Adjust quantities.
+- A Customer scans the table QR code and submits an order.
+- The Merchant opens the **Bàn** (Tables) tab and clicks on the respective table.
+- Review the pending order: items, quantities, and estimated total amount.
+- If necessary, the Merchant can:
+  - Add items (if the customer orders verbally).
+  - Remove items (if the customer changes their mind).
+  - Adjust item quantities.
   - Save the updated bill.
 
-(When the customer places an order)
+(Customer-Side Product/Service List)
 
-![alt text](image-7.png)
+![alt text](image-11.png)
 
-(The order is sent to the table)
+(Order Sent to the Table)
 
-![alt text](image-6.png)
+![alt text](image-12.png)
 
 Expected results:
 
-- New orders from Customers appear almost instantly in the Merchant interface.
-- The bill correctly displays the current list of items, quantities, and total amount.
-- Any changes to the bill (add/remove/edit) are saved before generating the payment QR code, ensuring the QR reflects the correct final amount.
+- New orders from Customers populate almost instantly on the Merchant dashboard.
+- The bill accurately reflects the current items, quantities, and subtotal.
+- Any modifications to the bill (add/remove/edit) are saved before generating a payment QR code, ensuring the QR code matches the final aggregate cost.
 
 Related components: DynamoDB Main Table (order, bill).
 
 ---
 
-## 6. Payment
+## 6. Payment Processing
 
-Merchants have two ways to close out an order: payment via QR/wallet or cash.
+Merchants have two available settlement workflows to close out an order: QR/Wallet payment or Cash payment.
 
-### 6.1. QR/Wallet Payment
+### 6.1. QR / Wallet Payment
 
-Steps:
+Operational steps:
 
-- In the table or order details, tap Generate Payment QR.
-- Show the QR code for the Customer to scan with the app.
-- The Customer confirms payment with their PIN.
-- The Merchant watches the order status change to paid.
+- Within the table details or order screen, click **Tạo QR thanh toán** (Generate Payment QR).
+- Present the QR code to the Customer to scan via their app.
+- The Customer authorizes the transfer by entering their transaction PIN.
+- The Merchant monitors the order status until it updates to paid.
 
-![alt text](image-9.png)
+![alt text](image-13.png)
+
+![alt text](image-15.png)
 
 ### 6.2. Cash Payment
 
-Steps:
+Operational steps:
 
 - The Merchant selects the cash payment option.
-- The order is marked as manually paid.
-- The table returns to an empty state, ready for the next customer.
+- The order is manually flagged as paid in the system.
+- The table status reverts to vacant, becoming available for the next group of customers.
 
-![alt text](image-8.png)
+![alt text](image-14.png)
 
 Expected results:
 
-- For QR payment: the backend creates a payment session, the Customer's wallet is debited, the Merchant's wallet is credited, a transaction record is created for both sides, and the payment session is marked complete.
-- An existing payment QR code becomes invalid if the bill changes after the QR was generated — the Merchant needs to generate a new QR code.
-- After payment (QR or cash), the table is freed up and the active table is removed from the Customer's account.
+- For QR payments: The backend initiates a payment session, the Customer's wallet balance is debited, the Merchant's wallet is credited, transaction records are generated for both parties, and the payment session is marked as completed.
+- Previously generated payment QRs become invalid if the underlying bill is altered — the Merchant must generate a fresh QR code.
+- Upon successful payment (either QR or cash), the table is cleared and the active table association is removed from the Customer's session.
 
-Related components: DynamoDB (payment session, transaction); the Merchant's wallet is credited.
+Related components: DynamoDB (payment session, transaction); Merchant wallet updates.
 
 ---
 
-## Common Issues
+## 7. Export CSV Reports
 
-| Situation | Possible Cause |
+Merchants can export all orders and transactions from the Orders tab into a CSV file, useful for revenue reconciliation, auditing, or accounting without relying on manual app lookups.
+
+Operational steps:
+
+- Navigate to the **Tổng quan** (Overview) tab.
+- Click the download CSV report button.
+- The CSV file downloads directly to the local device.
+
+![alt text](image-16.png)
+
+Example of exported real-world data:
+
+![alt text](image-17.png)
+
+Column descriptions:
+
+- **Thời gian** (Timestamp): The exact time the order was created/settled.
+- **Mã đơn** (Order ID): The unique identifier of the order inside DynamoDB.
+- **Bàn** (Table): The table number where the order originated; left blank if the order is not tied to a table (e.g., a direct Merchant-generated payment QR).
+- **Phương thức** (Method): `QR` (e-wallet transfer) or `CASH` (physical cash).
+- **Trạng thái** (Status): The payment state of the order, such as `PAID`.
+- **Tổng tiền** (Total Amount): The total value of the order, denominated in VND.
+
+Expected results:
+
+- The CSV file contains a complete list of orders based on the time and status filters currently active on the Orders tab.
+- Data inside the CSV perfectly mirrors the corresponding `order`/`transaction` records in the DynamoDB Main Table.
+- Merchants can open the file using Excel or Google Sheets to easily aggregate revenue metrics by day, table, or payment type.
+
+Related components: DynamoDB Main Table (order, transaction), AWS Lambda (querying and CSV file generation).
+
+---
+
+## Troubleshooting / Common Errors
+
+| Scenario | Possible Cause |
 |---|---|
-| Merchant features don't appear after approval | Did not log out/log back in for the app to pick up the new Cognito group |
-| Product photo/business license fails to upload | S3 bucket permissions, error generating the pre-signed URL, invalid file type/size |
-| Payment QR code cannot be used | The bill changed after the QR was generated, or the payment session expired |
-| Customer's order does not appear in the Merchant interface | API Gateway/Lambda connection error — check CloudWatch Logs |
+| Merchant privileges fail to appear post-approval | The user has not logged out and back in to refresh the Cognito session claims |
+| Product or business license photos fail to upload | S3 bucket permission block, pre-signed URL generation failure, or invalid file type/size |
+| Payment QR code is invalid/unusable | The bill was modified after the QR was rendered, or the payment session window timed out |
+| Customer orders do not appear on the Merchant UI | API Gateway or Lambda connection drop; inspect CloudWatch Logs |
 
 ---
 
-## Overall Expected Results
+## General Expected Outcome
 
-After completing this section, the main functions of the Merchant role have been fully tested: business registration, store/product/discount management, table and table QR management, real-time order/bill processing, and receiving payment via QR or cash — all working correctly on the deployed demo.
+Upon completing this section, core functionalities for the Merchant role have been thoroughly verified: business registration, store/product/discount management, table and table-QR configuration, real-time order/bill processing, and payment acceptance via QR or cash — all running as intended on the deployed live demo.

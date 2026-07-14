@@ -25,6 +25,15 @@ Flutter app   → https://dev.d28z1hw6wfvjzy.amplifyapp.com (Customer, Merchant)
 Admin Web     → https://dev.d3k8atm3w5sdj3.amplifyapp.com (Admin)
 
 
+Các Role có thể sử dụng ngay:
+
+Admin: +12065550100/Loc123456@
+
+Customer: +12065550101/CustomerDev2026!
+
+Merchant: 0853555443/Loc123456@
+
+
 Toàn bộ dữ liệu và luồng nghiệp vụ trong phần này được lấy từ chính môi trường development đã deploy ở các phần trước:
 
 API Gateway: https://zsqkp5vpb9.execute-api.ap-southeast-1.amazonaws.com/dev

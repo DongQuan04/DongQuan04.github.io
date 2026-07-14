@@ -8,24 +8,33 @@ pre: " <b> 5.9. </b> "
 
 ---
 
-This section provides an overview of the AWS BILLO product after completing the deployment, authentication configuration, demo run, and testing steps in the previous sections.
+This section provides a high-level overview of the AWS BILLO product after completing the deployment, authentication configuration, demo execution, and testing steps described in the previous sections.
 
-The goal is to help readers understand what AWS BILLO is, what roles it includes, and what functions each role has. The details of each function by role are presented in three sub-sections: 5.9.1, 5.9.2, and 5.9.3.
+The objective is to help readers understand what AWS BILLO is, what roles are involved, and the respective functionalities of each role. Detailed features for each role are presented in three subsections: 5.9.1, 5.9.2, and 5.9.3.
 
 ---
 
 ## Project Introduction
 
-AWS BILLO is an e-wallet application combined with table-QR food ordering/payment, built on the AWS serverless platform (Cognito, API Gateway, Lambda, DynamoDB, S3, CloudWatch) and deployed using AWS SAM/CloudFormation.
+AWS BILLO is an e-wallet application integrated with table-ordering and QR-code payment capabilities. It is built entirely on the AWS Serverless platform (Cognito, API Gateway, Lambda, DynamoDB, S3, CloudWatch) and deployed using AWS SAM/CloudFormation.
 
-The application consists of two interfaces, both currently hosted on AWS Amplify:
+The application includes two front-end interfaces, currently hosted on AWS Amplify:
 
 Flutter app   → https://dev.d28z1hw6wfvjzy.amplifyapp.com (Customer, Merchant)
 
 Admin Web     → https://dev.d3k8atm3w5sdj3.amplifyapp.com (Admin)
 
 
-All data and business flows in this section are taken directly from the development environment deployed in the previous sections:
+Ready-to-use roles for immediate testing:
+
+Admin: +12065550100/Loc123456@
+
+Customer: +12065550101/CustomerDev2026!
+
+Merchant: 0853555443/Loc123456@
+
+
+All data and business workflows in this section are retrieved directly from the actual development environment deployed in the previous steps:
 
 API Gateway: https://zsqkp5vpb9.execute-api.ap-southeast-1.amazonaws.com/dev
 
@@ -35,58 +44,47 @@ DynamoDB Main Table: wallet-app-main-dev
 
 ---
 
-## The System's Three Roles
+## Three System Roles
 
-| Role | Interface | Main Functions |
+| Role | Interface | Core Functionalities |
 |---|---|---|
-| Customer | Flutter app | Wallet registration, PIN setup, money transfer, table-QR food ordering, QR payment |
-| Merchant | Flutter app | Business registration, product/category/table management, bill processing, receiving payments |
-| Admin | Admin Web | Approving Merchant applications, user/store management, viewing transactions, processing refunds |
+| Customer | Flutter app | Register wallet, set up PIN, transfer money, order via table QR, pay via QR |
+| Merchant | Flutter app | Register business, manage products/categories/tables, process bills, receive payments |
+| Admin | Admin Web | Approve Merchant profiles, manage users/stores, view transactions, process refunds |
 
 ---
 
 ## Detailed Sections
 
-### [5.9.1 - Customer Functions](5.9.1-Customer-features/)
+### [5.9.1 - Customer Features](5.9.1-Customer-features/)
 
-Presents each Customer function in detail: sign-up/login, PIN setup, wallet and transaction history, money transfer, table-QR scanning and ordering, bill payment via QR — including operation steps, expected results, and illustrative images.
+Presents detailed customer functionalities: registration/login, PIN setup, wallet & transaction history, money transfers, table QR code scanning for ordering, and QR bill payment — complete with operational steps, expected results, and illustrative screenshots.
 
-### [5.9.2 - Merchant Functions](5.9.2-Merchant-features/)
+### [5.9.2 - Merchant Features](5.9.2-Merchant-features/)
 
-Presents each Merchant function in detail: business registration, business workspace, category/product/discount management, table and table-QR management, receiving orders and processing bills, payment — including operation steps, expected results, and illustrative images.
+Presents detailed merchant functionalities: business registration, business workspace, category/product/discount management, table & table-QR management, order receiving & bill processing, and payouts — complete with operational steps, expected results, and illustrative screenshots.
 
-### [5.9.3 - Admin Functions](5.9.3-Admin-features/)
+### [5.9.3 - Admin Features](5.9.3-Admin-features/)
 
-Presents each Admin function in detail: login, overview dashboard, approving/rejecting Merchant applications, user and store management, viewing transactions and processing refunds — including operation steps, expected results, and illustrative images.
+Presents detailed admin functionalities: login, overview dashboard, merchant profile approval/rejection, user & store management, transaction tracking, and refund processing — complete with operational steps, expected results, and illustrative screenshots.
 
 ---
 
-## Overall Flow
+## Overall Workflow
 
-A summary diagram of how the three roles work together, matching the end-to-end demo shown in section 5.7:
+A summary diagram showing how the three roles interact, exactly as demonstrated end-to-end in section 5.7:
 
 ```text
-Customer signs up & registers a business
-        ↓
-Admin approves the Merchant application
-        ↓
-Merchant creates the store, products, tables, and table QR codes
-        ↓
-Customer scans the table QR code and orders food
-        ↓
-Merchant processes the bill and generates the payment QR code
-        ↓
-Customer pays using their PIN
-        ↓
-Admin monitors transactions & processes refunds (if any)
-```
-
----
-
-## Expected Results
-
-After completing this section:
-
-- Readers understand what AWS BILLO is and what roles it includes.
-- Readers grasp the overall business flow connecting the three roles.
-- Readers can dive deeper into each specific role through sections 5.9.1, 5.9.2, and 5.9.3.
+Customer registers & applies for business registration
+                        ↓
+Admin approves the Merchant profile
+                        ↓
+Merchant creates stores, products, tables, and table QRs
+                        ↓
+Customer scans table QR to order food
+                        ↓
+Merchant processes the bill and generates a payment QR
+                        ↓
+Customer completes the payment using their PIN
+                        ↓
+Admin monitors transactions & handles refunds (if any)

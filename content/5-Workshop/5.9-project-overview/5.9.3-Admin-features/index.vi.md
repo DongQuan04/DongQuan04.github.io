@@ -117,6 +117,8 @@ Các bước thao tác:
 
 ![alt text](image-4.png) 
 
+Người dùng sau khi bị khóa
+
 ![alt text](image-6.png)
 
 ### 4.2. Thu hồi quyền Merchant
@@ -125,6 +127,7 @@ Các bước thao tác:
 
 - Vào user/merchant cần thu hồi quyền.
 - Bấm Thu hồi quyền merchant.
+
 
 ![alt text](<Screenshot 2026-07-14 113931.png>)
 

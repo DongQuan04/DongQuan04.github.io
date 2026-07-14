@@ -70,7 +70,11 @@ Các bước thao tác:
 - Vào tab Lịch sử để xem danh sách giao dịch.
 - Bấm vào một giao dịch để xem chi tiết (số tiền, thời gian, nội dung, trạng thái).
 
-![alt text](../image-22.png)
+![alt text](image-8.png)
+
+![alt text](image-7.png)
+
+![alt text](image-12.png)
 
 Kết quả mong đợi:
 - Số dư hiển thị đúng, cập nhật real-time sau mỗi giao dịch.
@@ -93,11 +97,16 @@ Các bước thao tác:
 - App hiện màn hình xác nhận người nhận.
 - Bấm Chuyển tiền, nhập PIN giao dịch.
 
-![alt text](../image-21.png)
+![alt text](image-9.png)
+
+![alt text](image-10.png)
 
 Kết quả mong đợi:
 
 - Nếu đúng PIN và đủ số dư: ví người gửi bị trừ, ví người nhận được cộng, transaction record được tạo cho cả hai phía.
+
+![alt text](image-11.png)
+
 - Nếu sai PIN hoặc không đủ số dư: giao dịch bị từ chối, không có tiền bị trừ.
 - Bấm nút chuyển tiền nhiều lần liên tiếp (double click) không làm giao dịch bị lặp, nhờ DynamoDB Idempotency Table.
 
@@ -117,11 +126,11 @@ Các bước thao tác:
 - Chọn món/dịch vụ, điều chỉnh số lượng.
 - Gửi order.
 
-![alt text](<Screenshot 2026-07-14 110540.png>)
+![alt text](image-4.png)
 
-![alt text](<Screenshot 2026-07-14 110342.png>)
+![alt text](image-3.png)
 
-![alt text](image.png)
+![alt text](image-5.png)
 
 
 Kết quả mong đợi:
@@ -149,6 +158,8 @@ Các bước thao tác:
 ![alt text](image-1.png)
 
 ![alt text](image-2.png)
+
+![alt text](image-6.png)
 
 Kết quả mong đợi:
 

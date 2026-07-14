@@ -8,143 +8,144 @@ pre: " <b> 5.9.3. </b> "
 
 ---
 
-This section presents in detail each function available to the Admin role in AWS BILLO, including actual operation steps, expected results, and illustrative images from the deployed demo at https://dev.d3k8atm3w5sdj3.amplifyapp.com
+This section describes in detail each functionality designed for the Admin role in AWS BILLO, complete with actual operational steps, expected results, and illustrative screenshots from the deployed demo at https://dev.d3k8atm3w5sdj3.amplifyapp.com
 
-Admin is the system operations role: approving Merchant applications, managing users/stores, monitoring transactions, and processing refunds.
+The Admin is responsible for system operations: approving Merchant profiles, managing users/stores, monitoring transactions, and processing refunds.
 
 ---
 
 ## 1. Admin Login
 
-Only accounts belonging to the `Admin` Cognito group can access the Admin Web.
+Only accounts belonging to the Cognito group `Admin` are authorized to access the Admin Web.
 
-Steps:
+Operational steps:
 
 - Open the Admin Web at https://dev.d3k8atm3w5sdj3.amplifyapp.com.
-- Enter the Admin account's phone number and password.
-- Tap Admin Login.
+- Enter the phone number and password of the Admin account.
+- Click **Đăng nhập quản trị** (Admin Login).
 
 ![alt text](image.png)
 
 Expected results:
 
-- If the account belongs to the `Admin` group: login succeeds and the user goes directly to the admin dashboard.
-- If the account does not belong to the `Admin` group (even a valid Customer/Merchant): access is denied.
-- If login fails, check: account credentials, Cognito User Pool configuration, JWT token, errors in the browser console, and the backend's CloudWatch Logs.
+- If the account belongs to the `Admin` group: login succeeds, navigating directly to the administration dashboard.
+- If the account does not belong to the `Admin` group (even with valid Customer/Merchant credentials): access is denied.
+- If login fails, check: account information, Cognito User Pool configuration, JWT tokens, errors in the browser console, and backend CloudWatch Logs.
 
-
-Related components: Amazon Cognito (`Admin` User Group).
+Related components: Amazon Cognito (User Group `Admin`).
 
 ---
 
 ## 2. Overview Dashboard
 
-After logging in, the Admin immediately sees the system's operational status.
+Upon logging in, the Admin immediately sees the current operational status of the system.
 
-Steps:
+Operational steps:
 
-- View the metrics displayed on the dashboard:
-  - Number of Merchant applications pending approval.
+- Review the metrics displayed on the dashboard:
+  - Number of Merchant profiles pending approval.
   - Number of stores.
   - Number of users.
   - Recent transactions.
-  - Refunds pending processing.
-  - Operational status: pending applications, deactivated stores, locked accounts.
+  - Pending refunds.
+  - Operational status: profiles awaiting review, disabled stores, locked accounts.
 
 ![alt text](<Screenshot 2026-07-14 113307-1.png>)
 
 Expected results:
 
-- The figures on the dashboard match the actual data in DynamoDB.
-- The Admin can use the dashboard to quickly spot items that need attention (pending applications, refunds awaiting processing) without going into each section individually.
-- Detailed technical logs (Lambda, API) are not displayed here — the Admin Web only shows business data; technical logs are still viewed in AWS CloudWatch.
+- Metrics displayed on the dashboard accurately match the live data in the DynamoDB table.
+- The Admin can leverage the dashboard to quickly identify urgent tasks (pending profiles, pending refunds) without having to navigate to each separate section.
+- Detailed technical logs (Lambda, API) are not displayed here — the Admin Web only visualizes business data, while technical logs remain viewable in AWS CloudWatch.
 
 Related components: DynamoDB Main Table.
 
 ---
 
-## 3. Approve / Reject Merchant Applications
+## 3. Approve / Reject Merchant Profiles
 
-The Admin reviews business registration applications submitted by Customers.
+The Admin reviews business registration profiles submitted by Customers.
 
-Steps — view an application:
+Operational steps — reviewing a profile:
 
-- Go to the Merchant Applications section.
-- Select an application with `PENDING` status.
-- View the details: business owner, store name, National ID (CCCD), phone number, business license photo.
+- Navigate to the **Hồ sơ Merchant** (Merchant Profiles) section.
+- Select a profile currently in `PENDING` status.
+- Review the details: business owner, store name, Citizen ID (CCCD), phone number, and the business license image.
 
-Steps — approve an application:
+Operational steps — approving a profile:
 
-- Tap Approve.
+- Click **Duyệt** (Approve).
 
-Steps — reject an application:
+Operational steps — rejecting a profile:
 
-- Tap Reject.
-- Enter a reason for rejection, if applicable.
+- Click **Từ chối** (Reject).
+- Enter a reason for rejection if applicable.
 
 ![alt text](image-2.png)
 
-Expected results when Approved:
+Expected results upon Approval:
 
-- The application status changes to `APPROVED`.
-- The user is added to the `Merchant` group in Cognito.
-- A store record is created for the Merchant.
-- The Merchant needs to log back in on the Flutter app to see the business interface.
+- The profile status transitions to `APPROVED`.
+- The user is assigned to the `Merchant` group in Cognito.
+- A store record is generated for the Merchant.
+- The Merchant must log in again on the Flutter app to access the business interface.
 
-Expected results when Rejected:
+Expected results upon Rejection:
 
-- The application status changes to `REJECTED`.
-- The user is not added to the `Merchant` group and has no access to business features.
+- The profile status transitions to `REJECTED`.
+- The user is not added to the `Merchant` group and remains unauthorized to access business features.
 
-Related components: Amazon Cognito (`Merchant` User Group), DynamoDB Main Table.
+Related components: Amazon Cognito (User Group `Merchant`), DynamoDB Main Table.
 
 ---
 
 ## 4. User and Store Management
 
-The Admin monitors and can intervene in user accounts as well as store operational status.
+The Admin monitors and intervenes in user accounts as well as store operational statuses.
 
 ![alt text](image-3.png)
 
 
 ### 4.1. User Management
 
-Steps:
+Operational steps:
 
-- Go to the user list.
-- Check the account's information and current role (customer/merchant/admin).
-- Lock/unlock an account if the feature is enabled.
+- Navigate to the user list.
+- Check current information and roles (customer/merchant/admin).
+- Lock/unlock accounts if the feature is enabled.
 
 ![alt text](image-4.png) 
+
+User account after being locked
 
 ![alt text](image-6.png)
 
 ### 4.2. Revoke Merchant Permissions
 
-Steps:
+Operational steps:
 
-- Go to the user/merchant whose permissions need to be revoked.
-- Tap Revoke Merchant Permissions.
+- Navigate to the specific user/merchant whose permissions need to be revoked.
+- Click **Thu hồi quyền merchant** (Revoke Merchant Permissions).
 
 ![alt text](<Screenshot 2026-07-14 113931.png>)
 
 Expected results:
 
 - The user is removed from the `Merchant` group in Cognito.
-- The profile reverts to customer.
-- The corresponding store is deactivated.
-- Transaction history is preserved intact and not deleted.
-- The system records an audit log entry for the revocation action.
+- The profile reverts to a standard customer.
+- The corresponding store is set to inactive.
+- Transaction history is preserved intact and will not be deleted.
+- The system logs an audit trail for the revocation action.
 
 ### 4.3. Store Management
 
-Steps:
+Operational steps:
 
-- Go to the store list.
+- Navigate to the store list.
 - View the status of each store.
-- Enable/disable operational status as needed.
+- Enable/disable the operational status as needed.
 
-Expected results: when a store is deactivated (inactive), Customers can no longer place orders, even though the table QR code can still be scanned.
+Expected results: When a store is set to inactive, Customers can no longer place orders even if they scan the table QR code successfully.
 
 Related components: Amazon Cognito (User Group), DynamoDB Main Table.
 
@@ -152,51 +153,51 @@ Related components: Amazon Cognito (User Group), DynamoDB Main Table.
 
 ## 5. Admin Logs and Refunds
 
-Admin logs allow monitoring of the entire system's activity, and this section also covers processing refund requests.
+Admin logs allow monitoring of all system activities, and the refund function facilitates handling refund requests.
 
 ### 5.1. View Admin Logs
 
-Steps:
+Operational steps:
 
-- Go to the "Admin Logs" section.
-- View the detailed list of actions, targets, and dates.
+- Navigate to the **Nhật ký Admin** (Admin Logs) section.
+- View the detailed list of actions, targets, and timestamps.
 
 ![alt text](image-7.png)
 
 ### 5.2. Process Refunds
 
-Steps:
+Operational steps:
 
-- Go to the "Refunds" section.
-- View refund requests pending processing.
+- Navigate to the **Hoàn tiền** (Refunds) section.
+- View pending refund requests.
 - Approve or reject the request.
 
 ![alt text](image-8.png)
 
-Expected results when a refund is Approved:
+Expected results upon Refund Approval:
 
-- The system deducts money from the Merchant's wallet.
-- Money is credited back to the Customer's wallet.
-- The status of the related order/transaction is updated to refunded.
-- Approving the same request twice in a row must not cause the refund to be issued twice.
+- The system deducts the amount from the Merchant's wallet.
+- The amount is credited back to the Customer's wallet.
+- The status of the associated order/transaction is updated to refunded.
+- Clicking approve twice consecutively for the exact same request must not trigger a double refund.
 
-Expected results when a refund is Rejected: no money moves between wallets, and the request status is updated to rejected.
+Expected results upon Refund Rejection: No funds are transferred between wallets, and the request status is updated to rejected.
 
 Related components: DynamoDB Main Table (transaction, refund).
 
 ---
 
-## Common Issues
+## Troubleshooting / Common Errors
 
-| Situation | Possible Cause |
+| Scenario | Possible Cause |
 |---|---|
-| Admin login fails | Incorrect account credentials, user not in the `Admin` group, incorrect Cognito/API configuration |
-| Merchant application status not updating | API Gateway request error, Lambda error, insufficient permissions to update the Cognito group |
-| Dashboard figures don't match actual data | DynamoDB data not yet synced — check Lambda logs in CloudWatch |
-| Refund does not correctly update the balance | DynamoDB transaction error — check CloudWatch Logs |
+| Admin login fails | Incorrect account details, user does not belong to the `Admin` group, or incorrect Cognito/API configuration |
+| Merchant profile status fails to update | API Gateway request error, Lambda failure, or insufficient permissions to update Cognito groups |
+| Dashboard metrics do not match live data | DynamoDB data is out of sync; check Lambda logs in CloudWatch |
+| Refund fails to update balances properly | DynamoDB transaction error; check CloudWatch Logs |
 
 ---
 
-## Overall Expected Results
+## General Expected Outcome
 
-After completing this section, the main functions of the Admin role have been fully tested: login, dashboard monitoring, approving/rejecting Merchant applications, user and store management, viewing transactions, and processing refunds — all working correctly on the deployed demo.
+Upon completing this section, core functionalities for the Admin role have been fully validated: logging in, monitoring the dashboard, approving/rejecting Merchant profiles, managing users and stores, viewing transactions, and processing refunds — all working properly on the deployed demo.
