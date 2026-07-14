@@ -25,7 +25,7 @@ Các bước thao tác:
 - Nhập OTP để xác nhận tài khoản.
 - Đăng nhập bằng tài khoản vừa tạo.
 
-![alt text](../image-24.png)
+![alt text](./image-13.png)
 
 Kết quả mong đợi:
 
