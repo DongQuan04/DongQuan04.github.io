@@ -108,8 +108,7 @@ Các bước thao tác — cấu hình giảm giá:
 
 (Danh sách sản phẩm/dịch vụ)
 
-![alt text](../image-17.png)
-
+![alt text](<Screenshot 2026-07-13 214123.png>)
 
 (Cấu hình giảm giá)
 

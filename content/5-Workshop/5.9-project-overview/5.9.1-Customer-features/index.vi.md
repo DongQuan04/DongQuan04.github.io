@@ -49,7 +49,7 @@ Các bước thao tác:
 - Xác nhận lại PIN.
 - Lưu lại.
 
-![alt text](../image-23.png)
+![alt text](<Screenshot 2026-07-13 215226.png>)
 
 Kết quả mong đợi:
 
