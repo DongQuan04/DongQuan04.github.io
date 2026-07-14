@@ -1,49 +1,50 @@
 ﻿---
-
 title: "Workshop"
 date: 2026-06-29
 weight: 5
 chapter: false
 pre: " <b> 5. </b> "
---------------------
+---
+
+---
 
 # AWS BILLO Workshop
 
 ## Deploying the Serverless Backend and Running the Application Demo
 
-This workshop introduces how to deploy and test the **AWS BILLO** project, a serverless digital wallet and store management system built on AWS.
+This workshop introduces how to deploy and test the **AWS BILLO** project, a serverless digital wallet and merchant management system built on AWS.
 
-AWS BILLO combines an internal demonstration wallet, merchant POS features, table QR ordering, QR payment, store management, and admin approval workflow. The system is designed for three main user roles: **Customer**, **Merchant**, and **Admin**.
+AWS BILLO combines a simulated internal wallet, Merchant POS functionality, table ordering via QR codes, QR payments, store management, and an Admin workflow for reviewing and approving Merchant registrations. The system is designed for three primary roles: **Customer**, **Merchant**, and **Admin**.
 
-The main purpose of this workshop is to guide users through the process of deploying the backend using AWS serverless services and running the frontend demo locally.
+The main objective of this workshop is to guide participants through deploying the backend using AWS serverless services and running the frontend locally for demonstration purposes.
 
 ---
 
 ## Workshop Scope
 
-This workshop focuses on the actual AWS services and tools used in the AWS BILLO project:
+This workshop focuses exclusively on the AWS services and tools currently used in the AWS BILLO project:
 
-* **Amazon Cognito** for user authentication, OTP confirmation, JWT tokens, and user groups.
-* **Amazon API Gateway** for exposing protected backend APIs.
-* **AWS Lambda** for backend business logic.
-* **Amazon DynamoDB** for storing application data.
-* **DynamoDB Idempotency Table** for preventing duplicate transfer and payment processing.
-* **Amazon S3** for storing uploaded images and business documents.
-* **Amazon CloudWatch Logs** for monitoring and debugging Lambda/API errors.
-* **AWS SAM** for building and deploying the serverless backend.
-* **AWS CloudFormation** for managing deployed AWS resources through a stack.
+- **Amazon Cognito** for user authentication, OTP verification, JWT token issuance, and user group management.
+- **Amazon API Gateway** for exposing secured backend APIs.
+- **AWS Lambda** for implementing backend business logic.
+- **Amazon DynamoDB** for storing application data.
+- **DynamoDB Idempotency Table** for preventing duplicate processing during money transfers and payment operations.
+- **Amazon S3** for storing images and business registration documents.
+- **Amazon CloudWatch Logs** for monitoring and debugging Lambda functions and APIs.
+- **AWS SAM** for building and deploying the serverless backend.
+- **AWS CloudFormation** for managing AWS resources through infrastructure stacks.
 
-The frontend Flutter app and the Admin Web are currently run locally during the development stage. They are not hosted on AWS Amplify, Amazon S3, or Amazon CloudFront in this workshop.
+The Flutter frontend and Admin Web application currently run locally during development. Hosting with AWS Amplify, Amazon S3, or Amazon CloudFront is outside the scope of this workshop.
 
 ---
 
 ## System Architecture
 
-AWS BILLO uses a serverless architecture deployed in the AWS Singapore Region: `ap-southeast-1`.
+AWS BILLO uses a serverless architecture deployed in the AWS Singapore Region (`ap-southeast-1`).
 
-The frontend communicates with Amazon Cognito for authentication and Amazon API Gateway for backend operations. API Gateway verifies JWT tokens from Cognito before routing requests to AWS Lambda functions. Lambda functions process the main business logic and store data in DynamoDB. S3 is used for uploaded documents and images, while CloudWatch Logs is used for monitoring and troubleshooting.
+The frontend communicates with Amazon Cognito for authentication and Amazon API Gateway for backend API requests. API Gateway validates JWT tokens issued by Cognito before forwarding requests to AWS Lambda. Lambda executes the core business logic and stores data in DynamoDB. Amazon S3 stores uploaded images and business documents, while CloudWatch Logs is used for monitoring and troubleshooting.
 
-![AWS BILLO System Architecture]![alt text](image.png)
+![AWS BILLO System Architecture](image-1.png)
 
 ---
 
@@ -51,60 +52,63 @@ The frontend communicates with Amazon Cognito for authentication and Amazon API 
 
 ### [5.1 - Workshop Overview](5.1-Workshop-overview/)
 
-This section introduces the AWS BILLO project, the workshop objectives, the system architecture, and the main AWS services used in the project.
+This section introduces the AWS BILLO project, the workshop objectives, the overall system architecture, and the primary AWS services used.
 
 ### [5.2 - Prerequisites](5.2-Prerequisites/)
 
-This section lists the required tools, accounts, permissions, and local environment setup before deploying the backend and running the application.
+This section lists the required tools, AWS accounts, access permissions, and local development environment needed before deploying the backend and running the application.
 
 ### [5.3 - Deploy AWS BILLO Backend](5.3-Deploy-backend/)
 
-This section guides users to build and deploy the backend using AWS SAM and CloudFormation.
+This section demonstrates how to build and deploy the backend using AWS SAM and AWS CloudFormation.
 
 ### [5.4 - Configure Authentication](5.4-Configure-authentication/)
 
-This section explains how Amazon Cognito is used for phone number registration, OTP confirmation, login, JWT tokens, and user groups.
+This section explains how Amazon Cognito is used for phone number registration, OTP verification, user sign-in, JWT token issuance, and user group management.
 
-### [5.5 - Run Flutter Frontend Demo](5.5-Run-frontend-demo/)
+### [5.5 - Run the Flutter Frontend Demo](5.5-Run-frontend-demo/)
 
-This section shows how to run the Flutter app locally and connect it to the deployed AWS backend.
+This section demonstrates how to run the Flutter application locally and connect it to the deployed AWS backend.
 
-### [5.6 - Run Admin Web Demo](5.6-Run-admin-web-demo/)
+### [5.6 - Run the Admin Web Demo](5.6-Run-admin-web-demo/)
 
-This section shows how to run the Admin Web locally for reviewing and approving merchant applications.
+This section explains how to run the Admin Web application locally to review and approve Merchant registration requests.
 
-### [5.7 - Test Main Business Flows](5.7-Test-main-business-flows/)
+### [5.7 - Test the Main Business Flows](5.7-Test-main-business-flows/)
 
-This section guides users through the main demo flows, including customer registration, merchant approval, product creation, table QR ordering, QR payment, and transaction history.
+This section demonstrates the core business workflows, including Customer registration, Merchant approval, product creation, table QR code generation, table ordering, QR payment, and transaction history.
 
 ### [5.8 - Monitoring and Cleanup](5.8-Monitoring-and-cleanup/)
 
-This section explains how to check Lambda logs in CloudWatch and clean up AWS resources after finishing the workshop.
+This section explains how to view Lambda logs in CloudWatch and clean up AWS resources after completing the workshop.
+
+### [5.9 - Project Overview](5.9-Project-overview/)
+
+This section presents the major features of AWS BILLO for each user role (Customer, Merchant, and Admin), including screenshots and step-by-step demonstrations of each feature. Additional details are provided in Sections 5.9.1, 5.9.2, and 5.9.3.
 
 ---
 
-## Expected Result
+## Expected Outcomes
 
-After completing this workshop, users should be able to:
+After completing this workshop, participants will be able to:
 
-* Understand the AWS BILLO serverless architecture.
-* Deploy the backend using AWS SAM.
-* Use Amazon Cognito for authentication and user groups.
-* Connect the Flutter frontend to the deployed API Gateway endpoint.
-* Run the Admin Web locally.
-* Test the main Customer, Merchant, and Admin workflows.
-* Check backend logs using CloudWatch Logs.
-* Clean up AWS resources after testing.
+- Understand the serverless architecture of AWS BILLO.
+- Deploy the backend using AWS SAM.
+- Use Amazon Cognito for authentication and group-based authorization.
+- Connect the Flutter frontend to the deployed Amazon API Gateway endpoint.
+- Run the Admin Web application locally.
+- Test the core workflows for Customer, Merchant, and Admin.
+- Monitor backend logs using Amazon CloudWatch Logs.
+- Clean up AWS resources after testing.
 
 ---
 
 ## Important Notes
 
-This workshop is designed for a development and demonstration environment.
+This workshop is designed for development and demonstration purposes.
 
-The system is not a production financial platform. The wallet balance and transactions are used for demonstration purposes only.
+The system is **not** intended to be a production financial platform. Wallet balances and transactions are simulated and used solely for demonstration.
 
-Cognito SMS OTP depends on AWS SMS sandbox or production SMS configuration. During development, only verified phone numbers may be able to receive OTP messages.
+Amazon Cognito SMS OTP depends on your AWS SMS sandbox or production SMS configuration. During development, only verified phone numbers can receive OTP messages.
 
-The frontend and Admin Web are currently run locally. Hosting with AWS Amplify, Amazon S3, or Amazon CloudFront is not included in this workshop.
-
+The Flutter frontend and Admin Web application currently run locally. Deploying and hosting them with AWS Amplify, Amazon S3, or Amazon CloudFront is not covered in this workshop.

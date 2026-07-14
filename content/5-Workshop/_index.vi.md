@@ -44,7 +44,7 @@ AWS BILLO sử dụng kiến trúc serverless được triển khai tại AWS Si
 
 Frontend giao tiếp với Amazon Cognito để xác thực và Amazon API Gateway để gọi các nghiệp vụ backend. API Gateway kiểm tra JWT token từ Cognito trước khi chuyển request đến AWS Lambda. Lambda xử lý logic nghiệp vụ chính và lưu dữ liệu vào DynamoDB. S3 được dùng để lưu tài liệu và hình ảnh upload, còn CloudWatch Logs được dùng để theo dõi và xử lý lỗi.
 
-![AWS BILLO System Architecture]![alt text](image-1.png)
+![AWS BILLO System Architecture](image-1.png)
 
 ---
 
@@ -81,6 +81,12 @@ Phần này hướng dẫn demo các luồng chính như đăng ký Customer, du
 ### [5.8 - Monitoring và cleanup](5.8-Monitoring-and-cleanup/)
 
 Phần này giải thích cách xem log Lambda trong CloudWatch và dọn dẹp tài nguyên AWS sau khi hoàn thành workshop.
+
+### [5.9 - Giới thiệu tổng quan dự án](5.9-Project-overview/)
+
+Phần này trình bày các chức năng chính của AWS BILLO theo từng vai trò
+(Customer, Merchant, Admin), kèm ảnh chụp màn hình minh họa và bước thao tác
+chi tiết cho từng chức năng. Xem chi tiết tại 5.9.1, 5.9.2 và 5.9.3.
 
 ---
 
