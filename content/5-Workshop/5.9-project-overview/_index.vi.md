@@ -18,6 +18,8 @@ Mục tiêu là giúp người xem hiểu AWS BILLO là gì, gồm những vai t
 
 AWS BILLO là ứng dụng ví điện tử kết hợp gọi món/thanh toán bằng QR bàn, được xây dựng trên nền tảng serverless của AWS (Cognito, API Gateway, Lambda, DynamoDB, S3, CloudWatch) và triển khai bằng AWS SAM/CloudFormation.
 
+Link demo: https://drive.google.com/file/d/1VJ5tb5_vHXsGwWCTScZoVjTF9uem38YJ/view
+
 Ứng dụng gồm hai phần giao diện, hiện đã được host trên AWS Amplify:
 
 Flutter app   → https://dev.d28z1hw6wfvjzy.amplifyapp.com (Customer, Merchant)

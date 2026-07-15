@@ -209,9 +209,9 @@ Operational steps — from Merchant to Customer:
 - If the account does not have a transaction PIN configured yet, the system forces the user to create one before allowing the switch.
 - Upon successful authentication, the app switches to the Customer interface with full access to the wallet, money transfers, table-QR scanning, and payments.
 
-Image: Button to switch to the Customer interface
+Image: Switching from the Customer to Merchant interface
 
-![alt text](image-14.png)
+![alt text](<Screenshot 2026-07-15 164809.png>)
 
 Image: PIN verification prompt during switch
 
@@ -223,9 +223,9 @@ Operational steps — from Customer to Merchant:
 - The system prompts for transaction PIN authentication once again.
 - Upon successful authentication, the app shifts to the Merchant dashboard equipped with complete store management functionalities.
 
-Image: Switching from the Customer to Merchant interface
+Image: Button to switch from the Merchant to Customer interface
 
-![alt text](image-17.png)
+![alt text](<Screenshot 2026-07-15 165455.png>)
 
 Expected results:
 

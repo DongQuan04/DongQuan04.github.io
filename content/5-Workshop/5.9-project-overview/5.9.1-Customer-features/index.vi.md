@@ -209,9 +209,9 @@ Các bước thao tác — từ Merchant sang Customer:
 - Nếu tài khoản chưa có PIN, hệ thống bắt buộc tạo PIN trước khi chuyển đổi.
 - Sau khi xác thực, ứng dụng chuyển sang giao diện Customer với đầy đủ chức năng: ví, chuyển tiền, quét QR bàn, thanh toán.
 
-Ảnh: Nút chuyển đổi sang giao diện Customer
+Ảnh: Chuyển đổi từ giao diện Customer sang Merchant
 
-![alt text](image-14.png)
+![alt text](<Screenshot 2026-07-15 164809.png>)
 
 Ảnh: Yêu cầu xác thực PIN khi chuyển đổi
 
@@ -223,9 +223,9 @@ Các bước thao tác — từ Customer sang Merchant:
 - Hệ thống yêu cầu xác thực lại bằng PIN giao dịch.
 - Sau khi xác thực, ứng dụng chuyển sang giao diện Merchant với đầy đủ chức năng quản lý cửa hàng.
 
-Ảnh: Chuyển đổi từ giao diện Customer sang Merchant
+Ảnh: Nút chuyển từ Merchant sang giao diện Customer
 
-![alt text](image-17.png)
+![alt text](<Screenshot 2026-07-15 165455.png>)
 
 Kết quả mong đợi:
 

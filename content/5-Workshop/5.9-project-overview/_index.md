@@ -18,6 +18,8 @@ The objective is to help readers understand what AWS BILLO is, what roles are in
 
 AWS BILLO is an e-wallet application integrated with table-ordering and QR-code payment capabilities. It is built entirely on the AWS Serverless platform (Cognito, API Gateway, Lambda, DynamoDB, S3, CloudWatch) and deployed using AWS SAM/CloudFormation.
 
+Link demo: https://drive.google.com/file/d/1VJ5tb5_vHXsGwWCTScZoVjTF9uem38YJ/view
+
 The application includes two front-end interfaces, currently hosted on AWS Amplify:
 
 Flutter app   → https://dev.d28z1hw6wfvjzy.amplifyapp.com (Customer, Merchant)
