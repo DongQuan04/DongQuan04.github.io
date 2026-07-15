@@ -27,11 +27,11 @@ Admin Web     → https://dev.d3k8atm3w5sdj3.amplifyapp.com (Admin)
 
 Các Role có thể sử dụng ngay:
 
-Admin: +12065550100/Loc123456@
+Admin: +12065550100/AdminDev2026!
 
 Customer: +12065550101/CustomerDev2026!
 
-Merchant: 0853555443/Loc123456@
+Merchant: 0853555443/MerchantDev2026!
 
 
 Toàn bộ dữ liệu và luồng nghiệp vụ trong phần này được lấy từ chính môi trường development đã deploy ở các phần trước:

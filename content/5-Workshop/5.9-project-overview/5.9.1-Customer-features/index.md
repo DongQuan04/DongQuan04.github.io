@@ -14,158 +14,208 @@ This section describes in detail each functionality designed for the Customer ro
 
 ## 1. Registration / Login
 
-Customers register an account using their phone number and password, then verify it via an OTP sent by Cognito/SNS.
+Customers register their accounts using a phone number and password, then verify via OTP using Amazon Cognito's SMS mechanism.
 
 Operational steps:
 
 - Open the registration screen on the Flutter app.
-- Enter the phone number (e.g., `0853555443`, the system automatically formats it to `+84853555443`).
+- Enter the phone number (e.g., `0853555443`, which the system automatically formats to `+84853555443`).
 - Enter the password.
-- Receive the OTP via SMS.
-- Enter the OTP to confirm the account registration.
+- Receive the OTP verification code via SMS.
+- Input the OTP to confirm and verify the account.
 - Log in using the newly created account.
 
-![alt text](../image-24.png)
+Image: Customer Registration/Login Screen
+
+![alt text](./image-13.png)
 
 Expected results:
 
 - The user is successfully created in Amazon Cognito with a `CONFIRMED` status.
-- A profile and a simulated wallet are provisioned in DynamoDB.
-- The application redirects and opens the Customer interface upon successful login.
+- A user profile and simulated wallet are provisioned in DynamoDB.
+- The application redirects the user to the Customer dashboard upon successful login.
 
-Related components: Amazon Cognito, Amazon SNS.
+Related components: Amazon Cognito (OTP dispatch via SMS, utilizing Amazon SNS SMS infrastructure under the hood).
 
 ---
 
 ## 2. Set Transaction PIN
 
-Upon logging in for the first time, Customers must configure a 6-digit PIN used to authorize monetary transactions.
+Upon logging in for the first time, Customers are required to set a 6-digit transaction PIN to authorize any financial operations.
 
 Operational steps:
 
 - Go to the **Cá nhân** (Profile) tab.
 - Select **Đặt PIN giao dịch** (Set Transaction PIN).
 - Enter a 6-digit PIN (e.g., `123456`).
-- Confirm the PIN again.
+- Confirm the PIN.
 - Save the configuration.
 
-![alt text](../image-23.png)
+Image: Transaction PIN Setup Screen
+
+![alt text](<Screenshot 2026-07-13 215226.png>)
 
 Expected results:
 
-- The PIN is securely encrypted and stored in the system, linked directly to the Customer's profile.
-- The PIN will be strictly required for all subsequent financial transactions: money transfers and QR payments.
+- The PIN will be strictly required for all subsequent financial operations: transferring funds, making QR payments, and switching back to the Merchant interface (see Section 7).
 
-Related components: Amazon Cognito (profile), DynamoDB Main Table.
+Related components: DynamoDB Main Table. The transaction PIN is securely hashed and stored within the user's profile record in DynamoDB, rather than being stored directly in Cognito.
 
 ---
 
 ## 3. Wallet and Transaction History
 
-Customers can check their current wallet balance and review the entire history of transactions they have performed.
+Customers can check their current wallet balance and review the history of all transactions they have performed.
 
 Operational steps:
 
-- Go to the **Trang chủ** (Home) dashboard to view the wallet balance.
-- Navigate to the **Lịch sử** (History) tab to view the list of transactions.
-- Click on an individual transaction to see its details (amount, timestamp, description, status).
+- Navigate to the Home screen to view the live wallet balance.
+- Access the **Lịch sử** (History) tab to view the list of past transactions.
+- Click on any specific transaction item to view its detailed receipt (amount, timestamp, description, and status).
+
+Image: Home Screen and Wallet Balance
 
 ![alt text](image-8.png)
 
+Image: Transaction History List
+
 ![alt text](image-7.png)
+
+Image: Transaction Details View
 
 ![alt text](image-12.png)
 
 Expected results:
-- The wallet balance displays accurately and updates in real time after every transaction.
-- The transaction history lists items in chronological order, with the newest entry at the top.
-- The transaction details screen displays all relevant transactional metadata.
+
+- The wallet balance displays correctly and updates immediately after every transaction.
+- The transaction history populates in chronological order, with the newest entry positioned at the top.
+- The transaction details screen provides comprehensive and relevant metadata.
 
 Related components: DynamoDB Main Table (wallet, transaction).
 
 ---
 
-## 4. Money Transfer
+## 4. Transfer Money
 
-Users can transfer money to another party using a phone number, wallet ID, or by scanning a QR code.
+Users can transfer funds to another party using a phone number, wallet ID, or by scanning a personal QR code.
 
 Operational steps:
 
-- Go to the Home screen and click **Chuyển tiền** (Transfer Money).
-- Input the recipient's phone number, username, wallet ID, or scan their personal QR code.
-- Enter the transfer amount and message.
+- On the Home screen, click **Chuyển tiền** (Transfer Money).
+- Input the recipient's phone number, username, wallet ID, or scan their QR code.
+- Enter the transfer amount and payment note.
 - The app displays a confirmation screen showing the recipient's information.
-- Click **Chuyển tiền** (Transfer) and input the transaction PIN.
+- Click **Chuyển tiền** (Transfer) and enter the transaction PIN.
+
+Image: Entering Transfer Information
 
 ![alt text](image-9.png)
+
+Image: Confirming Transfer via PIN
 
 ![alt text](image-10.png)
 
 Expected results:
 
-- If the PIN is correct and the balance is sufficient: the sender's wallet is debited, the recipient's wallet is credited, and transaction records are generated for both parties.
+- If the correct PIN is provided and the wallet has sufficient funds: the sender's wallet is debited, the recipient's wallet is credited, and transaction records are generated for both accounts.
+
+Image: Successful Money Transfer
 
 ![alt text](image-11.png)
 
-- If the PIN is incorrect or the balance is insufficient: the transaction is rejected and no funds are deducted.
-- Tapping the transfer button multiple times in rapid succession (double-clicking) will not cause duplicate transactions, thanks to the DynamoDB Idempotency Table.
+- If an incorrect PIN is entered or funds are insufficient: the transaction is immediately rejected and no balances are deducted.
+- Rapidly clicking the transfer button multiple times (double-clicking) will not generate duplicate transactions, thanks to the DynamoDB Idempotency Table.
 
-Related components: DynamoDB Idempotency Table (for transaction deduplication).
+Related components: DynamoDB Idempotency Table (prevents duplicate transactions).
 
 ---
 
-## 5. Table QR Code Scanning and Ordering
+## 5. Scan Table-QR and Order Items
 
-Customers scan a physical QR code at their table to view the shop's menu and place an order.
+Customers scan the physical QR code placed at their table to access the restaurant's menu and place digital orders.
 
 Operational steps:
 
 - Open the **Quét QR** (Scan QR) tab.
-- Scan the store's table QR code.
-- The app opens the specific menu linked directly to that store and table.
-- Select items/services and adjust the quantities.
+- Scan the table QR code provided by the store.
+- The app seamlessly loads the menu associated with that specific shop and table.
+- Browse items/services and adjust order quantities.
 - Submit the order.
+
+Image: Scanning Table-QR
 
 ![alt text](image-4.png)
 
+Image: Store/Table Menu Interface
+
 ![alt text](image-3.png)
+
+Image: Order Submitted Successfully
 
 ![alt text](image-5.png)
 
 Expected results:
 
-- The Customer is successfully bound to the active table session for that table.
-- The order is saved in DynamoDB and linked directly to the table.
-- If the table already has an open bill, new items are dynamically appended to the existing bill.
-- The Merchant instantly sees the incoming order appear on their business dashboard.
+- The Customer is automatically associated with the active table session of that specific table.
+- The order record is saved in DynamoDB and linked to the active table session.
+- If the table already has an active, open bill, the new items are automatically merged into the existing bill.
+- The Merchant sees the incoming order populate on their business dashboard upon refreshing the order list.
 
 Related components: DynamoDB Main Table (table, order).
 
 ---
 
-## 6. QR Bill Payment
+## 6. Settle QR Invoices
 
-Customers complete their bills by scanning a payment QR code generated by the Merchant.
+Customers pay their bills by scanning the specific payment QR code generated by the Merchant.
 
 Operational steps:
 
-- Open the payment bill (by scanning the QR code rendered by the Merchant).
-- Review the invoice details: store name, itemized list, total cost, and bill status.
-- Click **Chuyển tiền** (Transfer / Complete Payment).
-- Enter the transaction PIN to authorize the payment.
+- Open the payment invoice screen (by scanning the payment QR provided by the Merchant).
+- Verify the checkout information: store name, list of ordered items, total amount, and invoice status.
+- Click **Chuyển tiền** (Transfer / Pay).
+- Enter the transaction PIN to authorize payment.
+
+Image: QR Payment Invoice Screen
 
 ![alt text](image-1.png)
 
+Image: Confirming Payment via PIN
+
 ![alt text](image-2.png)
+
+Image: Successful Bill Payment Receipt
 
 ![alt text](image-6.png)
 
 Expected results:
 
-- If the bill is still valid and the wallet has sufficient funds: the Customer's wallet is debited, the Merchant's wallet is credited, the order and payment session are marked as completed, and the active table association is cleared from the Customer's session.
-- If the bill transitions to an `EXPIRED` state: the payment submission button is locked, and the Merchant must generate a fresh payment QR code.
+- If the invoice is still valid and the wallet holds sufficient funds: the Customer's wallet is debited, the Merchant's wallet is credited, the order and payment session are flagged as completed, and the active table association is removed from the Customer's account.
+- Upon successful payment, the system renders a comprehensive digital receipt containing the final status, merchant details, itemized list, total cost, timestamp, order ID, and unique transaction ID.
+- If the invoice status is marked as `EXPIRED`: the payment button is disabled, and the Merchant must generate a fresh payment QR code.
 
 Related components: DynamoDB (payment session, transaction).
+
+---
+
+## 7. Toggle Between Merchant ↔ Customer Interfaces
+
+Accounts that have been granted Merchant privileges still retain all native Customer functionalities and can seamlessly switch back and forth between both views.
+
+Operational steps:
+
+- From the Merchant view, select the option to switch to the user wallet (Customer) interface.
+- The system prompts for transaction PIN authentication.
+- If the account does not have a transaction PIN configured yet, the system forces the user to create one before allowing the switch.
+- Upon successful authentication, the app switches to the Customer interface with full access to the wallet, money transfers, table-QR scanning, and payments.
+
+Expected results:
+
+- Interface switching strictly requires PIN verification; this security gate cannot be bypassed.
+- Accounts without a pre-set PIN will be entirely blocked from switching until a PIN is successfully configured.
+- The underlying wallet data and transaction logs of the Customer remain entirely unaffected by the additional Merchant permissions.
+
+Related components: DynamoDB Main Table (profile, PIN).
 
 ---
 
@@ -173,12 +223,13 @@ Related components: DynamoDB (payment session, transaction).
 
 | Scenario | Possible Cause |
 |---|---|
-| OTP not received | Cognito/SMS is still in sandbox mode, or the phone number has not been verified |
-| Transfer or payment fails | Incorrect PIN, insufficient wallet balance, or the bill/QR code has expired |
-| Table QR code fails to scan | Camera permissions denied by browser, app is not running on HTTPS/localhost, or the QR code is invalid |
+| OTP verification code is not received | The Cognito SMS service is still in sandbox mode, or the phone number has not been properly whitelisted/verified |
+| Money transfer or bill payment fails | Incorrect transaction PIN, insufficient wallet balance, or the invoice/QR code has expired |
+| Table QR code cannot be scanned | Camera permissions are disabled in the web browser, the app is not running over a secure context (HTTPS/localhost), or the QR code layout is corrupted |
+| Unable to switch back to the Customer interface | A transaction PIN has not been set up, or the wrong PIN was entered during the transition gate |
 
 ---
 
 ## General Expected Outcome
 
-Upon completing this section, core functionalities for the Customer role have been fully validated: registering/logging in, setting up a transaction PIN, reviewing the wallet, transferring funds, ordering via table QR codes, and executing QR bill payments — all working properly on the deployed live demo.
+Upon completing this section, core functionalities for the Customer role have been thoroughly verified: registration/login, PIN configuration, wallet lookup, money transfers, table-QR ordering, QR invoice settlement, and Merchant/Customer dashboard toggling — all working properly on the deployed live demo.

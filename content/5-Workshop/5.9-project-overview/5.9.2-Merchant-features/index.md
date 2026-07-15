@@ -10,7 +10,7 @@ pre: " <b> 5.9.2. </b> "
 
 This section describes in detail each functionality designed for the Merchant role in AWS BILLO, complete with actual operational steps, expected results, and illustrative screenshots from the deployed demo at https://dev.d28z1hw6wfvjzy.amplifyapp.com.
 
-A Merchant is a Customer whose business profile has been reviewed and approved by the Admin, thereby granting them store management privileges.
+A Merchant is a Customer whose business profile has been reviewed and approved by the Admin, thereby granting them store management privileges. A Merchant account still retains all Customer functionalities; details can be found in Section 7 of 5.9.1.
 
 ---
 
@@ -31,6 +31,8 @@ Operational steps:
   - Business license image.
 - Upload the business license photo.
 - Submit the profile for review.
+
+Image: Business Registration Form
 
 ![alt text](image.png)
 
@@ -56,6 +58,8 @@ Operational steps:
 - Access the Merchant interface / **Không gian kinh doanh** (Business Workspace).
 - Verify the displayed tabs: Overview, Services, Tables, POS, Orders.
 
+Image: Business Workspace Interface
+
 ![alt text](image-1.png)
 
 Expected results:
@@ -76,9 +80,15 @@ Within the Overview tab, the Merchant can update:
 - Store avatar/cover photo.
 - Operational status (On/Off).
 
+Image: Update Store Information
+
 ![alt text](image-2.png)
 
 Expected results: Store updates are saved directly to DynamoDB and instantly reflected on the Customer-facing menu. If the Merchant turns off the operational status, Customers will be blocked from placing orders even if they scan the correct table QR code.
+
+### 2.2. Switch to User Wallet Interface
+
+The Merchant can switch back to the user wallet (Customer) interface to utilize their personal wallet within the same account. This switch requires transaction PIN authentication; if a PIN has not been set up yet, the system will prompt the user to create one first. For further details, please refer to Section 7 of 5.9.1 - Customer Features.
 
 ---
 
@@ -105,11 +115,11 @@ Operational steps — configuring discounts:
 - Set up the start/end time, or specific hours/days of the week for the discount to apply.
 - Save the changes.
 
-(Product/Service List)
+Image: Product/Service List
 
-![alt text](../image-17.png)
+![alt text](<Screenshot 2026-07-13 214123.png>)
 
-(Discount Configuration)
+Image: Product Discount Configuration
 
 ![alt text](image-10.png)
 
@@ -135,6 +145,8 @@ Operational steps:
 - Click on a table to view its details: table QR code, live order, and items ordered by customers.
 - Download the table QR code, print it out, and place it on the physical table for Customers to scan.
 
+Image: Table and Table-QR Management
+
 ![alt text](<Screenshot 2026-07-14 211505.png>)
 
 Expected results:
@@ -149,7 +161,7 @@ Related components: DynamoDB Main Table (table).
 
 ## 5. Order Receiving and Bill Processing
 
-The Merchant monitors incoming orders for each table in real time and can modify the bill details prior to final settlement.
+The Merchant monitors incoming orders for each table and can modify the bill details prior to final settlement. The order list is updated near real-time through app-side API calling and manual refresh/polling, without using real-time persistent connections like WebSockets.
 
 Operational steps:
 
@@ -162,17 +174,17 @@ Operational steps:
   - Adjust item quantities.
   - Save the updated bill.
 
-(Customer-Side Product/Service List)
+Image: Customer Ordering (Customer Interface)
 
 ![alt text](image-11.png)
 
-(Order Sent to the Table)
+Image: Order Displayed on the Merchant Interface
 
 ![alt text](image-12.png)
 
 Expected results:
 
-- New orders from Customers populate almost instantly on the Merchant dashboard.
+- New orders from Customers populate on the Merchant dashboard after refreshing the order list.
 - The bill accurately reflects the current items, quantities, and subtotal.
 - Any modifications to the bill (add/remove/edit) are saved before generating a payment QR code, ensuring the QR code matches the final aggregate cost.
 
@@ -193,7 +205,11 @@ Operational steps:
 - The Customer authorizes the transfer by entering their transaction PIN.
 - The Merchant monitors the order status until it updates to paid.
 
+Image: Generate Payment QR
+
 ![alt text](image-13.png)
+
+Image: Order Status Transited to Paid
 
 ![alt text](image-15.png)
 
@@ -204,6 +220,8 @@ Operational steps:
 - The Merchant selects the cash payment option.
 - The order is manually flagged as paid in the system.
 - The table status reverts to vacant, becoming available for the next group of customers.
+
+Image: Cash Payment Processing
 
 ![alt text](image-14.png)
 
@@ -219,7 +237,7 @@ Related components: DynamoDB (payment session, transaction); Merchant wallet upd
 
 ## 7. Export CSV Reports
 
-Merchants can export all orders and transactions from the Orders tab into a CSV file, useful for revenue reconciliation, auditing, or accounting without relying on manual app lookups.
+Merchants can export all orders and transactions into a CSV file, useful for revenue reconciliation, auditing, or accounting without relying on manual app lookups.
 
 Operational steps:
 
@@ -227,9 +245,11 @@ Operational steps:
 - Click the download CSV report button.
 - The CSV file downloads directly to the local device.
 
+Image: Download CSV Report Button
+
 ![alt text](image-16.png)
 
-Example of exported real-world data:
+Image: Order Report CSV File
 
 ![alt text](image-17.png)
 
@@ -244,7 +264,7 @@ Column descriptions:
 
 Expected results:
 
-- The CSV file contains a complete list of orders based on the time and status filters currently active on the Orders tab.
+- The CSV file contains a complete list of orders based on the time and status filters currently applied.
 - Data inside the CSV perfectly mirrors the corresponding `order`/`transaction` records in the DynamoDB Main Table.
 - Merchants can open the file using Excel or Google Sheets to easily aggregate revenue metrics by day, table, or payment type.
 
@@ -259,10 +279,11 @@ Related components: DynamoDB Main Table (order, transaction), AWS Lambda (queryi
 | Merchant privileges fail to appear post-approval | The user has not logged out and back in to refresh the Cognito session claims |
 | Product or business license photos fail to upload | S3 bucket permission block, pre-signed URL generation failure, or invalid file type/size |
 | Payment QR code is invalid/unusable | The bill was modified after the QR was rendered, or the payment session window timed out |
-| Customer orders do not appear on the Merchant UI | API Gateway or Lambda connection drop; inspect CloudWatch Logs |
+| Customer orders do not appear on the Merchant UI | Order list hasn't been refreshed, or API Gateway/Lambda connection drop — inspect CloudWatch Logs |
+| Exported CSV file has missing orders or incorrect data | Active time/status filter constraints, or DynamoDB data out of sync |
 
 ---
 
 ## General Expected Outcome
 
-Upon completing this section, core functionalities for the Merchant role have been thoroughly verified: business registration, store/product/discount management, table and table-QR configuration, real-time order/bill processing, and payment acceptance via QR or cash — all running as intended on the deployed live demo.
+Upon completing this section, core functionalities for the Merchant role have been thoroughly verified: business registration, store/product/discount management, table and table-QR configuration, order/bill processing, payment acceptance via QR or cash, and CSV report exporting — all working properly on the deployed live demo.

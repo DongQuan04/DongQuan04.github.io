@@ -10,7 +10,7 @@ pre: " <b> 5.9.3. </b> "
 
 Phần này trình bày chi tiết từng chức năng dành cho vai trò Admin trong AWS BILLO, kèm bước thao tác thực tế, kết quả mong đợi và ảnh minh họa từ bản demo đã deploy tại https://dev.d3k8atm3w5sdj3.amplifyapp.com
 
-Admin là vai trò vận hành hệ thống: duyệt hồ sơ Merchant, quản lý user/cửa hàng, theo dõi giao dịch và xử lý hoàn tiền.
+Admin là vai trò vận hành hệ thống: duyệt hồ sơ Merchant, quản lý user/cửa hàng, theo dõi hoạt động và xử lý hoàn tiền.
 
 ---
 
@@ -24,6 +24,8 @@ Các bước thao tác:
 - Nhập số điện thoại và mật khẩu của tài khoản Admin.
 - Bấm Đăng nhập quản trị.
 
+Ảnh: Màn hình đăng nhập Admin
+
 ![alt text](image.png)
 
 Kết quả mong đợi:
@@ -31,7 +33,6 @@ Kết quả mong đợi:
 - Nếu tài khoản thuộc group `Admin`: đăng nhập thành công, vào thẳng dashboard quản trị.
 - Nếu tài khoản không thuộc group `Admin` (kể cả Customer/Merchant hợp lệ): bị từ chối truy cập.
 - Nếu đăng nhập thất bại, cần kiểm tra: thông tin tài khoản, cấu hình Cognito User Pool, JWT token, lỗi trong browser console, CloudWatch Logs của backend.
-
 
 Chức năng liên quan: Amazon Cognito (User Group `Admin`).
 
@@ -50,6 +51,8 @@ Các bước thao tác:
   - Giao dịch gần đây.
   - Hoàn tiền chờ xử lý.
   - Trạng thái vận hành: hồ sơ chờ duyệt, cửa hàng bị tắt, tài khoản bị khóa.
+
+Ảnh: Dashboard tổng quan Admin
 
 ![alt text](<Screenshot 2026-07-14 113307-1.png>)
 
@@ -82,6 +85,8 @@ Các bước thao tác — từ chối hồ sơ:
 - Bấm Từ chối.
 - Nhập lý do từ chối nếu có.
 
+Ảnh: Duyệt hồ sơ đăng ký Merchant
+
 ![alt text](image-2.png)
 
 Kết quả mong đợi khi Duyệt:
@@ -104,10 +109,11 @@ Chức năng liên quan: Amazon Cognito (User Group `Merchant`), DynamoDB Main T
 
 Admin theo dõi và can thiệp vào tài khoản user cũng như trạng thái hoạt động của cửa hàng.
 
+Ảnh: Danh sách quản lý người dùng và cửa hàng
+
 ![alt text](image-3.png)
 
-
-### 4.1. Quản lý người dùng
+### 4.1. Khóa / mở khóa tài khoản
 
 Các bước thao tác:
 
@@ -115,11 +121,19 @@ Các bước thao tác:
 - Kiểm tra thông tin và vai trò hiện tại (customer/merchant/admin).
 - Khóa/mở khóa tài khoản nếu chức năng đã bật.
 
-![alt text](image-4.png) 
+Ảnh: Khóa/mở khóa tài khoản người dùng
 
-Người dùng sau khi bị khóa
+![alt text](image-4.png)
+
+Ảnh: Giao diện người dùng sau khi bị khóa
 
 ![alt text](image-6.png)
+
+Kết quả mong đợi:
+
+- Khi Admin khóa tài khoản, user vẫn đăng nhập được bình thường (Cognito login không bị vô hiệu hóa), nhưng các chức năng nghiệp vụ (chuyển tiền, đặt món, thanh toán...) đều bị chặn.
+- Tài khoản bị khóa hiển thị thông báo yêu cầu liên hệ CSKH/Admin, cho đến khi Admin mở khóa lại.
+- Mở khóa: tài khoản được khôi phục đầy đủ chức năng ngay lập tức.
 
 ### 4.2. Thu hồi quyền Merchant
 
@@ -128,6 +142,7 @@ Các bước thao tác:
 - Vào user/merchant cần thu hồi quyền.
 - Bấm Thu hồi quyền merchant.
 
+Ảnh: Thu hồi quyền Merchant
 
 ![alt text](<Screenshot 2026-07-14 113931.png>)
 
@@ -155,7 +170,7 @@ Chức năng liên quan: Amazon Cognito (User Group), DynamoDB Main Table.
 
 ## 5. Admin logs và hoàn tiền
 
-Admin logs có thể theo dõi toàn bộ hoạt động của hệ thống và xử lý chức năng yêu cầu hoàn tiền.
+Admin logs theo dõi toàn bộ hoạt động của hệ thống, và xử lý các yêu cầu hoàn tiền.
 
 ### 5.1. Xem Admin logs
 
@@ -163,6 +178,8 @@ Các bước thao tác:
 
 - Vào mục "Nhật ký Admin".
 - Xem danh sách chi tiết hành động, đối tượng và ngày tháng năm.
+
+Ảnh: Nhật ký hoạt động Admin
 
 ![alt text](image-7.png)
 
@@ -173,6 +190,8 @@ Các bước thao tác:
 - Vào mục "Hoàn tiền".
 - Xem yêu cầu hoàn tiền đang chờ xử lý.
 - Duyệt hoặc từ chối yêu cầu.
+
+Ảnh: Xử lý yêu cầu hoàn tiền
 
 ![alt text](image-8.png)
 
@@ -196,10 +215,11 @@ Chức năng liên quan: DynamoDB Main Table (transaction, refund).
 | Đăng nhập Admin thất bại | Sai thông tin tài khoản, user không thuộc group `Admin`, cấu hình Cognito/API sai |
 | Trạng thái hồ sơ Merchant không cập nhật | Lỗi request API Gateway, lỗi Lambda, quyền cập nhật Cognito group chưa đủ |
 | Số liệu dashboard không khớp thực tế | Dữ liệu DynamoDB chưa đồng bộ, cần kiểm tra Lambda logs trong CloudWatch |
+| Tài khoản đã khóa vẫn dùng được chức năng | Lỗi kiểm tra trạng thái khóa ở phía backend/Lambda, cần kiểm tra CloudWatch Logs |
 | Hoàn tiền không cập nhật đúng số dư | Lỗi DynamoDB transaction, cần kiểm tra CloudWatch Logs |
 
 ---
 
 ## Kết quả mong đợi chung
 
-Sau khi hoàn thành phần này, các chức năng chính của vai trò Admin đã được kiểm tra đầy đủ: đăng nhập, theo dõi dashboard, duyệt/từ chối hồ sơ Merchant, quản lý user và cửa hàng, xem giao dịch và xử lý hoàn tiền — tất cả hoạt động đúng trên bản demo đã deploy.
+Sau khi hoàn thành phần này, các chức năng chính của vai trò Admin đã được kiểm tra đầy đủ: đăng nhập, theo dõi dashboard, duyệt/từ chối hồ sơ Merchant, quản lý user và cửa hàng (bao gồm behavior khóa tài khoản đúng thực tế), xem nhật ký hoạt động và xử lý hoàn tiền — tất cả hoạt động đúng trên bản demo đã deploy.

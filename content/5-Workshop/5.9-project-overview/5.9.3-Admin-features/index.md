@@ -10,7 +10,7 @@ pre: " <b> 5.9.3. </b> "
 
 This section describes in detail each functionality designed for the Admin role in AWS BILLO, complete with actual operational steps, expected results, and illustrative screenshots from the deployed demo at https://dev.d3k8atm3w5sdj3.amplifyapp.com
 
-The Admin is responsible for system operations: approving Merchant profiles, managing users/stores, monitoring transactions, and processing refunds.
+The Admin is responsible for system operations: approving Merchant profiles, managing users/stores, monitoring activities, and processing refunds.
 
 ---
 
@@ -23,6 +23,8 @@ Operational steps:
 - Open the Admin Web at https://dev.d3k8atm3w5sdj3.amplifyapp.com.
 - Enter the phone number and password of the Admin account.
 - Click **Đăng nhập quản trị** (Admin Login).
+
+Image: Admin Login Screen
 
 ![alt text](image.png)
 
@@ -49,6 +51,8 @@ Operational steps:
   - Recent transactions.
   - Pending refunds.
   - Operational status: profiles awaiting review, disabled stores, locked accounts.
+
+Image: Admin Overview Dashboard
 
 ![alt text](<Screenshot 2026-07-14 113307-1.png>)
 
@@ -81,6 +85,8 @@ Operational steps — rejecting a profile:
 - Click **Từ chối** (Reject).
 - Enter a reason for rejection if applicable.
 
+Image: Approve Merchant Registration Profile
+
 ![alt text](image-2.png)
 
 Expected results upon Approval:
@@ -103,10 +109,11 @@ Related components: Amazon Cognito (User Group `Merchant`), DynamoDB Main Table.
 
 The Admin monitors and intervenes in user accounts as well as store operational statuses.
 
+Image: User and Store Management List
+
 ![alt text](image-3.png)
 
-
-### 4.1. User Management
+### 4.1. Lock / Unlock Account
 
 Operational steps:
 
@@ -114,11 +121,19 @@ Operational steps:
 - Check current information and roles (customer/merchant/admin).
 - Lock/unlock accounts if the feature is enabled.
 
-![alt text](image-4.png) 
+Image: Lock/Unlock User Account
 
-User account after being locked
+![alt text](image-4.png)
+
+Image: User Interface After Being Locked
 
 ![alt text](image-6.png)
+
+Expected results:
+
+- When the Admin locks an account, the user can still log in normally (Cognito authentication is not disabled), but all business workflows (money transfers, ordering, payments...) are strictly blocked.
+- The locked account displays a notification prompting the user to contact Customer Support/Admin until the account is unlocked.
+- Unlocking: The account's full functionalities are restored immediately.
 
 ### 4.2. Revoke Merchant Permissions
 
@@ -126,6 +141,8 @@ Operational steps:
 
 - Navigate to the specific user/merchant whose permissions need to be revoked.
 - Click **Thu hồi quyền merchant** (Revoke Merchant Permissions).
+
+Image: Revoke Merchant Permissions
 
 ![alt text](<Screenshot 2026-07-14 113931.png>)
 
@@ -162,6 +179,8 @@ Operational steps:
 - Navigate to the **Nhật ký Admin** (Admin Logs) section.
 - View the detailed list of actions, targets, and timestamps.
 
+Image: Admin Activity Logs
+
 ![alt text](image-7.png)
 
 ### 5.2. Process Refunds
@@ -171,6 +190,8 @@ Operational steps:
 - Navigate to the **Hoàn tiền** (Refunds) section.
 - View pending refund requests.
 - Approve or reject the request.
+
+Image: Process Refund Request
 
 ![alt text](image-8.png)
 
@@ -194,10 +215,11 @@ Related components: DynamoDB Main Table (transaction, refund).
 | Admin login fails | Incorrect account details, user does not belong to the `Admin` group, or incorrect Cognito/API configuration |
 | Merchant profile status fails to update | API Gateway request error, Lambda failure, or insufficient permissions to update Cognito groups |
 | Dashboard metrics do not match live data | DynamoDB data is out of sync; check Lambda logs in CloudWatch |
+| Locked account can still use features | Error checking lock status on the backend/Lambda side; inspect CloudWatch Logs |
 | Refund fails to update balances properly | DynamoDB transaction error; check CloudWatch Logs |
 
 ---
 
 ## General Expected Outcome
 
-Upon completing this section, core functionalities for the Admin role have been fully validated: logging in, monitoring the dashboard, approving/rejecting Merchant profiles, managing users and stores, viewing transactions, and processing refunds — all working properly on the deployed demo.
+Upon completing this section, core functionalities for the Admin role have been fully validated: logging in, monitoring the dashboard, approving/rejecting Merchant profiles, managing users and stores (including the actual expected locked account behavior), viewing activity logs, and processing refunds — all working properly on the deployed live demo.

@@ -14,7 +14,7 @@ Phần này trình bày chi tiết từng chức năng dành cho vai trò Custom
 
 ## 1. Đăng ký / Đăng nhập
 
-Customer đăng ký tài khoản bằng số điện thoại và mật khẩu, xác nhận qua OTP do Cognito/SNS gửi.
+Customer đăng ký tài khoản bằng số điện thoại và mật khẩu, xác nhận OTP qua cơ chế SMS của Amazon Cognito.
 
 Các bước thao tác:
 
@@ -25,6 +25,8 @@ Các bước thao tác:
 - Nhập OTP để xác nhận tài khoản.
 - Đăng nhập bằng tài khoản vừa tạo.
 
+Ảnh: Màn hình đăng ký/đăng nhập Customer
+
 ![alt text](./image-13.png)
 
 Kết quả mong đợi:
@@ -33,7 +35,7 @@ Kết quả mong đợi:
 - Profile và ví mô phỏng được tạo trong DynamoDB.
 - Ứng dụng mở giao diện Customer sau khi đăng nhập.
 
-Chức năng liên quan: Amazon Cognito, Amazon SNS.
+Chức năng liên quan: Amazon Cognito (gửi OTP qua SMS, sử dụng hạ tầng Amazon SNS SMS phía sau).
 
 ---
 
@@ -49,14 +51,15 @@ Các bước thao tác:
 - Xác nhận lại PIN.
 - Lưu lại.
 
+Ảnh: Màn hình đặt PIN giao dịch
+
 ![alt text](<Screenshot 2026-07-13 215226.png>)
 
 Kết quả mong đợi:
 
-- PIN được lưu (mã hóa) trong hệ thống, gắn với profile Customer.
-- PIN được yêu cầu ở mọi giao dịch tiền sau đó: chuyển tiền, thanh toán QR.
+- PIN được yêu cầu ở mọi giao dịch tiền sau đó: chuyển tiền, thanh toán QR, và khi chuyển đổi sang giao diện Merchant (xem mục 7).
 
-Chức năng liên quan: Amazon Cognito (profile), DynamoDB Main Table.
+Chức năng liên quan: DynamoDB Main Table. PIN giao dịch được hash và lưu trong profile người dùng ở DynamoDB, không lưu trực tiếp trong Cognito.
 
 ---
 
@@ -70,14 +73,21 @@ Các bước thao tác:
 - Vào tab Lịch sử để xem danh sách giao dịch.
 - Bấm vào một giao dịch để xem chi tiết (số tiền, thời gian, nội dung, trạng thái).
 
+Ảnh: Màn hình trang chủ và số dư ví
+
 ![alt text](image-8.png)
 
+Ảnh: Danh sách lịch sử giao dịch
+
 ![alt text](image-7.png)
+
+Ảnh: Chi tiết một giao dịch
 
 ![alt text](image-12.png)
 
 Kết quả mong đợi:
-- Số dư hiển thị đúng, cập nhật real-time sau mỗi giao dịch.
+
+- Số dư hiển thị đúng, cập nhật ngay sau mỗi giao dịch.
 - Lịch sử hiển thị đúng thứ tự thời gian, mới nhất ở trên.
 - Chi tiết giao dịch hiển thị đầy đủ thông tin liên quan.
 
@@ -97,13 +107,19 @@ Các bước thao tác:
 - App hiện màn hình xác nhận người nhận.
 - Bấm Chuyển tiền, nhập PIN giao dịch.
 
+Ảnh: Nhập thông tin chuyển tiền
+
 ![alt text](image-9.png)
+
+Ảnh: Xác nhận chuyển tiền bằng PIN
 
 ![alt text](image-10.png)
 
 Kết quả mong đợi:
 
 - Nếu đúng PIN và đủ số dư: ví người gửi bị trừ, ví người nhận được cộng, transaction record được tạo cho cả hai phía.
+
+Ảnh: Giao dịch chuyển tiền thành công
 
 ![alt text](image-11.png)
 
@@ -126,19 +142,24 @@ Các bước thao tác:
 - Chọn món/dịch vụ, điều chỉnh số lượng.
 - Gửi order.
 
+Ảnh: Quét QR bàn
+
 ![alt text](image-4.png)
+
+Ảnh: Menu của quán/bàn
 
 ![alt text](image-3.png)
 
-![alt text](image-5.png)
+Ảnh: Gửi order thành công
 
+![alt text](image-5.png)
 
 Kết quả mong đợi:
 
 - Customer được gắn vào active table session của bàn đó.
 - Order được lưu trong DynamoDB và liên kết với bàn.
 - Nếu bàn đã có bill đang mở, món mới được gộp vào bill hiện tại.
-- Merchant thấy order xuất hiện ngay trong giao diện kinh doanh.
+- Merchant thấy order xuất hiện trong giao diện kinh doanh sau khi làm mới danh sách đơn.
 
 Chức năng liên quan: DynamoDB Main Table (table, order).
 
@@ -155,18 +176,46 @@ Các bước thao tác:
 - Bấm Chuyển tiền.
 - Nhập PIN giao dịch để xác nhận.
 
+Ảnh: Hóa đơn thanh toán QR
+
 ![alt text](image-1.png)
 
+Ảnh: Xác nhận thanh toán bằng PIN
+
 ![alt text](image-2.png)
+
+Ảnh: Bill thanh toán thành công
 
 ![alt text](image-6.png)
 
 Kết quả mong đợi:
 
 - Nếu hóa đơn còn hạn và ví đủ tiền: ví Customer bị trừ, ví Merchant được cộng, order và payment session được đánh dấu hoàn tất, active table được xóa khỏi tài khoản Customer.
+- Sau khi thanh toán thành công, hệ thống hiển thị bill thanh toán gồm trạng thái, cửa hàng, danh sách món/dịch vụ, tổng tiền, thời gian, mã đơn và mã giao dịch.
 - Nếu hóa đơn ở trạng thái `EXPIRED`: nút chuyển tiền bị khóa, Merchant cần tạo lại QR thanh toán mới.
 
 Chức năng liên quan: DynamoDB (payment session, transaction).
+
+---
+
+## 7. Chuyển đổi giao diện Merchant ↔ Customer
+
+Tài khoản đã có quyền Merchant vẫn giữ được đầy đủ chức năng của Customer, và có thể chuyển qua lại giữa hai giao diện.
+
+Các bước thao tác:
+
+- Từ giao diện Merchant, chọn chuyển sang giao diện ví người dùng (Customer).
+- Hệ thống yêu cầu xác thực bằng PIN giao dịch.
+- Nếu tài khoản chưa có PIN, hệ thống bắt buộc tạo PIN trước khi chuyển đổi.
+- Sau khi xác thực, ứng dụng chuyển sang giao diện Customer với đầy đủ chức năng: ví, chuyển tiền, quét QR bàn, thanh toán.
+
+Kết quả mong đợi:
+
+- Việc chuyển đổi giao diện luôn yêu cầu xác thực PIN, không cho phép bỏ qua bước này.
+- Tài khoản chưa đặt PIN sẽ bị chặn chuyển đổi cho đến khi tạo PIN thành công.
+- Dữ liệu ví, lịch sử giao dịch của Customer không bị ảnh hưởng bởi việc có thêm quyền Merchant.
+
+Chức năng liên quan: DynamoDB Main Table (profile, PIN).
 
 ---
 
@@ -177,9 +226,10 @@ Chức năng liên quan: DynamoDB (payment session, transaction).
 | Không nhận được OTP | Cognito/SMS đang ở sandbox mode, số điện thoại chưa được verify |
 | Chuyển tiền/thanh toán thất bại | Sai PIN, không đủ số dư, hóa đơn/QR đã hết hạn |
 | Không quét được QR bàn | Trình duyệt chưa cấp quyền camera, app không chạy trên HTTPS/localhost, QR không hợp lệ |
+| Không chuyển đổi được sang giao diện Customer | Chưa đặt PIN giao dịch, hoặc nhập sai PIN khi xác thực chuyển đổi |
 
 ---
 
 ## Kết quả mong đợi chung
 
-Sau khi hoàn thành phần này, các chức năng chính của vai trò Customer đã được kiểm tra đầy đủ: đăng ký/đăng nhập, đặt PIN, xem ví, chuyển tiền, gọi món qua QR bàn, và thanh toán hóa đơn QR — tất cả hoạt động đúng trên bản demo đã deploy.
+Sau khi hoàn thành phần này, các chức năng chính của vai trò Customer đã được kiểm tra đầy đủ: đăng ký/đăng nhập, đặt PIN, xem ví, chuyển tiền, gọi món qua QR bàn, thanh toán hóa đơn QR, và chuyển đổi giao diện Merchant/Customer — tất cả hoạt động đúng trên bản demo đã deploy.

@@ -10,7 +10,7 @@ pre: " <b> 5.9.2. </b> "
 
 Phần này trình bày chi tiết từng chức năng dành cho vai trò Merchant trong AWS BILLO, kèm bước thao tác thực tế, kết quả mong đợi và ảnh minh họa từ bản demo đã deploy tại https://dev.d28z1hw6wfvjzy.amplifyapp.com.
 
-Merchant là Customer đã được Admin duyệt hồ sơ kinh doanh và được cấp thêm quyền quản lý cửa hàng.
+Merchant là Customer đã được Admin duyệt hồ sơ kinh doanh và được cấp thêm quyền quản lý cửa hàng. Tài khoản Merchant vẫn giữ nguyên các chức năng Customer, chi tiết xem tại mục 7 của 5.9.1.
 
 ---
 
@@ -31,6 +31,8 @@ Các bước thao tác:
   - Ảnh giấy phép kinh doanh.
 - Upload ảnh giấy phép kinh doanh.
 - Gửi hồ sơ xét duyệt.
+
+Ảnh: Form đăng ký kinh doanh
 
 ![alt text](image.png)
 
@@ -56,6 +58,8 @@ Các bước thao tác:
 - Vào giao diện Merchant / Không gian kinh doanh.
 - Kiểm tra các tab hiển thị: Tổng quan, Dịch vụ, Bàn, POS, Đơn hàng.
 
+Ảnh: Giao diện Không gian kinh doanh
+
 ![alt text](image-1.png)
 
 Kết quả mong đợi:
@@ -76,10 +80,15 @@ Trong tab Tổng quan, Merchant có thể cập nhật:
 - Ảnh đại diện/ảnh quán.
 - Trạng thái hoạt động (bật/tắt).
 
+Ảnh: Cập nhật thông tin cửa hàng
+
 ![alt text](image-2.png)
 
-
 Kết quả mong đợi: thông tin cửa hàng được cập nhật trong DynamoDB và phản ánh ngay trên menu phía Customer. Nếu Merchant tắt trạng thái hoạt động, Customer sẽ không đặt món được nữa dù vẫn quét đúng QR bàn.
+
+### 2.2. Chuyển sang giao diện ví người dùng
+
+Merchant có thể chuyển sang giao diện ví người dùng (Customer) để sử dụng ví cá nhân bên trong cùng một tài khoản. Việc chuyển đổi yêu cầu xác thực bằng PIN giao dịch; nếu chưa có PIN, hệ thống yêu cầu tạo PIN trước. Chi tiết xem tại mục 7 của 5.9.1 - Chức năng Customer.
 
 ---
 
@@ -106,11 +115,11 @@ Các bước thao tác — cấu hình giảm giá:
 - Thiết lập thời gian bắt đầu/kết thúc, hoặc khung giờ/ngày trong tuần áp dụng.
 - Lưu lại.
 
-(Danh sách sản phẩm/dịch vụ)
+Ảnh: Danh sách sản phẩm/dịch vụ
 
 ![alt text](<Screenshot 2026-07-13 214123.png>)
 
-(Cấu hình giảm giá)
+Ảnh: Cấu hình giảm giá sản phẩm
 
 ![alt text](image-10.png)
 
@@ -136,6 +145,8 @@ Các bước thao tác:
 - Bấm vào bàn để xem chi tiết: QR của bàn, đơn hiện tại, món khách đã gọi.
 - Tải QR bàn, in ra và dán lên bàn thật để Customer quét.
 
+Ảnh: Quản lý bàn và QR bàn
+
 ![alt text](<Screenshot 2026-07-14 211505.png>)
 
 Kết quả mong đợi:
@@ -150,7 +161,7 @@ Chức năng liên quan: DynamoDB Main Table (table).
 
 ## 5. Nhận order và xử lý bill
 
-Merchant theo dõi order của từng bàn theo thời gian thực và chỉnh sửa bill trước khi thanh toán.
+Merchant theo dõi order của từng bàn và chỉnh sửa bill trước khi thanh toán. Danh sách đơn được cập nhật gần theo thời gian thực thông qua việc app gọi API và làm mới (refresh/polling), không dùng kết nối real-time dạng WebSocket.
 
 Các bước thao tác:
 
@@ -163,17 +174,17 @@ Các bước thao tác:
   - Chỉnh số lượng.
   - Lưu bill đã cập nhật.
 
-(Danh sách sản phẩm/dịch vụ bên khách)
+Ảnh: Khách hàng đặt món (giao diện Customer)
 
 ![alt text](image-11.png)
 
-(Đơn được gửi đến bàn)
+Ảnh: Đơn hàng hiển thị trên giao diện Merchant
 
 ![alt text](image-12.png)
 
 Kết quả mong đợi:
 
-- Order mới từ Customer xuất hiện gần như tức thời trong giao diện Merchant.
+- Order mới từ Customer xuất hiện trong giao diện Merchant sau khi làm mới danh sách đơn.
 - Bill hiển thị đúng danh sách món, số lượng và tổng tiền hiện tại.
 - Mọi thay đổi trên bill (thêm/xóa/sửa) được lưu trước khi tạo QR thanh toán, đảm bảo QR phản ánh đúng số tiền cuối cùng.
 
@@ -194,7 +205,11 @@ Các bước thao tác:
 - Customer xác nhận thanh toán bằng PIN.
 - Merchant theo dõi trạng thái đơn chuyển sang đã thanh toán.
 
+Ảnh: Tạo QR thanh toán
+
 ![alt text](image-13.png)
+
+Ảnh: Đơn chuyển sang trạng thái đã thanh toán
 
 ![alt text](image-15.png)
 
@@ -206,6 +221,8 @@ Các bước thao tác:
 - Đơn được đánh dấu đã thanh toán thủ công.
 - Bàn trở về trạng thái trống, sẵn sàng cho lượt khách tiếp theo.
 
+Ảnh: Thanh toán tiền mặt
+
 ![alt text](image-14.png)
 
 Kết quả mong đợi:
@@ -216,37 +233,42 @@ Kết quả mong đợi:
 
 Chức năng liên quan: DynamoDB (payment session, transaction); ví Merchant được cộng tiền.
 
+---
+
 ## 7. Xuất báo cáo CSV
- 
-Merchant có thể xuất toàn bộ đơn hàng/giao dịch trong tab Đơn hàng ra file CSV, dùng để đối soát doanh thu, lưu trữ hoặc gửi kế toán mà không cần thao tác trực tiếp trên app.
- 
+
+Merchant có thể xuất toàn bộ đơn hàng/giao dịch ra file CSV, dùng để đối soát doanh thu, lưu trữ hoặc gửi kế toán mà không cần thao tác trực tiếp trên app.
+
 Các bước thao tác:
- 
+
 - Vào tab Tổng quan.
-- Bấm nút tải báo cáo CSV
+- Bấm nút tải báo cáo CSV.
 - File CSV được tải về máy.
+
+Ảnh: Nút tải báo cáo CSV
 
 ![alt text](image-16.png)
 
-Ví dụ dữ liệu thực tế xuất ra:
- 
+Ảnh: File CSV báo cáo đơn hàng
+
 ![alt text](image-17.png)
- 
+
 Ý nghĩa các cột:
- 
+
 - **Thời gian**: thời điểm đơn được tạo/thanh toán.
 - **Mã đơn**: ID duy nhất của order trong DynamoDB.
 - **Bàn**: số bàn phát sinh đơn; để trống nếu đơn không gắn với bàn (ví dụ Merchant tạo QR thanh toán trực tiếp không qua bàn).
 - **Phương thức**: `QR` (thanh toán qua ví điện tử) hoặc `CASH` (tiền mặt).
 - **Trạng thái**: trạng thái thanh toán của đơn, ví dụ `PAID`.
 - **Tổng tiền**: tổng giá trị đơn hàng, đơn vị VND.
+
 Kết quả mong đợi:
- 
-- File CSV chứa đầy đủ các đơn hàng theo bộ lọc thời gian/trạng thái đang áp dụng trên tab Đơn hàng.
+
+- File CSV chứa đầy đủ các đơn hàng theo bộ lọc thời gian/trạng thái đang áp dụng.
 - Dữ liệu trong CSV khớp với record `order`/`transaction` tương ứng trong DynamoDB Main Table.
 - Merchant có thể mở file bằng Excel/Google Sheets để tổng hợp doanh thu theo ngày, theo bàn, hoặc theo phương thức thanh toán.
-Chức năng liên quan: DynamoDB Main Table (order, transaction), AWS Lambda (truy vấn và sinh file CSV).
 
+Chức năng liên quan: DynamoDB Main Table (order, transaction), AWS Lambda (truy vấn và sinh file CSV).
 
 ---
 
@@ -257,10 +279,11 @@ Chức năng liên quan: DynamoDB Main Table (order, transaction), AWS Lambda (t
 | Chức năng Merchant không xuất hiện sau khi được duyệt | Chưa đăng xuất/đăng nhập lại để app nhận Cognito group mới |
 | Ảnh sản phẩm/giấy phép kinh doanh không upload được | Quyền S3 bucket, lỗi tạo pre-signed URL, loại/kích thước file không hợp lệ |
 | QR thanh toán không dùng được | Bill đã thay đổi sau khi tạo QR, payment session đã hết hạn |
-| Order của Customer không hiện trong giao diện Merchant | Lỗi kết nối API Gateway/Lambda, kiểm tra CloudWatch Logs |
+| Order của Customer không hiện trong giao diện Merchant | Chưa làm mới danh sách đơn, hoặc lỗi kết nối API Gateway/Lambda — kiểm tra CloudWatch Logs |
+| File CSV xuất ra bị thiếu đơn hoặc sai dữ liệu | Bộ lọc thời gian/trạng thái đang áp dụng, dữ liệu DynamoDB chưa đồng bộ |
 
 ---
 
 ## Kết quả mong đợi chung
 
-Sau khi hoàn thành phần này, các chức năng chính của vai trò Merchant đã được kiểm tra đầy đủ: đăng ký kinh doanh, quản lý cửa hàng/sản phẩm/giảm giá, quản lý bàn và QR bàn, xử lý order/bill theo thời gian thực, và nhận thanh toán qua QR hoặc tiền mặt — tất cả hoạt động đúng trên bản demo đã deploy.s
+Sau khi hoàn thành phần này, các chức năng chính của vai trò Merchant đã được kiểm tra đầy đủ: đăng ký kinh doanh, quản lý cửa hàng/sản phẩm/giảm giá, quản lý bàn và QR bàn, xử lý order/bill, nhận thanh toán qua QR hoặc tiền mặt, và xuất báo cáo CSV — tất cả hoạt động đúng trên bản demo đã deploy.

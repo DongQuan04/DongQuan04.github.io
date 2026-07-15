@@ -27,11 +27,11 @@ Admin Web     → https://dev.d3k8atm3w5sdj3.amplifyapp.com (Admin)
 
 Ready-to-use roles for immediate testing:
 
-Admin: +12065550100/Loc123456@
+Admin: +12065550100/AdminDev2026!
 
 Customer: +12065550101/CustomerDev2026!
 
-Merchant: 0853555443/Loc123456@
+Merchant: 0853555443/MerchantDev2026!
 
 
 All data and business workflows in this section are retrieved directly from the actual development environment deployed in the previous steps:
