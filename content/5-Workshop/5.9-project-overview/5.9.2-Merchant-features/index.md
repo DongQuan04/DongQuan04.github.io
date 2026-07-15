@@ -127,7 +127,7 @@ Image: Product/Service List
 
 Image: Product Discount Configuration
 
-![alt text](image-10.png)
+![alt text](<Screenshot 2026-07-14 210413-1.png>)
 
 Expected results:
 
@@ -253,7 +253,7 @@ Operational steps:
 
 Image: Download CSV Report Button
 
-![alt text](image-16.png)
+![alt text](<Screenshot 2026-07-14 220416-1.png>)
 
 Image: Order Report CSV File
 

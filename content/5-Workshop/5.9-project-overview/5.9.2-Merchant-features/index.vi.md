@@ -92,7 +92,7 @@ Tài khoản Merchant có thể chuyển qua lại giữa giao diện kinh doanh
 
 Ảnh: Nút chuyển đổi giao diện trong Không gian kinh doanh
 
-![alt text](<Screenshot 2026-07-15 165455.png>)
+![alt text](<Screenshot 2026-07-15 165455-1.png>)
 
 Chi tiết các bước thao tác cho cả 2 chiều (Merchant → Customer và Customer → Merchant) xem tại mục 7 của 5.9.1 - Chức năng Customer.
 
@@ -127,7 +127,7 @@ Các bước thao tác — cấu hình giảm giá:
 
 Ảnh: Cấu hình giảm giá sản phẩm
 
-![alt text](image-10.png)
+![alt text](<Screenshot 2026-07-14 210413.png>)
 
 Kết quả mong đợi:
 
@@ -253,7 +253,7 @@ Các bước thao tác:
 
 Ảnh: Nút tải báo cáo CSV
 
-![alt text](image-16.png)
+![alt text](<Screenshot 2026-07-14 220416.png>)
 
 Ảnh: File CSV báo cáo đơn hàng
 
