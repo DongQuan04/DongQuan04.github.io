@@ -57,7 +57,7 @@ Image: Transaction PIN Setup Screen
 
 Expected results:
 
-- The PIN will be strictly required for all subsequent financial operations: transferring funds, making QR payments, and switching back to the Merchant interface (see Section 7).
+- The PIN will be strictly required for all subsequent financial operations: transferring funds, making QR payments, and toggling between the Merchant and Customer interfaces (see Section 7).
 
 Related components: DynamoDB Main Table. The transaction PIN is securely hashed and stored within the user's profile record in DynamoDB, rather than being stored directly in Cognito.
 
@@ -200,20 +200,39 @@ Related components: DynamoDB (payment session, transaction).
 
 ## 7. Toggle Between Merchant ↔ Customer Interfaces
 
-Accounts that have been granted Merchant privileges still retain all native Customer functionalities and can seamlessly switch back and forth between both views.
+Accounts that have been granted Merchant privileges still retain all native Customer functionalities and can seamlessly switch back and forth between both interfaces. Toggling in either direction strictly requires transaction PIN verification.
 
-Operational steps:
+Operational steps — from Merchant to Customer:
 
 - From the Merchant view, select the option to switch to the user wallet (Customer) interface.
 - The system prompts for transaction PIN authentication.
 - If the account does not have a transaction PIN configured yet, the system forces the user to create one before allowing the switch.
 - Upon successful authentication, the app switches to the Customer interface with full access to the wallet, money transfers, table-QR scanning, and payments.
 
+Image: Button to switch to the Customer interface
+
+![alt text](image-14.png)
+
+Image: PIN verification prompt during switch
+
+![alt text](image-15.png)
+
+Operational steps — from Customer to Merchant:
+
+- From the Customer interface, choose the option to switch to the business workspace (Merchant).
+- The system prompts for transaction PIN authentication once again.
+- Upon successful authentication, the app shifts to the Merchant dashboard equipped with complete store management functionalities.
+
+Image: Switching from the Customer to Merchant interface
+
+![alt text](image-17.png)
+
 Expected results:
 
-- Interface switching strictly requires PIN verification; this security gate cannot be bypassed.
-- Accounts without a pre-set PIN will be entirely blocked from switching until a PIN is successfully configured.
-- The underlying wallet data and transaction logs of the Customer remain entirely unaffected by the additional Merchant permissions.
+- Interface toggling in both directions (Merchant → Customer and Customer → Merchant) strictly mandates PIN verification; this security checkpoint cannot be bypassed.
+- Accounts that have not configured a transaction PIN will be entirely blocked from switching until a PIN is successfully set up.
+- Users can switch back and forth between the two interfaces an unlimited number of times.
+- The underlying wallet data and transaction logs of the Customer remain completely unaffected by the additional Merchant permissions.
 
 Related components: DynamoDB Main Table (profile, PIN).
 
@@ -226,10 +245,10 @@ Related components: DynamoDB Main Table (profile, PIN).
 | OTP verification code is not received | The Cognito SMS service is still in sandbox mode, or the phone number has not been properly whitelisted/verified |
 | Money transfer or bill payment fails | Incorrect transaction PIN, insufficient wallet balance, or the invoice/QR code has expired |
 | Table QR code cannot be scanned | Camera permissions are disabled in the web browser, the app is not running over a secure context (HTTPS/localhost), or the QR code layout is corrupted |
-| Unable to switch back to the Customer interface | A transaction PIN has not been set up, or the wrong PIN was entered during the transition gate |
+| Unable to toggle between the interfaces | A transaction PIN has not been set up, or the wrong PIN was entered during the transition gate (applies to both directions) |
 
 ---
 
 ## General Expected Outcome
 
-Upon completing this section, core functionalities for the Customer role have been thoroughly verified: registration/login, PIN configuration, wallet lookup, money transfers, table-QR ordering, QR invoice settlement, and Merchant/Customer dashboard toggling — all working properly on the deployed live demo.
+Upon completing this section, core functionalities for the Customer role have been thoroughly verified: registration/login, PIN configuration, wallet lookup, money transfers, table-QR ordering, QR invoice settlement, and Merchant/Customer dashboard toggling (two-way, both requiring PIN authentication) — all working properly on the deployed live demo.

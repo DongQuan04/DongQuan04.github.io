@@ -86,9 +86,15 @@ Trong tab Tổng quan, Merchant có thể cập nhật:
 
 Kết quả mong đợi: thông tin cửa hàng được cập nhật trong DynamoDB và phản ánh ngay trên menu phía Customer. Nếu Merchant tắt trạng thái hoạt động, Customer sẽ không đặt món được nữa dù vẫn quét đúng QR bàn.
 
-### 2.2. Chuyển sang giao diện ví người dùng
+### 2.2. Chuyển đổi giao diện Merchant ↔ Customer
 
-Merchant có thể chuyển sang giao diện ví người dùng (Customer) để sử dụng ví cá nhân bên trong cùng một tài khoản. Việc chuyển đổi yêu cầu xác thực bằng PIN giao dịch; nếu chưa có PIN, hệ thống yêu cầu tạo PIN trước. Chi tiết xem tại mục 7 của 5.9.1 - Chức năng Customer.
+Tài khoản Merchant có thể chuyển qua lại giữa giao diện kinh doanh và giao diện ví người dùng (Customer) ngay trong cùng một tài khoản. Cả hai chiều chuyển đổi đều yêu cầu xác thực bằng PIN giao dịch; nếu chưa có PIN, hệ thống yêu cầu tạo PIN trước khi chuyển đổi.
+
+Ảnh: Nút chuyển đổi giao diện trong Không gian kinh doanh
+
+![alt text](<Screenshot 2026-07-15 165455.png>)
+
+Chi tiết các bước thao tác cho cả 2 chiều (Merchant → Customer và Customer → Merchant) xem tại mục 7 của 5.9.1 - Chức năng Customer.
 
 ---
 
@@ -280,10 +286,11 @@ Chức năng liên quan: DynamoDB Main Table (order, transaction), AWS Lambda (t
 | Ảnh sản phẩm/giấy phép kinh doanh không upload được | Quyền S3 bucket, lỗi tạo pre-signed URL, loại/kích thước file không hợp lệ |
 | QR thanh toán không dùng được | Bill đã thay đổi sau khi tạo QR, payment session đã hết hạn |
 | Order của Customer không hiện trong giao diện Merchant | Chưa làm mới danh sách đơn, hoặc lỗi kết nối API Gateway/Lambda — kiểm tra CloudWatch Logs |
+| Không chuyển đổi được sang giao diện Customer/Merchant | Chưa đặt PIN giao dịch, hoặc nhập sai PIN khi xác thực chuyển đổi |
 | File CSV xuất ra bị thiếu đơn hoặc sai dữ liệu | Bộ lọc thời gian/trạng thái đang áp dụng, dữ liệu DynamoDB chưa đồng bộ |
 
 ---
 
 ## Kết quả mong đợi chung
 
-Sau khi hoàn thành phần này, các chức năng chính của vai trò Merchant đã được kiểm tra đầy đủ: đăng ký kinh doanh, quản lý cửa hàng/sản phẩm/giảm giá, quản lý bàn và QR bàn, xử lý order/bill, nhận thanh toán qua QR hoặc tiền mặt, và xuất báo cáo CSV — tất cả hoạt động đúng trên bản demo đã deploy.
+Sau khi hoàn thành phần này, các chức năng chính của vai trò Merchant đã được kiểm tra đầy đủ: đăng ký kinh doanh, quản lý cửa hàng/sản phẩm/giảm giá, chuyển đổi giao diện Merchant/Customer, quản lý bàn và QR bàn, xử lý order/bill, nhận thanh toán qua QR hoặc tiền mặt, và xuất báo cáo CSV — tất cả hoạt động đúng trên bản demo đã deploy.

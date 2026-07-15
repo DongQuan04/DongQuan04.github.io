@@ -57,7 +57,7 @@ Các bước thao tác:
 
 Kết quả mong đợi:
 
-- PIN được yêu cầu ở mọi giao dịch tiền sau đó: chuyển tiền, thanh toán QR, và khi chuyển đổi sang giao diện Merchant (xem mục 7).
+- PIN được yêu cầu ở mọi giao dịch tiền sau đó: chuyển tiền, thanh toán QR, và khi chuyển đổi giao diện Merchant/Customer (xem mục 7).
 
 Chức năng liên quan: DynamoDB Main Table. PIN giao dịch được hash và lưu trong profile người dùng ở DynamoDB, không lưu trực tiếp trong Cognito.
 
@@ -200,19 +200,38 @@ Chức năng liên quan: DynamoDB (payment session, transaction).
 
 ## 7. Chuyển đổi giao diện Merchant ↔ Customer
 
-Tài khoản đã có quyền Merchant vẫn giữ được đầy đủ chức năng của Customer, và có thể chuyển qua lại giữa hai giao diện.
+Tài khoản đã có quyền Merchant vẫn giữ được đầy đủ chức năng của Customer, và có thể chuyển qua lại giữa hai giao diện. Cả hai chiều chuyển đổi đều yêu cầu xác thực bằng PIN giao dịch.
 
-Các bước thao tác:
+Các bước thao tác — từ Merchant sang Customer:
 
 - Từ giao diện Merchant, chọn chuyển sang giao diện ví người dùng (Customer).
 - Hệ thống yêu cầu xác thực bằng PIN giao dịch.
 - Nếu tài khoản chưa có PIN, hệ thống bắt buộc tạo PIN trước khi chuyển đổi.
 - Sau khi xác thực, ứng dụng chuyển sang giao diện Customer với đầy đủ chức năng: ví, chuyển tiền, quét QR bàn, thanh toán.
 
+Ảnh: Nút chuyển đổi sang giao diện Customer
+
+![alt text](image-14.png)
+
+Ảnh: Yêu cầu xác thực PIN khi chuyển đổi
+
+![alt text](image-15.png)
+
+Các bước thao tác — từ Customer sang Merchant:
+
+- Từ giao diện Customer, chọn chuyển sang giao diện kinh doanh (Merchant).
+- Hệ thống yêu cầu xác thực lại bằng PIN giao dịch.
+- Sau khi xác thực, ứng dụng chuyển sang giao diện Merchant với đầy đủ chức năng quản lý cửa hàng.
+
+Ảnh: Chuyển đổi từ giao diện Customer sang Merchant
+
+![alt text](image-17.png)
+
 Kết quả mong đợi:
 
-- Việc chuyển đổi giao diện luôn yêu cầu xác thực PIN, không cho phép bỏ qua bước này.
+- Cả hai chiều chuyển đổi (Merchant → Customer và Customer → Merchant) đều bắt buộc xác thực PIN, không cho phép bỏ qua bước này.
 - Tài khoản chưa đặt PIN sẽ bị chặn chuyển đổi cho đến khi tạo PIN thành công.
+- Người dùng có thể chuyển đổi qua lại nhiều lần giữa hai giao diện, không giới hạn số lần chuyển đổi.
 - Dữ liệu ví, lịch sử giao dịch của Customer không bị ảnh hưởng bởi việc có thêm quyền Merchant.
 
 Chức năng liên quan: DynamoDB Main Table (profile, PIN).
@@ -226,10 +245,10 @@ Chức năng liên quan: DynamoDB Main Table (profile, PIN).
 | Không nhận được OTP | Cognito/SMS đang ở sandbox mode, số điện thoại chưa được verify |
 | Chuyển tiền/thanh toán thất bại | Sai PIN, không đủ số dư, hóa đơn/QR đã hết hạn |
 | Không quét được QR bàn | Trình duyệt chưa cấp quyền camera, app không chạy trên HTTPS/localhost, QR không hợp lệ |
-| Không chuyển đổi được sang giao diện Customer | Chưa đặt PIN giao dịch, hoặc nhập sai PIN khi xác thực chuyển đổi |
+| Không chuyển đổi được giao diện | Chưa đặt PIN giao dịch, hoặc nhập sai PIN khi xác thực chuyển đổi (áp dụng cho cả 2 chiều) |
 
 ---
 
 ## Kết quả mong đợi chung
 
-Sau khi hoàn thành phần này, các chức năng chính của vai trò Customer đã được kiểm tra đầy đủ: đăng ký/đăng nhập, đặt PIN, xem ví, chuyển tiền, gọi món qua QR bàn, thanh toán hóa đơn QR, và chuyển đổi giao diện Merchant/Customer — tất cả hoạt động đúng trên bản demo đã deploy.
+Sau khi hoàn thành phần này, các chức năng chính của vai trò Customer đã được kiểm tra đầy đủ: đăng ký/đăng nhập, đặt PIN, xem ví, chuyển tiền, gọi món qua QR bàn, thanh toán hóa đơn QR, và chuyển đổi giao diện Merchant/Customer (2 chiều, đều yêu cầu PIN) — tất cả hoạt động đúng trên bản demo đã deploy.

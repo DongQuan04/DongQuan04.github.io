@@ -86,9 +86,15 @@ Image: Update Store Information
 
 Expected results: Store updates are saved directly to DynamoDB and instantly reflected on the Customer-facing menu. If the Merchant turns off the operational status, Customers will be blocked from placing orders even if they scan the correct table QR code.
 
-### 2.2. Switch to User Wallet Interface
+### 2.2. Toggle Between Merchant ↔ Customer Interfaces
 
-The Merchant can switch back to the user wallet (Customer) interface to utilize their personal wallet within the same account. This switch requires transaction PIN authentication; if a PIN has not been set up yet, the system will prompt the user to create one first. For further details, please refer to Section 7 of 5.9.1 - Customer Features.
+A Merchant account can seamlessly switch back and forth between the business workspace and the user wallet (Customer) interface within the same account. Switching in either direction strictly requires transaction PIN authentication; if a PIN has not been configured yet, the system forces the user to create one before allowing the switch.
+
+Image: Interface Toggle Button in the Business Workspace
+
+![alt text](<Screenshot 2026-07-15 165455.png>)
+
+Detailed operational steps for both directions (Merchant → Customer and Customer → Merchant) can be found in Section 7 of 5.9.1 - Customer Features.
 
 ---
 
@@ -227,7 +233,7 @@ Image: Cash Payment Processing
 
 Expected results:
 
-- For QR payments: The backend initiates a payment session, the Customer's wallet balance is debited, the Merchant's wallet is credited, transaction records are generated for both parties, and the payment session is marked as completed.
+- For QR payments: The backend initiates a payment session, the Customer's wallet balance is debited, the Merchant's wallet is credited, transaction records are generated for both accounts, and the payment session is marked as completed.
 - Previously generated payment QRs become invalid if the underlying bill is altered — the Merchant must generate a fresh QR code.
 - Upon successful payment (either QR or cash), the table is cleared and the active table association is removed from the Customer's session.
 
@@ -280,10 +286,11 @@ Related components: DynamoDB Main Table (order, transaction), AWS Lambda (queryi
 | Product or business license photos fail to upload | S3 bucket permission block, pre-signed URL generation failure, or invalid file type/size |
 | Payment QR code is invalid/unusable | The bill was modified after the QR was rendered, or the payment session window timed out |
 | Customer orders do not appear on the Merchant UI | Order list hasn't been refreshed, or API Gateway/Lambda connection drop — inspect CloudWatch Logs |
+| Unable to switch between the Customer and Merchant interfaces | A transaction PIN has not been set up, or the wrong PIN was entered during the transition gate |
 | Exported CSV file has missing orders or incorrect data | Active time/status filter constraints, or DynamoDB data out of sync |
 
 ---
 
 ## General Expected Outcome
 
-Upon completing this section, core functionalities for the Merchant role have been thoroughly verified: business registration, store/product/discount management, table and table-QR configuration, order/bill processing, payment acceptance via QR or cash, and CSV report exporting — all working properly on the deployed live demo.
+Upon completing this section, core functionalities for the Merchant role have been thoroughly verified: business registration, store/product/discount management, Merchant/Customer dashboard toggling, table and table-QR configuration, order/bill processing, payment acceptance via QR or cash, and CSV report exporting — all working properly on the deployed live demo.
