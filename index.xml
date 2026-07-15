@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Internship Report</title><link>https://dongquan04.github.io/</link><description>Recent content on Internship Report</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 10 Jul 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://dongquan04.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Customer Features</title><link>https://dongquan04.github.io/5-workshop/5.9-project-overview/5.9.1-customer-features/</link><pubDate>Fri, 10 Jul 2026 00:00:00 +0000</pubDate><guid>https://dongquan04.github.io/5-workshop/5.9-project-overview/5.9.1-customer-features/</guid><description>&lt;hr>
+&lt;p>This section describes in detail each functionality designed for the Customer role in AWS BILLO, complete with actual operational steps, expected results, and illustrative screenshots from the deployed demo at &lt;a href="https://dev.d28z1hw6wfvjzy.amplifyapp.com">https://dev.d28z1hw6wfvjzy.amplifyapp.com&lt;/a>.&lt;/p>
+&lt;hr>
+&lt;h2 id="1-registration--login">1. Registration / Login&lt;/h2>
+&lt;p>Customers register their accounts using a phone number and password, then verify via OTP using Amazon Cognito&amp;rsquo;s SMS mechanism.&lt;/p>
+&lt;p>Operational steps:&lt;/p>
+&lt;ul>
+&lt;li>Open the registration screen on the Flutter app.&lt;/li>
+&lt;li>Enter the phone number (e.g., &lt;code>0853555443&lt;/code>, which the system automatically formats to &lt;code>+84853555443&lt;/code>).&lt;/li>
+&lt;li>Enter the password.&lt;/li>
+&lt;li>Receive the OTP verification code via SMS.&lt;/li>
+&lt;li>Input the OTP to confirm and verify the account.&lt;/li>
+&lt;li>Log in using the newly created account.&lt;/li>
+&lt;/ul>
+&lt;p>Image: Customer Registration/Login Screen&lt;/p></description></item><item><title>Merchant Features</title><link>https://dongquan04.github.io/5-workshop/5.9-project-overview/5.9.2-merchant-features/</link><pubDate>Fri, 10 Jul 2026 00:00:00 +0000</pubDate><guid>https://dongquan04.github.io/5-workshop/5.9-project-overview/5.9.2-merchant-features/</guid><description>&lt;hr>
+&lt;p>This section describes in detail each functionality designed for the Merchant role in AWS BILLO, complete with actual operational steps, expected results, and illustrative screenshots from the deployed demo at &lt;a href="https://dev.d28z1hw6wfvjzy.amplifyapp.com">https://dev.d28z1hw6wfvjzy.amplifyapp.com&lt;/a>.&lt;/p>
+&lt;p>A Merchant is a Customer whose business profile has been reviewed and approved by the Admin, thereby granting them store management privileges. A Merchant account still retains all Customer functionalities; details can be found in Section 7 of 5.9.1.&lt;/p>
+&lt;hr>
+&lt;h2 id="1-business-registration">1. Business Registration&lt;/h2>
+&lt;p>From a Customer account, the user submits a business registration profile to apply for the Merchant role.&lt;/p></description></item><item><title>Admin Features</title><link>https://dongquan04.github.io/5-workshop/5.9-project-overview/5.9.3-admin-features/</link><pubDate>Fri, 10 Jul 2026 00:00:00 +0000</pubDate><guid>https://dongquan04.github.io/5-workshop/5.9-project-overview/5.9.3-admin-features/</guid><description>&lt;hr>
+&lt;p>This section describes in detail each functionality designed for the Admin role in AWS BILLO, complete with actual operational steps, expected results, and illustrative screenshots from the deployed demo at &lt;a href="https://dev.d3k8atm3w5sdj3.amplifyapp.com">https://dev.d3k8atm3w5sdj3.amplifyapp.com&lt;/a>&lt;/p>
+&lt;p>The Admin is responsible for system operations: approving Merchant profiles, managing users/stores, monitoring activities, and processing refunds.&lt;/p>
+&lt;hr>
+&lt;h2 id="1-admin-login">1. Admin Login&lt;/h2>
+&lt;p>Only accounts belonging to the Cognito group &lt;code>Admin&lt;/code> are authorized to access the Admin Web.&lt;/p>
+&lt;p>Operational steps:&lt;/p>
+&lt;ul>
+&lt;li>Open the Admin Web at &lt;a href="https://dev.d3k8atm3w5sdj3.amplifyapp.com">https://dev.d3k8atm3w5sdj3.amplifyapp.com&lt;/a>.&lt;/li>
+&lt;li>Enter the phone number and password of the Admin account.&lt;/li>
+&lt;li>Click &lt;strong>Đăng nhập quản trị&lt;/strong> (Admin Login).&lt;/li>
+&lt;/ul>
+&lt;p>Image: Admin Login Screen&lt;/p></description></item></channel></rss>

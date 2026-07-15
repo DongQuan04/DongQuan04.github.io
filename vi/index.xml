@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Báo cáo thực tập</title><link>https://dongquan04.github.io/vi/</link><description>Recent content on Báo cáo thực tập</description><generator>Hugo</generator><language>vi</language><lastBuildDate>Fri, 10 Jul 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://dongquan04.github.io/vi/index.xml" rel="self" type="application/rss+xml"/><item><title>Chức năng Customer</title><link>https://dongquan04.github.io/vi/5-workshop/5.9-project-overview/5.9.1-customer-features/</link><pubDate>Fri, 10 Jul 2026 00:00:00 +0000</pubDate><guid>https://dongquan04.github.io/vi/5-workshop/5.9-project-overview/5.9.1-customer-features/</guid><description>&lt;hr>
+&lt;p>Phần này trình bày chi tiết từng chức năng dành cho vai trò Customer trong AWS BILLO, kèm bước thao tác thực tế, kết quả mong đợi và ảnh minh họa từ bản demo đã deploy tại &lt;a href="https://dev.d28z1hw6wfvjzy.amplifyapp.com">https://dev.d28z1hw6wfvjzy.amplifyapp.com&lt;/a>.&lt;/p>
+&lt;hr>
+&lt;h2 id="1-đăng-ký--đăng-nhập">1. Đăng ký / Đăng nhập&lt;/h2>
+&lt;p>Customer đăng ký tài khoản bằng số điện thoại và mật khẩu, xác nhận OTP qua cơ chế SMS của Amazon Cognito.&lt;/p>
+&lt;p>Các bước thao tác:&lt;/p>
+&lt;ul>
+&lt;li>Mở màn hình đăng ký trên Flutter app.&lt;/li>
+&lt;li>Nhập số điện thoại (ví dụ &lt;code>0853555443&lt;/code>, hệ thống tự hiểu thành &lt;code>+84853555443&lt;/code>).&lt;/li>
+&lt;li>Nhập mật khẩu.&lt;/li>
+&lt;li>Nhận mã OTP qua SMS.&lt;/li>
+&lt;li>Nhập OTP để xác nhận tài khoản.&lt;/li>
+&lt;li>Đăng nhập bằng tài khoản vừa tạo.&lt;/li>
+&lt;/ul>
+&lt;p>Ảnh: Màn hình đăng ký/đăng nhập Customer&lt;/p></description></item><item><title>Chức năng Merchant</title><link>https://dongquan04.github.io/vi/5-workshop/5.9-project-overview/5.9.2-merchant-features/</link><pubDate>Fri, 10 Jul 2026 00:00:00 +0000</pubDate><guid>https://dongquan04.github.io/vi/5-workshop/5.9-project-overview/5.9.2-merchant-features/</guid><description>&lt;hr>
+&lt;p>Phần này trình bày chi tiết từng chức năng dành cho vai trò Merchant trong AWS BILLO, kèm bước thao tác thực tế, kết quả mong đợi và ảnh minh họa từ bản demo đã deploy tại &lt;a href="https://dev.d28z1hw6wfvjzy.amplifyapp.com">https://dev.d28z1hw6wfvjzy.amplifyapp.com&lt;/a>.&lt;/p>
+&lt;p>Merchant là Customer đã được Admin duyệt hồ sơ kinh doanh và được cấp thêm quyền quản lý cửa hàng. Tài khoản Merchant vẫn giữ nguyên các chức năng Customer, chi tiết xem tại mục 7 của 5.9.1.&lt;/p></description></item><item><title>Chức năng Admin</title><link>https://dongquan04.github.io/vi/5-workshop/5.9-project-overview/5.9.3-admin-features/</link><pubDate>Fri, 10 Jul 2026 00:00:00 +0000</pubDate><guid>https://dongquan04.github.io/vi/5-workshop/5.9-project-overview/5.9.3-admin-features/</guid><description>&lt;hr>
+&lt;p>Phần này trình bày chi tiết từng chức năng dành cho vai trò Admin trong AWS BILLO, kèm bước thao tác thực tế, kết quả mong đợi và ảnh minh họa từ bản demo đã deploy tại &lt;a href="https://dev.d3k8atm3w5sdj3.amplifyapp.com">https://dev.d3k8atm3w5sdj3.amplifyapp.com&lt;/a>&lt;/p>
+&lt;p>Admin là vai trò vận hành hệ thống: duyệt hồ sơ Merchant, quản lý user/cửa hàng, theo dõi hoạt động và xử lý hoàn tiền.&lt;/p>
+&lt;hr>
+&lt;h2 id="1-đăng-nhập-admin">1. Đăng nhập Admin&lt;/h2>
+&lt;p>Chỉ tài khoản thuộc Cognito group &lt;code>Admin&lt;/code> mới truy cập được Admin Web.&lt;/p></description></item></channel></rss>
